@@ -1,0 +1,1 @@
+https://discordjs.guide/creating-your-bot/slash-commands.html#individual-command-files

@@ -1,0 +1,19 @@
+{
+  "name": "sarnento2",
+  "version": "1.0.0",
+  "description": "new sarneto discord bot with discordjs 14",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MrXcao",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.6.0",
+    "dotenv": "^16.0.3",
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "eslint": "^8.26.0"
+  }
+}
