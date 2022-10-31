@@ -4,14 +4,21 @@
   "description": "new sarneto discord bot with discordjs 14",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startPm2": "pm2 start ecosystem.config.js ",
+    "dev": "pm2 start index.js --name sanento2Dev  --no-autorestart --watch && pm2 log --timestamp ",
+    "stop": "pm2 stop all",
+    "reload": "pm2 reload all && pm2 log",
+    "del": "pm2 del all",
+    "log": "pm2 log --lines=10"
   },
   "author": "MrXcao",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "pm2": "^5.2.2"
   },
   "devDependencies": {
     "eslint": "^8.26.0"
