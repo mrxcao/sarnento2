@@ -22,7 +22,7 @@ for (const file of commandFiles) {
 	const command = require(filePath);
 	if ('data' in command && 'execute' in command) {
 		client.commands.set(command.data.name, command);
-		console.log(`-+- !${command.data.name} :${command.data.description}`);
+	//	console.log(`-+- !${command.data.name} :${command.data.description}`);
 	}
 	else {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
@@ -30,7 +30,7 @@ for (const file of commandFiles) {
 }
 
 client.on(Events.InteractionCreate, async interaction => {
-	console.log('-+- interaction', interaction);
+	// console.log('-+- interaction', interaction);
 	if (!interaction.isChatInputCommand()) return;
 
 	const command = interaction.client.commands.get(interaction.commandName);

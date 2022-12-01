@@ -1,1 +1,1 @@
-https://discordjs.guide/creating-your-bot/slash-commands.html#individual-command-files
+https://discordjs.guide/slash-commands/advanced-creation.html#adding-options
