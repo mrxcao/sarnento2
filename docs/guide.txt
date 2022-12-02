@@ -1,1 +1,1 @@
-https://discordjs.guide/slash-commands/advanced-creation.html#adding-options
+https://discordjs.guide/slash-commands/permissions.html#member-permissions

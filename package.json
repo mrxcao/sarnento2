@@ -11,7 +11,7 @@
     "reload": "pm2 reload all && pm2 log",
     "del": "pm2 del all",
     "log": "pm2 log --lines=10",
-    "depcom": "node deploy-commands.js"
+    "publ": "node deploy-commands.js"
   },
   "author": "MrXcao",
   "license": "ISC",
