@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "startPm2": "pm2 start ecosystem.config.js ",
-    "dev": "pm2 start index.js --name sanento2Dev  --no-autorestart --watch && pm2 log --timestamp ",
+    "dev": "pm2 start ecosystem.config.js && pm2 log sarnento --lines 2",
     "stop": "pm2 stop all",
     "reload": "pm2 reload all && pm2 log",
     "del": "pm2 del all",

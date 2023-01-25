@@ -7,16 +7,15 @@ const path = require('node:path');
 const token = process.env.TOKEN;
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const config = require('./config.json');
 
 client.once(Events.ClientReady, c => {
-	console.log(`Ready! Logged in as ${c.user.tag} `);
-
+	console.log(`Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix} `);
 });
-client.commands = new Collection();
 
+client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
@@ -30,17 +29,14 @@ for (const file of commandFiles) {
 }
 
 client.on(Events.InteractionCreate, async interaction => {
-	// console.log('-+- interaction', interaction);
 	if (!interaction.isChatInputCommand()) return;
-
 	const command = interaction.client.commands.get(interaction.commandName);
-
 	if (!command) {
 		console.error(`No command matching ${interaction.commandName} was found.`);
 		return;
 	}
-
 	try {
+		console.log(`${interaction.member.guild.name} : ChannelId:${interaction.channelId}  @${interaction.user.username} /${interaction.commandName}`);
 		await command.execute(interaction);
 	}
 	catch (error) {
@@ -50,5 +46,8 @@ client.on(Events.InteractionCreate, async interaction => {
 
 });
 
+client.on(Event.msg, (msg) => {
+	console.log('msg.guild', msg.guild);
+});
 
 client.login(token);
