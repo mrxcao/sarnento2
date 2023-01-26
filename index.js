@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const fs = require('node:fs');
 const path = require('node:path');
+const moment = require('moment');
 // const react = require("./modules/react");
 const token = process.env.TOKEN;
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
@@ -10,7 +11,8 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const config = require('./config.json');
 
 client.once(Events.ClientReady, c => {
-	console.log(`Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix} `);
+	moment.locale('pt-br');
+	console.log(moment().format('DD/MM/YYYY HH:mm:ss'), `Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix} `);
 });
 
 client.commands = new Collection();
@@ -46,7 +48,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 });
 
-client.on(Event.msg, (msg) => {
+client.on('messageCreate', (msg) => {
 	console.log('msg.guild', msg.guild);
 });
 
