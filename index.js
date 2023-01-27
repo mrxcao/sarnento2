@@ -6,11 +6,22 @@ const path = require('node:path');
 const moment = require('moment');
 // const react = require("./modules/react");
 const token = process.env.TOKEN;
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const { Client, Collection, Events, GatewayIntentBits, Partials } = require('discord.js');
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMessageReactions			],
+	partials:[
+		Partials.Message,
+		Partials.Reaction,
+	],
+});
 const config = require('./config.json');
 
-client.once(Events.ClientReady, c => {
+// client.once(Events.ClientReady, c => {
+client.on('ready', (c) => {
 	moment.locale('pt-br');
 	console.log(moment().format('DD/MM/YYYY HH:mm:ss'), `Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix} `);
 });
@@ -48,8 +59,12 @@ client.on(Events.InteractionCreate, async interaction => {
 
 });
 
-client.on('messageCreate', (msg) => {
-	console.log('msg.guild', msg.guild);
+client.on('messageCreate', async (msg) => {
+	console.log('msg.guild', msg.content);
+});
+
+client.on('messageReactionAdd', (react) => {
+	console.log('react', react);
 });
 
 client.login(token);
