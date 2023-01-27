@@ -34,7 +34,6 @@ for (const file of commandFiles) {
 	const command = require(filePath);
 	if ('data' in command && 'execute' in command) {
 		client.commands.set(command.data.name, command);
-	//	console.log(`-+- !${command.data.name} :${command.data.description}`);
 	}
 	else {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
@@ -64,7 +63,7 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('messageReactionAdd', (react) => {
-	console.log('react', react);
+	console.log('react', react.Reactions);
 });
 
 client.login(token);
