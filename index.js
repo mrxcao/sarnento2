@@ -20,7 +20,7 @@ const client = new Client({
 const token = process.env.TOKEN;
 const debug = process.env.DEBUG;
 const config = require('./config.json');
-const commands = require('./scripts/commandsReader')(token);
+const commands = require('./scripts/commandsReader')(config.prefix);
 
 // client.once(Events.ClientReady, c => {
 client.on('ready', (c) => {
@@ -64,21 +64,16 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on('messageCreate', async (msg) => {
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
-		console.log('args', args);
-		// eslint-disable-next-line no-inline-comments
-		if (args[0].substring(0, 1) == config.prefix) { // comandos
+		debug ? console.log('args', args) : true;
+		if (args[0].substring(0, 1) == config.prefix) {
 			debug ? console.log(new Date(), `${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
-
 			const cmd = String(args[0]).toLowerCase();
 			if (commands[cmd]) {
 				commands[cmd](client, msg);
 				// log(cmd, msg);
 			}
-
 		}
-		// eslint-disable-next-line no-inline-comments
-		else { // verifica se tem reaction na mensagem
-			console.log('é bot', true);
+		else {
 			react.say(args, msg);
 		}
 	}
