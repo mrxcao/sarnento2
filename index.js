@@ -1,11 +1,9 @@
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
-const fs = require('node:fs');
-const path = require('node:path');
 const moment = require('moment');
 const react = require('./modules/react');
-const { Client, Collection, Events, GatewayIntentBits, Partials } = require('discord.js');
+const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -21,6 +19,7 @@ const token = process.env.TOKEN;
 const debug = process.env.DEBUG;
 const config = require('./config.json');
 const commands = require('./scripts/commandsReader')(config.prefix);
+const readSlashCmds = require('./scripts/commandsReaderSlash');
 
 // client.once(Events.ClientReady, c => {
 client.on('ready', (c) => {
@@ -28,26 +27,14 @@ client.on('ready', (c) => {
 	console.log(moment().format('DD/MM/YYYY HH:mm:ss'), `Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
 });
 
-client.commands = new Collection();
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
-	const command = require(filePath);
-	if ('data' in command && 'execute' in command) {
-		client.commands.set(command.data.name, command);
-	}
-	else {
-		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-	}
-}
-
+// collections de comandos slash
+client.commands = readSlashCmds();
 
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 	const command = interaction.client.commands.get(interaction.commandName);
 	if (!command) {
-		console.error(`comando \\ nçao encontrado: ${interaction.commandName}.`);
+		console.error(`comando \\ não encontrado: ${interaction.commandName}.`);
 		return;
 	}
 	try {
@@ -58,7 +45,6 @@ client.on(Events.InteractionCreate, async interaction => {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while  executing this command!', ephemeral: true });
 	}
-
 });
 
 client.on('messageCreate', async (msg) => {

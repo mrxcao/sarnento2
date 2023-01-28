@@ -3,6 +3,5 @@ module.exports = {
 		name: 'sarnento',
 		script: 'index.js',
 		exec_mode  : 'fork',
-		watch_delay: 1000,
 	}],
 };
