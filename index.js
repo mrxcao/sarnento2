@@ -20,6 +20,8 @@ const debug = process.env.DEBUG;
 const config = require('./config.json');
 const commands = require('./scripts/commandsReader')(config.prefix);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
+const mongo = require('./modules/DB/mongo');
+
 
 // client.once(Events.ClientReady, c => {
 client.on('ready', (c) => {
@@ -70,3 +72,5 @@ client.on('messageReactionAdd', (rct) => {
 });
 
 client.login(token);
+
+mongo.connect();
