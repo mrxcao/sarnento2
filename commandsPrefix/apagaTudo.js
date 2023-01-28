@@ -1,20 +1,23 @@
 module.exports = async (client, msg) => {
 	try {
 		const channel = msg.channel;
-		const FetchMsg = await channel.messages.fetch('', -1)
+		const FetchMsg = await channel.messages.fetch({ })
 			.catch(console.error);
-		/*
-		for (const m of FetchMsg) {
-			await channel.bulkDelete([m]);
-		}
-        */
-		console.log('FetchMsg', FetchMsg);
-		await channel.bulkDelete(FetchMsg);
 
+		for (const m of FetchMsg) {
+			// console.log('FetchMsg', m);
+			try {
+				await channel.bulkDelete([m[0]]);
+			}
+			catch (error) {
+				console.log('tolerant error ', error);
+			}
+		}
+		// await channel.bulkDelete(FetchMsg);
 		msg.reply(`Apagou ${FetchMsg.size} menssagens`);
 	}
 	catch (error) {
-		msg.reply('Só dá pra apagar mensagens de 15 dias pra cá');
+		msg.reply('Essa budega tá bugada!');
 		console.log('apagatudo error', error);
 	}
 
