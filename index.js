@@ -4,8 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 const fs = require('node:fs');
 const path = require('node:path');
 const moment = require('moment');
-// const react = require("./modules/react");
-const token = process.env.TOKEN;
+const react = require('./modules/react');
 const { Client, Collection, Events, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
 	intents: [
@@ -18,12 +17,15 @@ const client = new Client({
 		Partials.Reaction,
 	],
 });
+const token = process.env.TOKEN;
+const debug = process.env.DEBUG;
 const config = require('./config.json');
+const commands = require('./scripts/commandsReader')(token);
 
 // client.once(Events.ClientReady, c => {
 client.on('ready', (c) => {
 	moment.locale('pt-br');
-	console.log(moment().format('DD/MM/YYYY HH:mm:ss'), `Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix} `);
+	console.log(moment().format('DD/MM/YYYY HH:mm:ss'), `Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
 });
 
 client.commands = new Collection();
@@ -40,11 +42,12 @@ for (const file of commandFiles) {
 	}
 }
 
+
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 	const command = interaction.client.commands.get(interaction.commandName);
 	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
+		console.error(`comando \\ nçao encontrado: ${interaction.commandName}.`);
 		return;
 	}
 	try {
@@ -59,11 +62,30 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 client.on('messageCreate', async (msg) => {
-	console.log('msg.guild', msg.content);
+	if (!msg.author.bot && msg.content) {
+		const args = msg.content.split(' ');
+		console.log('args', args);
+		// eslint-disable-next-line no-inline-comments
+		if (args[0].substring(0, 1) == config.prefix) { // comandos
+			debug ? console.log(new Date(), `${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
+
+			const cmd = String(args[0]).toLowerCase();
+			if (commands[cmd]) {
+				commands[cmd](client, msg);
+				// log(cmd, msg);
+			}
+
+		}
+		// eslint-disable-next-line no-inline-comments
+		else { // verifica se tem reaction na mensagem
+			console.log('é bot', true);
+			react.say(args, msg);
+		}
+	}
 });
 
-client.on('messageReactionAdd', (react) => {
-	console.log('react', react.Reactions);
+client.on('messageReactionAdd', (rct) => {
+	console.log('react', rct.Reactions);
 });
 
 client.login(token);
