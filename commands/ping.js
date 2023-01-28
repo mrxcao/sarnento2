@@ -8,7 +8,7 @@ module.exports = {
 	async execute(interaction) {
 
 		await interaction.reply('Pong!!!');
-		await wait(2000);
+		await wait(5000);
 		await interaction.editReply('Pong again!');
 
 		/* // fingir escrevendo

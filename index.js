@@ -22,13 +22,11 @@ const commands = require('./scripts/commandsReader')(config.prefix);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
 const mongo = require('./modules/DB/mongo');
 
-
 // client.once(Events.ClientReady, c => {
 client.on('ready', (c) => {
 	moment.locale('pt-br');
 	console.log(moment().format('DD/MM/YYYY HH:mm:ss'), `Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
-
-	mongo.connect();
+	console.log(`${'-'.repeat(lines)}`);
 });
 
 // collections de comandos slash
@@ -77,6 +75,11 @@ client.on('messageUpdate', (msg) => {
 	console.log('editou: ', msg.content);
 });
 
+const lines = 35;
+console.log(`${'-'.repeat(lines)}`);
+mongo.connect().then(() => {
+	client.login(token);
+});
 
-client.login(token);
+console.log(`${'-'.repeat(lines)}`);
 
