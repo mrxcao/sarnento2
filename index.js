@@ -27,6 +27,8 @@ const mongo = require('./modules/DB/mongo');
 client.on('ready', (c) => {
 	moment.locale('pt-br');
 	console.log(moment().format('DD/MM/YYYY HH:mm:ss'), `Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
+
+	mongo.connect();
 });
 
 // collections de comandos slash
@@ -71,6 +73,10 @@ client.on('messageReactionAdd', (rct) => {
 	console.log('react', rct.Reactions);
 });
 
+client.on('messageUpdate', (msg) => {
+	console.log('editou: ', msg.content);
+});
+
+
 client.login(token);
 
-mongo.connect();
