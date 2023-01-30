@@ -1,16 +1,12 @@
 {
   "name": "sarnento2",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "new sarneto discord bot with discordjs 14",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startPm2": "pm2 start ecosystem.config.js ",
-    "dev": "pm2 start ecosystem.config.js && pm2 log sarnento --lines 2",
-    "stop": "pm2 stop all",
-    "reload": "pm2 reload all && pm2 log",
-    "del": "pm2 del all",
-    "log": "pm2 log --lines=10",
+    "start": "node index.js",
+    "dev": "nodemon --delay 2 --ignore node-modules/ --ignore tests/ --ignore docs/ --ignore 'lib/*.zip' index.js",
     "publ": "node deploy-commands.js"
   },
   "author": "MrXcao",
@@ -20,9 +16,10 @@
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "moment": "^2.29.4",
-    "pm2": "^5.2.2"
+    "mongoose": "^6.9.0"
   },
   "devDependencies": {
-    "eslint": "^8.26.0"
+    "eslint": "^8.26.0",
+    "nodemon": "^2.0.20"
   }
 }

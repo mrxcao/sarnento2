@@ -1,1 +1,2 @@
 https://discordjs.guide/slash-commands/permissions.html#member-permissions
+https://discord.js.org/#/docs/discord.js/main/typedef/Events
