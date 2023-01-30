@@ -1,4 +1,4 @@
-const mongo = require('../modules/DB/mongo');
+const mongo = require('../DB/mongo/connect');
 
 class Loaders {
 	async init() {

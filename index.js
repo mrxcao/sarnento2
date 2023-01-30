@@ -18,7 +18,7 @@ const client = new Client({
 const token = process.env.TOKEN;
 const debug = process.env.DEBUG;
 const config = require('./config.json');
-const commands = require('./scripts/commandsReader')(config.prefix);
+const commands = require('./scripts/commandsReader')(config.prefix, true);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
 const loaders = require('./classes/Loaders.js');
 // client.once(Events.ClientReady, c => {
@@ -74,7 +74,7 @@ client.on('messageUpdate', (msg) => {
 	console.log('editou: ', msg.content);
 });
 
-const lines = 35;
+const lines = 45;
 console.log(`${'-'.repeat(lines)}`);
 loaders.init().then(() => {client.login(token); }) ;
 
