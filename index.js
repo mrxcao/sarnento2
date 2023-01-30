@@ -20,8 +20,7 @@ const debug = process.env.DEBUG;
 const config = require('./config.json');
 const commands = require('./scripts/commandsReader')(config.prefix);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
-const mongo = require('./modules/DB/mongo');
-
+const loaders = require('./classes/Loaders.js');
 // client.once(Events.ClientReady, c => {
 client.on('ready', (c) => {
 	moment.locale('pt-br');
@@ -77,9 +76,12 @@ client.on('messageUpdate', (msg) => {
 
 const lines = 35;
 console.log(`${'-'.repeat(lines)}`);
-mongo.connect().then(() => {
-	client.login(token);
-});
+loaders.init().then(() => {client.login(token); }) ;
 
+/*
+.then(() => {
+
+});
+*/
 console.log(`${'-'.repeat(lines)}`);
 
