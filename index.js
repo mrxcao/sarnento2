@@ -1,7 +1,8 @@
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
-const moment = require('moment');
+
+const tools = require('./modules/tools');
 const react = require('./modules/react');
 const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
@@ -23,9 +24,8 @@ const readSlashCmds = require('./scripts/commandsReaderSlash');
 const loaders = require('./classes/Loaders.js');
 // client.once(Events.ClientReady, c => {
 client.on('ready', (c) => {
-	moment.locale('pt-br');
-	console.log(moment().format('DD/MM/YYYY HH:mm:ss'), `Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
-	console.log(`${'-'.repeat(lines)}`);
+	tools.clog(`Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
+	tools.replyLines();
 });
 
 // collections de comandos slash
@@ -74,14 +74,7 @@ client.on('messageUpdate', (msg) => {
 	console.log('editou: ', msg.content);
 });
 
-const lines = 45;
-console.log(`${'-'.repeat(lines)}`);
+
+tools.replyLines();
 loaders.init().then(() => {client.login(token); }) ;
-
-/*
-.then(() => {
-
-});
-*/
-console.log(`${'-'.repeat(lines)}`);
 
