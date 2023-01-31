@@ -1,7 +1,6 @@
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
-
 const tools = require('./modules/tools');
 const react = require('./modules/react');
 const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
@@ -26,6 +25,7 @@ const loaders = require('./classes/Loaders.js');
 client.on('ready', (c) => {
 	tools.clog(`Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
 	tools.replyLines();
+	tools.beep();
 });
 
 // collections de comandos slash

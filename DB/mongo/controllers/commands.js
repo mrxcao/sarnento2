@@ -7,7 +7,9 @@ class CommandsController {
 		return ret;
 	}
 	async index() {
-		//
+		const ret = await model.find({ 'nome':'fala' }) ;
+		// return res.status(200).json(ret);
+		return ret;
 	}
 	async show() {
 		//

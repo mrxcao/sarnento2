@@ -1,2 +1,3 @@
-https://discordjs.guide/slash-commands/permissions.html#member-permissions
-https://discord.js.org/#/docs/discord.js/main/typedef/Events
+DiscordJS guide:            https://discordjs.guide/slash-commands/permissions.html#member-permissions
+DiscordJS Events:       https://discord.js.org/#/docs/discord.js/main/typedef/Events
+Mongoose Schema Types:  https://mongoosejs.com/docs/schematypes.html
