@@ -21,11 +21,12 @@ const config = require('./config.json');
 const commands = require('./scripts/commandsReader')(config.prefix, true);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
 const loaders = require('./classes/Loaders.js');
-// client.once(Events.ClientReady, c => {
+const UsersCtl = require('./DB/mongo/controllers/users');
+
+
 client.on('ready', (c) => {
 	tools.clog(`Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
 	tools.replyLines();
-	tools.beep();
 });
 
 // collections de comandos slash
@@ -51,13 +52,17 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on('messageCreate', async (msg) => {
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
-		debug ? console.log('args', args) : true;
+		debug ? tools.clog('::', msg.author.username) : true;
+		UsersCtl.upSert(msg.author);
 		if (args[0].substring(0, 1) == config.prefix) {
-			debug ? console.log(new Date(), `${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
+			debug ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
 			const cmd = String(args[0]).toLowerCase();
 			if (commands[cmd]) {
 				commands[cmd](client, msg);
 				// log(cmd, msg);
+			}
+			else {
+				debug ? tools.clog(`comando ${cmd }  não encontrado `) : true;
 			}
 		}
 		else {

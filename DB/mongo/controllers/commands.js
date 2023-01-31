@@ -21,7 +21,6 @@ class CommandsController {
 		//
 	}
 	async upSert(req) {
-		// const ret = await model.create(req);
 		const query = { 'nome':req.nome };
 		const ret = model.findOneAndUpdate(query, req, { upsert: true });
 		// return res.status(200).json(ret);
