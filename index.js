@@ -21,7 +21,7 @@ const config = require('./config.json');
 const commands = require('./scripts/commandsReader')(config.prefix, true);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
 const loaders = require('./classes/Loaders.js');
-const UsersCtl = require('./DB/mongo/controllers/users');
+const usersCtl = require('./DB/mongo/controllers/users');
 
 
 client.on('ready', (c) => {
@@ -53,7 +53,7 @@ client.on('messageCreate', async (msg) => {
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
 		debug ? tools.clog('::', msg.author.username) : true;
-		UsersCtl.upSert(msg.author);
+		usersCtl.upSert(msg.author);
 		if (args[0].substring(0, 1) == config.prefix) {
 			debug ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
 			const cmd = String(args[0]).toLowerCase();
@@ -72,7 +72,7 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('messageReactionAdd', (rct) => {
-	console.log('react', rct.Reactions);
+	console.log('react', rct);
 });
 
 client.on('messageUpdate', (msg) => {

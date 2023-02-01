@@ -6,13 +6,15 @@ class CommandsController {
 		// return res.status(200).json(ret);
 		return ret;
 	}
-	async index() {
-		const ret = await model.find({ 'nome':'fala' }) ;
+	async index(query = {}) {
+		const ret = await model.find(query) ;
 		// return res.status(200).json(ret);
 		return ret;
 	}
-	async show() {
-		//
+	async show(_id) {
+		const ret = await model.findById(_id) ;
+		// return res.status(200).json(ret);
+		return ret;
 	}
 	async update() {
 		//

@@ -9,6 +9,7 @@ module.exports = (prefix, verifyDB = false) => {
 		commands[prefix + String(script.split('.')[0]).toLowerCase() ] = require('../' + dir + script);
 		const data = {
 			nome: script.substring(0, script.length - 3),
+			prefix: true,
 			atualizado: new Date(),
 		};
 		if (verifyDB) {

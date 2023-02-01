@@ -7,7 +7,7 @@ class UsersController {
 		return ret;
 	}
 	async index() {
-		const ret = await model.find({ 'nome':'fala' }) ;
+		const ret = await model.find({ }) ;
 		// return res.status(200).json(ret);
 		return ret;
 	}
