@@ -83,3 +83,12 @@ client.on('messageUpdate', (msg) => {
 tools.replyLines();
 loaders.init().then(() => {client.login(token); }) ;
 
+const express = require('express');
+const app = express();
+
+app.post('/post', function(req, res) {
+	console.log('req', req);
+	res.send(req.body);
+});
+
+app.listen(3000);
