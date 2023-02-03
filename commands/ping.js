@@ -9,7 +9,13 @@ module.exports = {
 
 		await interaction.reply('Pong!!!');
 		await wait(5000);
-		await interaction.editReply('Pong again!');
+		await interaction.editReply('Pong de novo!');
+		await wait(5000);
+		await interaction.editReply('Pong mais uma vez!');
+		await wait(5000);
+		await interaction.editReply('vou ficar pongando, fds');
+		await wait(5000);
+		await interaction.editReply('Pong!');
 
 		/* // fingir escrevendo
 		 await interaction.deferReply();

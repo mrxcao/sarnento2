@@ -23,9 +23,12 @@ class CommandsController {
 		return ret;
 	}
 	async upSert(req) {
+
 		const query = { 'nome':req.nome };
 		const ret = model.findOneAndUpdate(query, req, { upsert: true });
 		return ret;
+
+
 	}
 }
 
