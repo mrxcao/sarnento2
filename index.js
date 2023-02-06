@@ -21,8 +21,9 @@ const config = require('./config.json');
 const commands = require('./scripts/commandsReader')(config.prefix, true);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
 const loaders = require('./classes/Loaders.js');
-const usersCtl = require('./DB/mongo/controllers/users');
 
+const usersCtl = require('./DB/mongo/controllers/users');
+const guildsCtl = require('./DB/mongo/controllers/guilds');
 
 client.on('ready', (c) => {
 	tools.clog(`Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
@@ -53,7 +54,13 @@ client.on('messageCreate', async (msg) => {
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
 		debug ? tools.clog('::', msg.author.username) : true;
+
+
+		// update infos
 		usersCtl.upSert(msg.author);
+		guildsCtl.upSert(msg.guild);
+
+
 		if (args[0].substring(0, 1) == config.prefix) {
 			debug ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
 			const cmd = String(args[0]).toLowerCase();
