@@ -15,8 +15,6 @@ const client = new Client({
 		Partials.Reaction,
 	],
 });
-const token = process.env.TOKEN;
-const debug = process.env.DEBUG;
 const config = require('./config.json');
 const commands = require('./scripts/commandsReader')(config.prefix, true);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
@@ -24,6 +22,10 @@ const loaders = require('./classes/Loaders.js');
 
 const usersCtl = require('./DB/mongo/controllers/users');
 const guildsCtl = require('./DB/mongo/controllers/guilds');
+
+
+const token = process.env.TOKEN;
+const debug = process.env.DEBUG;
 
 client.on('ready', (c) => {
 	tools.clog(`Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
@@ -53,7 +55,7 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on('messageCreate', async (msg) => {
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
-		debug ? tools.clog('::', msg.author.username) : true;
+		debug ? tools.clog('::', msg.guild.name, msg.author.username) : true;
 
 
 		// update infos

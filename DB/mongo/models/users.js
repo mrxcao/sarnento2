@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 // const objectId = Schema.ObjectId;
 
 const _schema = new Schema({
-	id: Number,
+	id: String,
 	bot: Boolean,
 	system: Boolean,
 	flags: String,
