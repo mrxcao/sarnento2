@@ -55,7 +55,7 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on('messageCreate', async (msg) => {
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
-		debug ? tools.clog('::', msg.guild.name, msg.author.username) : true;
+		debug ? tools.clog('::', msg.guild.name, ' - ', msg.author.username) : true;
 
 
 		// update infos
