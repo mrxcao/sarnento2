@@ -17,7 +17,7 @@ module.exports = {
 		.setDMPermission(false),
 	async execute(interaction) {
 		const oCara = interaction.options.getUser('oCara');
-		const motivo = interaction.options.getString('reason') ?? 'Sem justificativa';
+		const motivo = interaction.options.getString('motivo') ?? 'Sem justificativa';
 		await interaction.reply(`Cara, você não pode baniro o <@${oCara.id}>! Tá locão? Ainda mais por ${motivo}`);
 
 
