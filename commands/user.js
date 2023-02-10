@@ -7,6 +7,7 @@ module.exports = {
 	async execute(interaction) {
 		// interaction.user is the object representing the User who ran the command
 		// interaction.member is the GuildMember object, which represents the user in the specific guild
+		console.log('interaction.user', interaction.user);
 		await interaction.reply({
 			content: `Olá ${interaction.user.username}, você entrou dia ${interaction.member.joinedAt}.`,
 			ephemeral: true });

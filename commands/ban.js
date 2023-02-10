@@ -6,21 +6,25 @@ module.exports = {
 		.setDescription('Manda o safado pastar.')
 		.addUserOption(option =>
 			option
-				.setName('target')
-				.setDescription('The member to ban')
+				.setName('oCara')
+				.setDescription('Membro que vai ser banido')
 				.setRequired(true))
 		.addStringOption(option =>
 			option
-				.setName('reason')
-				.setDescription('The reason for banning'))
+				.setName('motivo')
+				.setDescription('motivo do banimento'))
 		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
 		.setDMPermission(false),
 	async execute(interaction) {
-		const target = interaction.options.getUser('target');
-		const reason = interaction.options.getString('reason') ?? 'No reason provided';
+		const oCara = interaction.options.getUser('oCara');
+		const motivo = interaction.options.getString('reason') ?? 'Sem justificativa';
+		await interaction.reply(`Cara, você não pode baniro o <@${oCara.id}>! Tá locão? Ainda mais por ${motivo}`);
 
+
+		/* para banir mesmo
 		await interaction.reply(`Banning ${target.username} for reason: ${reason}`);
-		await interaction.guild.members.ban(target);
+		// await interaction.guild.members.ban(target);
+		*/
 
 	},
 };
