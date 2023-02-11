@@ -91,4 +91,5 @@ client.on('messageUpdate', (msg) => {
 
 tools.replyLines();
 loaders.init().then(() => {client.login(token); }) ;
+const teste = require('./apis/currencylayer/axios');
 
