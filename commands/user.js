@@ -1,51 +1,24 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
+const { createCanvas, Image } = require('@napi-rs/canvas');
+const { readFile } = require('fs/promises');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('user')
 		.setDescription('Provides information about the user.'),
 	async execute(interaction) {
-		// interaction.user is the object representing the User who ran the command
-		// interaction.member is the GuildMember object, which represents the user in the specific guild
-		console.log('interaction.user', interaction.user);
+		/*
 		await interaction.reply({
 			content: `Olá ${interaction.user.username}, você entrou dia ${interaction.member.joinedAt}.`,
 			ephemeral: true });
-	},
-};
-/*
-const { AttachmentBuilder, Client, Events, GatewayIntentBits } = require('discord.js');
-const { createCanvas, Image } = require('@napi-rs/canvas');
-const { readFile } = require('fs/promises');
-const { request } = require('undici');
+*/
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-client.once(Events.ClientReady, () => {
-	console.log('Ready!');
-});
-
-const applyText = (canvas, text) => {
-	const context = canvas.getContext('2d');
-	let fontSize = 70;
-
-	do {
-		context.font = `${fontSize -= 10}px sans-serif`;
-	} while (context.measureText(text).width > canvas.width - 300);
-
-	return context.font;
-};
-
-client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isChatInputCommand()) return;
-
-	if (interaction.commandName === 'profile') {
 		const canvas = createCanvas(700, 250);
 		const context = canvas.getContext('2d');
 
-		const background = await readFile('./wallpaper.jpg');
+		// const background = await readFile('./wallpaper.jpg');
 		const backgroundImage = new Image();
-		backgroundImage.src = background;
+		// backgroundImage.src = background;
 		context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
 		context.strokeStyle = '#0099ff';
@@ -64,16 +37,51 @@ client.on(Events.InteractionCreate, async interaction => {
 		context.closePath();
 		context.clip();
 
-		const { body } = await request(interaction.user.displayAvatarURL({ format: 'jpg' }));
+		 // const { body } = await request(interaction.user.displayAvatarURL({ format: 'jpg' }));
 		const avatar = new Image();
-		avatar.src = Buffer.from(await body.arrayBuffer());
+		// avatar.src = Buffer.from(await body.arrayBuffer());
 		context.drawImage(avatar, 25, 25, 200, 200);
 
 		const attachment = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'profile-image.png' });
 
 		interaction.reply({ files: [attachment] });
+
+
+	},
+};
+/*
+const { AttachmentBuilder, Client, Events, GatewayIntentBits } = require('discord.js');
+const { createCanvas, Image } = require('@napi-rs/canvas');
+const { readFile } = require('fs/promises');
+const { request } = require('undici');
+
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+client.once(Events.ClientReady, () => {
+	console.log('Ready!');
+});
+*/
+/*
+
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+
+	if (interaction.commandName === 'profile') {
+
 	}
 });
 
-
 */
+
+
+const applyText = (canvas, text) => {
+	const context = canvas.getContext('2d');
+	let fontSize = 70;
+
+	do {
+		context.font = `${fontSize -= 10}px sans-serif`;
+	} while (context.measureText(text).width > canvas.width - 300);
+
+	return context.font;
+};
+

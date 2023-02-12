@@ -7,8 +7,9 @@ const say = (args, msg) => {
 	for (const w of arr) {
 		if (args.find(e => e.toLowerCase() == w.chave.toLowerCase() ||
     String(e.toLowerCase()).indexOf(w.chave.toLowerCase()) > -1)) {
-			msg.reply(w.value);
-			//			log("react", msg);
+			msg.reply({ content: w.value,
+				// tts:true,
+			});
 		}
 	}
 };

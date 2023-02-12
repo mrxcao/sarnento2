@@ -43,7 +43,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 	try {
-		console.log(`${interaction.member.guild.name} : ChannelId:${interaction.channelId}  @${interaction.user.username} /${interaction.commandName}`);
+		debug ?? console.log(`${interaction.member.guild.name} : ChannelId:${interaction.channelId}  @${interaction.user.username} /${interaction.commandName}`);
 		await command.execute(interaction);
 	}
 	catch (error) {
@@ -56,12 +56,9 @@ client.on('messageCreate', async (msg) => {
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
 		debug ? tools.clog('::', msg.guild.name, ' - ', msg.author.username) : true;
-
-
 		// update infos
 		usersCtl.upSert(msg.author);
 		guildsCtl.upSert(msg.guild);
-
 
 		if (args[0].substring(0, 1) == config.prefix) {
 			debug ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
@@ -84,12 +81,13 @@ client.on('messageReactionAdd', (rct) => {
 	console.log('react', rct);
 });
 
-client.on('messageUpdate', (msg) => {
-	console.log('editou: ', msg.content);
+client.on('messageUpdate', (msgOld, msgNew) => {
+	console.log('Edito de:', msgOld.content, ' para:', msgNew.content);
+
 });
 
 
 tools.replyLines();
 loaders.init().then(() => {client.login(token); }) ;
-const teste = require('./apis/currencylayer/axios');
+// const teste = require('./apis/currencylayer/axios');
 
