@@ -18,7 +18,7 @@ module.exports = {
 				.setDescription('Whether or not the echo should be ephemeral')),
 	async execute(interaction) {
 
-		const exampleEmbed = new EmbedBuilder()
+		const embed = new EmbedBuilder()
 			.setColor(tools.rgbToInt(0, 255, 0))
 			.setTitle('eco eco eco ...')
 			.setURL('https://discord.js.org/')
@@ -39,6 +39,6 @@ module.exports = {
 			.setFooter({ text: 'espero que goste',
 				iconURL: 'https://cdn.discordapp.com/avatars/722913076344782858/bb7ff6efc098f79645946ce546a7ac33.webp?size=2048' });
 
-		interaction.reply({ embeds: [exampleEmbed] });
+		interaction.reply({ embeds: [embed] });
 	},
 };
