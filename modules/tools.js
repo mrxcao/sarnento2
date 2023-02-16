@@ -10,4 +10,16 @@ const replyLines = (times = 50, charR = '-') => {
 const beep = () => {
 	// n dei conta
 };
-module.exports = { clog, replyLines, beep };
+
+const randomInteger = (max) => {
+	return Math.floor(Math.random() * (max + 1));
+};
+
+function randomRgbColor() {
+	const r = randomInteger(255);
+	const g = randomInteger(255);
+	const b = randomInteger(255);
+	return [r, g, b];
+}
+
+module.exports = { clog, replyLines, beep, randomInteger, randomRgbColor };

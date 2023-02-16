@@ -83,6 +83,7 @@ client.on('messageReactionAdd', (rct) => {
 
 client.on('messageUpdate', (msgOld, msgNew) => {
 	console.log('Edito de:', msgOld.content, ' para:', msgNew.content);
+	console.log('msgOld', msgOld.embeds);
 
 });
 

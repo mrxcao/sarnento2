@@ -1,20 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
-
-/*
-add_____Option
-    String
-    Boolean
-    Integer - only accepts whole numbers.
-    Number - accepts both whole numbers and decimals.
-    User,
-    Channel,
-    Role,
-    Mentionable - will show a selection list in the Discord interface for their associated type, or will accept a Snowflake (id) as input.
-    Attachment - options prompt the user to make an upload along with the slash command.
-    Subcommand,
-    SubcommandGroup - allow you to have branching pathways of subsequent options for your commands - more on that later on this page.
-*/
-
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data : new SlashCommandBuilder()
@@ -33,6 +17,28 @@ module.exports = {
 			option.setName('ephemeral')
 				.setDescription('Whether or not the echo should be ephemeral')),
 	async execute(interaction) {
-		console.log('interaction', interaction);
+
+		const exampleEmbed = new EmbedBuilder()
+			.setColor(500)
+			.setTitle('eco eco eco ...')
+			.setURL('https://discord.js.org/')
+			.setAuthor({ name: 'Sarnento',
+				iconURL: 'https://cdn.discordapp.com/avatars/722913076344782858/bb7ff6efc098f79645946ce546a7ac33.webp?size=2048',
+				url: 'https://discord.com/oauth2/authorize?client_id=722913076344782858&scope=bot&permissions=549755289087' })
+			.setDescription('Some description here')
+			.setThumbnail('https://i.imgur.com/AfFp7pu.png')
+			.addFields(
+				{ name: 'Regular field title', value: 'Some value here' },
+				{ name: '\u200B', value: '\u200B' },
+				{ name: 'Valor', value: '1', inline: true },
+				{ name: 'valor2', value: '2', inline: true },
+			)
+			.addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
+			.setImage('https://i.imgur.com/AfFp7pu.png')
+			.setTimestamp()
+			.setFooter({ text: 'espero que goste',
+				iconURL: 'https://cdn.discordapp.com/avatars/722913076344782858/bb7ff6efc098f79645946ce546a7ac33.webp?size=2048' });
+
+		interaction.reply({ embeds: [exampleEmbed] });
 	},
 };
