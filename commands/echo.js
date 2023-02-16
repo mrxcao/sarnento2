@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-
+const tools = require('../modules/tools');
 module.exports = {
 	data : new SlashCommandBuilder()
 		.setName('echo')
@@ -19,7 +19,7 @@ module.exports = {
 	async execute(interaction) {
 
 		const exampleEmbed = new EmbedBuilder()
-			.setColor(500)
+			.setColor(tools.rgbToInt(0, 255, 0))
 			.setTitle('eco eco eco ...')
 			.setURL('https://discord.js.org/')
 			.setAuthor({ name: 'Sarnento',

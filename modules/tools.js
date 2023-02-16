@@ -15,11 +15,14 @@ const randomInteger = (max) => {
 	return Math.floor(Math.random() * (max + 1));
 };
 
-function randomRgbColor() {
+const randomRgbColor = () => {
 	const r = randomInteger(255);
 	const g = randomInteger(255);
 	const b = randomInteger(255);
 	return [r, g, b];
-}
+};
+const rgbToInt = (r, g, b) => {
+	return 65536 * r + 256 * g + b;
+};
 
-module.exports = { clog, replyLines, beep, randomInteger, randomRgbColor };
+module.exports = { clog, replyLines, beep, randomInteger, randomRgbColor, rgbToInt };
