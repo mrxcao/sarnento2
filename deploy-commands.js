@@ -24,6 +24,8 @@ const rest = new REST({ version: '10' }).setToken(token);
 		await mongo.connect();
 		const guilds = await guildsCtl.index();
 		console.log(`Atualizando  ${commands.length} slash comandos em ${guilds.length} servidores ...`);
+
+		// guilds
 		for (const g of guilds) {
 			console.log('  ', g.name);
 			await rest.put(
@@ -31,6 +33,13 @@ const rest = new REST({ version: '10' }).setToken(token);
 				{ body: commands },
 			);
 		}
+
+		// global
+		console.log('Atualizando  Global  ...');
+		await rest.put(
+			Routes.applicationCommands(clientId),
+			{ body: commands },
+		);
 		console.log('Atualizados com sucesso');
 
 	}

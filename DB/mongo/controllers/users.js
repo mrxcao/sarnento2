@@ -28,7 +28,7 @@ class UsersController {
 			flags: req.flags,
 			username: req.username,
 			discriminator: req.discriminator,
-			avatar: req.avatar,
+			avatar: req.avatarURL(),
 			banner: req.banner,
 			acc:req.acc,
 			atualizado: new Date(),
