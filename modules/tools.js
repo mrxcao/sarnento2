@@ -10,9 +10,20 @@ const replyLines = (times = 50, charR = '-') => {
 const beep = () => {
 	// n dei conta
 };
-
 const randomInteger = (max) => {
 	return Math.floor(Math.random() * (max + 1));
+};
+const formatName = (str, type = 1) => {
+	let nstr = str.replace(/[_]/g, ' ');
+	switch (type) {
+	case 1:
+		// primeira maiúsca e resto minúscula
+		nstr = nstr.charAt(0).toUpperCase() + nstr.slice(1);
+		break;
+	default:
+		break;
+	}
+	return nstr;
 };
 
 const randomRgbColor = () => {
@@ -25,4 +36,10 @@ const rgbToInt = (r, g, b) => {
 	return 65536 * r + 256 * g + b;
 };
 
-module.exports = { clog, replyLines, beep, randomInteger, randomRgbColor, rgbToInt };
+module.exports = { clog,
+	replyLines,
+	beep,
+	randomInteger,
+	randomRgbColor,
+	rgbToInt,
+	formatName };
