@@ -40,7 +40,7 @@ const applyCanvasText = (canvas, text) => {
 	let fontSize = 70;
 	do {
 		context.font = `${fontSize -= 10}px sans-serif`;
-	} while (context.measureText(text).width > canvas.width - 300);
+	} while (context.measureText(text).width > canvas.width - 30);
 	return context.font;
 };
 
