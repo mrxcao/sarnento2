@@ -35,6 +35,15 @@ const randomRgbColor = () => {
 const rgbToInt = (r, g, b) => {
 	return 65536 * r + 256 * g + b;
 };
+const applyCanvasText = (canvas, text) => {
+	const context = canvas.getContext('2d');
+	let fontSize = 70;
+	do {
+		context.font = `${fontSize -= 10}px sans-serif`;
+	} while (context.measureText(text).width > canvas.width - 300);
+	return context.font;
+};
+
 
 module.exports = { clog,
 	replyLines,
@@ -42,4 +51,6 @@ module.exports = { clog,
 	randomInteger,
 	randomRgbColor,
 	rgbToInt,
-	formatName };
+	formatName,
+	applyCanvasText,
+};
