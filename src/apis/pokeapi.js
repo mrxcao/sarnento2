@@ -15,6 +15,11 @@ const criaCarta = async (texto, img) => {
 	const canvas = createCanvas(750, 350);
 	const context = canvas.getContext('2d');
 
+	const { body } = await request(img);
+	const avatar = new Image();
+	avatar.src = Buffer.from(await body.arrayBuffer());
+	context.drawImage(avatar, 0, 0, 350, 350);
+
 	// const background = await readFile('./wallpaper.jpg');
 	const backgroundImage = new Image();
 	// backgroundImage.src = background;
@@ -38,16 +43,10 @@ const criaCarta = async (texto, img) => {
 
 	// console.log('criacarta', img);
 	// const { body } = await request(interaction.user.displayAvatarURL({ format: 'jpg' }));
-	 const { body } = await request(img);
+
 	// const body = await readFile(img);
 	// console.log('criacarta', body);
 
-
-	const avatar = new Image();
-	avatar.src = Buffer.from(await body.arrayBuffer());
-
-
-	context.drawImage(avatar, 0, 0, 350, 350);
 
 	// const attachment = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'poke.png', description: 'poke.png' });
 
@@ -66,7 +65,7 @@ const quiz = async (msg) => {
 	const response = await axios(header);
 	const data = response.data;
 	const item = {
-		pergunta: `Qual o nome deste Pokemon? (O chat terá ${seg} seg)`,
+		pergunta: `Qual o nome deste Pokemon? (${seg} seg.)`,
 		resposta: tools.formatName(data.name),
 		respostaBr : pokePtBr[0].nome,
 		img : data.sprites.front_default,
