@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 const { createCanvas, Image } = require('@napi-rs/canvas');
-const { readFile } = require('fs/promises');
+// const { readFile } = require('fs/promises');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -37,7 +37,7 @@ module.exports = {
 		context.closePath();
 		context.clip();
 
-		 // const { body } = await request(interaction.user.displayAvatarURL({ format: 'jpg' }));
+		// const { body } = await request(interaction.user.displayAvatarURL({ format: 'jpg' }));
 		const avatar = new Image();
 		// avatar.src = Buffer.from(await body.arrayBuffer());
 		context.drawImage(avatar, 25, 25, 200, 200);
