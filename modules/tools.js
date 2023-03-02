@@ -44,6 +44,11 @@ const applyCanvasText = (canvas, text) => {
 	return context.font;
 };
 
+const newDate = (d) => {
+	const novaData = new Date(new Date(d).getTime() - 180 * 60 * 1000);
+	return (novaData);
+};
+
 
 module.exports = { clog,
 	replyLines,
@@ -53,4 +58,5 @@ module.exports = { clog,
 	rgbToInt,
 	formatName,
 	applyCanvasText,
+	newDate,
 };
