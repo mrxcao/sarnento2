@@ -11,8 +11,8 @@ class UsersController {
 		// return res.status(200).json(ret);
 		return ret;
 	}
-	async show(id) {
-		const ret = await model.find({ id }) ;
+	async show(req) {
+		const ret = await model.find(req) ;
 		// return res.status(200).json(ret);
 		return ret;
 	}

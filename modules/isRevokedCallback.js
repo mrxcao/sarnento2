@@ -1,4 +1,5 @@
 // const mongo = require('../modules/mongo');
+const tokenCtrl = require('../DB/mongo/controllers/token');
 
 module.exports = async (req, payload, done) => {
 	const rotasIgnorar = [
@@ -8,7 +9,7 @@ module.exports = async (req, payload, done) => {
 	const ch = rotasIgnorar.filter(r => {return (req.url.indexOf(r) > -1); }).length > 0 ? false : true;
 	if (ch) {
 		if (payload.jti) {
-			// const r = await mongo.findOne('sarnento2', 'jwtTokensRevogados', { idToken: payload.jti });
+			const r = await tokenCtrl.show({ idToken: payload.jti });
 			if (r) return done(null, true);
 		}
 	}
