@@ -43,12 +43,39 @@ const applyCanvasText = (canvas, text) => {
 	} while (context.measureText(text).width > canvas.width - 30);
 	return context.font;
 };
-
 const newDate = (d) => {
 	const novaData = new Date(new Date(d).getTime() - 180 * 60 * 1000);
 	return (novaData);
 };
-
+const searchInArrayObj = async (arr, key, StrtoSearch) => {
+	if (!arr) {
+		return [];
+	}
+	const results = [];
+	let idxKey = [];
+	let i = -1;
+	for (const k in arr[0]) {
+		i++;
+		if (k == key) {idxKey = i;}
+	}
+	for (const a of arr) {
+		const value = a[Object.keys(a)[idxKey]];
+		const isRx = await isRegExp(value);
+		let rx = new RegExp();
+		let isRegExValid = false;
+		if (isRx) {
+			rx = new RegExp(value);
+			isRegExValid = rx.exec(StrtoSearch);
+		}
+		if (StrtoSearch == value || isRegExValid) {
+			results.push(a);
+		}
+	}
+	return results;
+};
+const isRegExp = async (str) => {
+	return typeof str === 'object' ? true : false;
+};
 
 module.exports = { clog,
 	replyLines,
@@ -59,4 +86,6 @@ module.exports = { clog,
 	formatName,
 	applyCanvasText,
 	newDate,
+	searchInArrayObj,
+	isRegExp,
 };

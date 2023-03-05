@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const dns = require('dns');
 const dnsPromises = dns.promises;
 const expressJWT = require('express-jwt');
-
+const tools = require('../modules/tools');
 const isRevokedCallback = require('../modules/isRevokedCallback');
 
 
@@ -15,24 +15,18 @@ const tokenCtrl = require('../DB/mongo/controllers/token');
 
 const cors = require('cors');
 const compression = require('compression');
-const auth = require('./auth');
+// const auth = require('./auth');
 const routes = require('./routes');
 
 // const atob = require('atob');
 const key = process.env.AUTH_KEY;
 const whitelist = [];
 const publicRoutes = [
-	{ url: /^\/*/, methods: ['GET'] },
+	{ url: '/', methods: ['GET'] },
 	{ url: /^\/geraToken*/, methods: ['POST'] },
 	{ url: /^\/login*/, methods: ['POST'] },
 	{ url: /\/isTokenvalid*/, methods: ['GET'] },
 ];
-app.use(expressJWT({
-	secret: key,
-	isRevoked: isRevokedCallback,
-}).unless({ path:publicRoutes }),
-);
-
 
 const corsOptionsDelegate = async function(req, callback) {
 	let corsOptions;
@@ -42,22 +36,24 @@ const corsOptionsDelegate = async function(req, callback) {
 		req.socket.remoteAddress ||
 		req.connection.socket.remoteAddress
 	).split(',')[0];
-	const retorno = await rotaAutorizada(req);
-	if (retorno) {
-		console.log('--', 1, retorno);
+
+	const isPublic = await tools.searchInArrayObj(publicRoutes, 'url', req.url);
+	const rotasAutorizadas = await rotaAutorizada(req);
+
+	if (isPublic && (isPublic || []).length > 0) {
 		corsOptions = { origin: true };
 	}
-	if (whitelist.indexOf(req.header('Origin')) !== -1 ||
+	else if (rotasAutorizadas) {
+		corsOptions = { origin: true };
+	}
+	else if (whitelist.indexOf(req.header('Origin')) !== -1 ||
 			whitelist.indexOf(remote) !== -1
 	) {
-		console.log('--', 2);
 		corsOptions = { origin: true };
 	}
 	else {
-		console.log('--', 3);
 		corsOptions = { origin: false };
 	}
-
 
 	if (!corsOptions.origin) {
 		callback(new Error(` Not allowed by CORS .... 
@@ -68,7 +64,6 @@ const corsOptionsDelegate = async function(req, callback) {
 		callback(null, corsOptions);
 	}
 };
-
 const rotaAutorizada = async (req) => {
 	const remote = (
 		req.headers['x-forwarded-for'] ||
@@ -84,7 +79,6 @@ const rotaAutorizada = async (req) => {
 
 
 	const rota = await consultaRotas(ip, token);
-	console.log('rota', rota);
 	if (rota && rota.length > 0) {
 		retorno = true;
 	}
@@ -94,13 +88,9 @@ const rotaAutorizada = async (req) => {
 	return retorno;
 
 };
-
 const consultaRotas = async (ip, token) => {
 	const ipHostsAutorizados = [];
-
-	console.log('token', token);
 	const dadosToken = await tokenCtrl.show({ ativo: true, token: token });
-	console.log('dadosToken', dadosToken);
 	if (((dadosToken || []).ip || []).length < 1) {
 		return dadosToken;
 	}
@@ -138,29 +128,28 @@ const init = async function() {
 	app.use(compression());
 	app.use(cors({ preflightContinue: true }));
 	app.use(cors(corsOptionsDelegate));
-
+	app.use(expressJWT({
+		secret: key,
+		isRevoked: isRevokedCallback,
+	}).unless({ path:publicRoutes }),
+	);
 	app.use(function(req, res, next) {
 		req.socket.setNoDelay(true);
 		next();
 	});
-
-	auth(app, tokenCtrl);
+	// auth(app, tokenCtrl);
 	routes(app, tokenCtrl);
-
 
 	const server = app.listen(process.env.PORT);
 	console.log(`   http:\\\\127.0.0.1:${process.env.PORT}`);
 
 	server.on('error', function(err) { console.log(' Error - ', err); });
-
 	process.on('uncaughtException', function(err) {
 		console.error(err.stack);
 	});
-
 	process.on('unhandledRejection', error => {
 		console.log('unhandledRejection', error);
 	});
-
 
 };
 
