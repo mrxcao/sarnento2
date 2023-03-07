@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const dns = require('dns');
 const dnsPromises = dns.promises;
 const expressJWT = require('express-jwt');
+const lessMiddleware = require('less-middleware');
 const tools = require('../modules/tools');
 const isRevokedCallback = require('../modules/isRevokedCallback');
 
@@ -16,16 +17,19 @@ const tokenCtrl = require('../DB/mongo/controllers/token');
 const cors = require('cors');
 const compression = require('compression');
 // const auth = require('./auth');
-const routes = require('./routes');
+const routerIndex = require('./routes/index');
+const routerToken = require('./routes/token');
 
 // const atob = require('atob');
 const key = process.env.AUTH_KEY;
 const whitelist = [];
 const publicRoutes = [
 	{ url: '/', methods: ['GET'] },
-	{ url: /^\/geraToken*/, methods: ['POST'] },
 	{ url: /^\/login*/, methods: ['POST'] },
-	{ url: /\/isTokenvalid*/, methods: ['GET'] },
+	{ url: /^\/token\/geraToken*/, methods: ['POST'] },
+	{ url: /\/token\/isTokenvalid*/, methods: ['GET'] },
+	{ url: /\/stylesheets*/i, methods: ['GET'] },
+	{ url: /\/favicon.ico*/, methods: ['GET'] },
 ];
 
 const corsOptionsDelegate = async function(req, callback) {
@@ -52,6 +56,7 @@ const corsOptionsDelegate = async function(req, callback) {
 		corsOptions = { origin: true };
 	}
 	else {
+
 		corsOptions = { origin: false };
 	}
 
@@ -138,7 +143,18 @@ const init = async function() {
 		next();
 	});
 	// auth(app, tokenCtrl);
-	routes(app, tokenCtrl);
+
+	// rotas
+	app.use('/', routerIndex);
+	app.use('/token', routerToken);
+
+	// views
+	app.set('views', path.join(__dirname, 'views'));
+	app.set('view engine', 'ejs');
+
+	app.use(lessMiddleware(path.join(__dirname, 'public')));
+	app.use(express.static(path.join(__dirname, 'public')));
+
 
 	const server = app.listen(process.env.PORT);
 	console.log(`   http:\\\\127.0.0.1:${process.env.PORT}`);

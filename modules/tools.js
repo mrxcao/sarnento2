@@ -67,10 +67,13 @@ const searchInArrayObj = async (arr, key, StrtoSearch) => {
 			rx = new RegExp(value);
 			isRegExValid = rx.exec(StrtoSearch);
 		}
+		// console.log('StrtoSearch , value', StrtoSearch, value);
 		if (StrtoSearch == value || isRegExValid) {
 			results.push(a);
 		}
+
 	}
+	// console.log('results', results);
 	return results;
 };
 const isRegExp = async (str) => {

@@ -1,19 +1,24 @@
 const mongoose = require('mongoose');
 
+let singleton;
+
 const connect = async function() {
 	try {
+		if (singleton) {return singleton;}
 		const regex = new RegExp('(//([^:])*:)', 'g');
 		const cntString = process.env.MONGO;
 		mongoose.set('strictQuery', false);
-		await mongoose.connect(cntString);
+		singleton = await mongoose.connect(cntString);
 		const usr = regex.exec(cntString);
 
-		const coonctInfo = {
+		const connectInffo = {
 			host: mongoose.connection.host,
 			DB: mongoose.connection.name,
+			usr: usr[0].substring(2, usr[0].length - 1),
 			// collenctions: mongoose.connection.collections,
 		};
-		console.log(`   MongoDB conectado usr: ${ usr[0].substring(2, usr[0].length - 1) } `, coonctInfo);
+		console.log('MongoDB conectado ', connectInffo);
+		return singleton;
 	}
 	catch (error) {
 		console.log('   connect error', error);
