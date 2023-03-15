@@ -24,7 +24,7 @@ router.get('/dadosToken', async (request, response) => {
 });
 router.post('/geraToken', async (request, response) => {
 	try {
-		const bloqueado = false;
+		const bloqueado = true;
 		if (!bloqueado) {
 			const { name } = request.body;
 			let { dataFim } = request.body;
@@ -50,6 +50,9 @@ router.post('/geraToken', async (request, response) => {
 			};
 			const save = await tokenCtrl.store(dados);
 			response.send(save);
+		}
+		else {
+			response.status(403).send('bloquear flag is true');
 		}
 	}
 	catch (error) {

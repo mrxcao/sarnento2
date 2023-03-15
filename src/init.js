@@ -19,6 +19,7 @@ const compression = require('compression');
 // const auth = require('./auth');
 const routerIndex = require('./routes/index');
 const routerToken = require('./routes/token');
+const routerReact = require('./routes/react');
 
 // const atob = require('atob');
 const key = process.env.AUTH_KEY;
@@ -147,6 +148,7 @@ const init = async function() {
 	// rotas
 	app.use('/', routerIndex);
 	app.use('/token', routerToken);
+	app.use('/react', routerReact);
 
 	// views
 	app.set('views', path.join(__dirname, 'views'));
