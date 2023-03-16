@@ -23,12 +23,13 @@ const loaders = require('./classes/Loaders.js');
 const usersCtl = require('./DB/mongo/controllers/users');
 const guildsCtl = require('./DB/mongo/controllers/guilds');
 
+const pack = require('./package.json');
 
 const token = process.env.TOKEN;
 const debug = process.env.DEBUG;
 
 client.on('ready', (c) => {
-	tools.clog(`Pronto! Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
+	tools.clog(`Pronto! ${pack.name} ver:${pack.version}   Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
 	tools.replyLines();
 });
 
