@@ -13,10 +13,9 @@ const _schema = new Schema({
 		data: Object,
 	},
 	do: {
-		type:  doTypesS,
+		type: doTypesS,
 		data: Object,
 	},
-	doData: Object,
 }, { collection: collectionName });
 
 const model = mongoose.model(collectionName, _schema);
