@@ -8,8 +8,14 @@ const doTypesS = require('./doTypes');
 const _schema = new Schema({
 	id: Number,
 	nome: String,
-	triggerType: triggerTypesS,
-	doType:  doTypesS,
+	trigger: {
+		type: triggerTypesS,
+		data: Object,
+	},
+	do: {
+		type:  doTypesS,
+		data: Object,
+	},
 	doData: Object,
 }, { collection: collectionName });
 
