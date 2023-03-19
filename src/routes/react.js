@@ -3,7 +3,18 @@ const router = express.Router();
 
 const triggerTypesCtrl = require('../../DB/mongo/controllers/triggerTypes');
 const doTypesCtrl = require('../../DB/mongo/controllers/doTypes');
+const reactCtrl = require('../../DB/mongo/controllers/react');
 
+router.get('/', async (request, response) => {
+	try {
+		const res = await reactCtrl.index();
+		response.status(200).send(res);
+	}
+	catch (error) {
+		response.status(500).send(error.toString());
+		throw error;
+	}
+});
 router.get('/doTypes', async (request, response) => {
 	try {
 		const res = await doTypesCtrl.index();
@@ -24,6 +35,7 @@ router.get('/triggerTypes', async (request, response) => {
 		throw error;
 	}
 });
+
 router.post('/triggerTypes/add', async (request, response) => {
 	try {
 		const bloqueado = false;

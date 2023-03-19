@@ -9,11 +9,11 @@ const _schema = new Schema({
 	id: Number,
 	nome: String,
 	trigger: {
-		type: triggerTypesS,
+		// type: triggerTypesS,
 		data: Object,
 	},
 	do: {
-		type: doTypesS,
+		// type: doTypesS,
 		data: Object,
 	},
 }, { collection: collectionName });
