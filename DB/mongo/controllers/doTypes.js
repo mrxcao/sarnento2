@@ -1,4 +1,4 @@
-const model = require('../models/doTypes.js');
+const model = require('../models/doTypes.js').model;
 
 class UsersController {
 	async store(req) {
@@ -13,8 +13,10 @@ class UsersController {
 		const ret = await model.find({ id }) ;
 		return ret;
 	}
-	async update() {
-		//
+	async update(req) {
+		const query = { 'id':req.id };
+		const ret = await model.findOneAndUpdate(query, req);
+		return ret;
 	}
 	async destroy() {
 		//

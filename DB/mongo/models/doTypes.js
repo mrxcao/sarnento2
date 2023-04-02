@@ -5,9 +5,11 @@ const collectionName = 'doTypes';
 
 const _schema = new Schema({
 	id: Number,
-	nome: String,
+	name: String,
+	expectedData: Object,
+	data: Object,
 }, { collection: collectionName });
 
 const model = mongoose.model(collectionName, _schema);
 
-module.exports = model;
+module.exports = { model, _schema };

@@ -1,4 +1,4 @@
-const model = require('../models/triggerTypes.js');
+const model = require('../models/triggerTypes.js').model;
 
 class UsersController {
 	async store(req) {
@@ -10,11 +10,13 @@ class UsersController {
 		return ret;
 	}
 	async show(id) {
-		const ret = await model.find({ id }) ;
+		const ret = await model.find({ id });
 		return ret;
 	}
-	async update() {
-		//
+	async update(req) {
+		const query = { 'id':req.id };
+		const ret = await model.findOneAndUpdate(query, req);
+		return ret;
 	}
 	async destroy() {
 		//
