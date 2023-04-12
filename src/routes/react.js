@@ -70,6 +70,26 @@ router.post('/add', async (request, response) => {
 		throw error;
 	}
 });
+router.delete('/del', async (request, response) => {
+	try {
+		const bloqueado = false;
+		if (!bloqueado) {
+			const { _id } = request.body;
+			if (!_id) {
+				response.status(403).send('{_id}');
+			}
+			const result = await reactCtrl.destroy(_id);
+			response.send(result);
+		}
+		else {
+			response.status(403).send('bloquear flag is true');
+		}
+	}
+	catch (error) {
+		response.status(500).send(error.toString());
+		throw error;
+	}
+});
 router.post('/triggerTypes/add', async (request, response) => {
 	try {
 		const bloqueado = false;

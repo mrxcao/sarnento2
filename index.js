@@ -33,7 +33,7 @@ client.on('ready', (c) => {
 	tools.replyLines();
 });
 
-// collections de comandos slash
+// collections de comandos slash //
 client.commands = readSlashCmds();
 
 client.on(Events.InteractionCreate, async interaction => {
@@ -73,7 +73,7 @@ client.on('messageCreate', async (msg) => {
 			}
 		}
 		else {
-			react.say(args, msg);
+			react.verify(args, msg);
 		}
 	}
 });
