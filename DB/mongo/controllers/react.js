@@ -16,8 +16,9 @@ class UsersController {
 	async update() {
 		//
 	}
-	async destroy() {
-		//
+	async destroy(_id) {
+		const ret = await model.deleteOne({ _id });
+		return ret;
 	}
 }
 
