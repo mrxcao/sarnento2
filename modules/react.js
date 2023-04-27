@@ -16,9 +16,10 @@ const say = async (msg, text) => {
 };
 
 const verify = async (args, msg) => {
+
 	let match = false;
 	for (const rct of reacts) {
-
+		match = false;
 		let times = 0;
 		switch (rct.trigger.id) {
 		// single word
@@ -61,7 +62,6 @@ const verify = async (args, msg) => {
 		default:
 			break;
 		}
-
 
 		if (match) {
 			switch (rct.do.id) {
