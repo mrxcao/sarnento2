@@ -6,7 +6,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const dns = require('dns');
 const dnsPromises = dns.promises;
-const expressJWT = require('express-jwt');
+const { expressjwt: jwt } = require('express-jwt');
 const lessMiddleware = require('less-middleware');
 const tools = require('../modules/tools');
 const isRevokedCallback = require('../modules/isRevokedCallback');
@@ -134,11 +134,14 @@ const init = async function() {
 	app.use(compression());
 	app.use(cors({ preflightContinue: true }));
 	app.use(cors(corsOptionsDelegate));
-	app.use(expressJWT({
+
+	app.use(jwt({
 		secret: key,
+		algorithms: ['HS256'],
 		isRevoked: isRevokedCallback,
 	}).unless({ path:publicRoutes }),
 	);
+
 	app.use(function(req, res, next) {
 		req.socket.setNoDelay(true);
 		next();

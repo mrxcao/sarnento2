@@ -1,7 +1,7 @@
 // const mongo = require('../modules/mongo');
 const tokenCtrl = require('../DB/mongo/controllers/token');
 
-module.exports = async (req, payload, done) => {
+module.exports = async (req, payload) => {
 	const rotasIgnorar = [
 		'/login',
 		'/logout',
@@ -10,9 +10,9 @@ module.exports = async (req, payload, done) => {
 	if (ch) {
 		if (payload.jti) {
 			const r = await tokenCtrl.show({ idToken: payload.jti });
-			if (r) return done(null, true);
+			if (r) return true;
 		}
 	}
-	return done(null, false);
+	return false;
 };
 
