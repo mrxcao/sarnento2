@@ -79,11 +79,11 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('messageReactionAdd', (rct) => {
-	console.log('react', rct);
+	// console.log('react', rct);
 });
 
 client.on('messageUpdate', (msgOld, msgNew) => {
-	console.log('Editou de:', msgOld.content, ' para:', msgNew.content);
+	// console.log('Editou de:', msgOld.content, ' para:', msgNew.content);
 	//	console.log('msgOld', msgOld.embeds);
 
 });

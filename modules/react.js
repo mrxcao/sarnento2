@@ -7,12 +7,16 @@ const load = async () => {
 	reacts = await reactClt.index();
 };
 const reply = async (msg, text) => {
-	msg.reply({ content: text,
+	if (text) {
+		msg.reply({ content: text,
 		// tts:true,
-	});
+		});
+	}
 };
 const say = async (msg, text) => {
-	msg.channel.send(text);
+	if (text) {
+		msg.channel.send(text);
+	}
 };
 
 const verify = async (args, msg) => {
@@ -68,7 +72,10 @@ const verify = async (args, msg) => {
 			// say
 			case 1:
 				if (Array.isArray (rct.do.data.say)) {
-					const text = rct.do.data.say[randomInteger (rct.do.data.say.length) ];
+					const l = rct.do.data.say.length;
+					const n = randomInteger (l);
+					const text = rct.do.data.say[n == l ? n - 1 : n ];
+					// const text = rct.do.data.say[randomInteger (rct.do.data.say.length) - 1 ];
 					await say(msg, text);
 				}
 				else {
@@ -78,7 +85,9 @@ const verify = async (args, msg) => {
 			// reply
 			case 2:
 				if (Array.isArray (rct.do.data.say)) {
-					const text = rct.do.data.say[randomInteger (rct.do.data.say.length) ];
+					const l = rct.do.data.say.length;
+					const n = randomInteger (l);
+					const text = rct.do.data.say[n == l ? n - 1 : n ];
 					await reply(msg, text);
 				}
 				else {
