@@ -2,14 +2,12 @@ const model = require('../models/users.js');
 
 class UsersController {
 	async store(req) {
-		const ret = await model.create(req);
+		return await model.create(req);
 		// return res.status(200).json(ret);
-		return ret;
 	}
 	async index() {
-		const ret = await model.find({ }) ;
+		return await model.find({ }) ;
 		// return res.status(200).json(ret);
-		return ret;
 	}
 	async show() {
 		//
@@ -40,6 +38,28 @@ class UsersController {
 		// return res.status(200).json(ret);
 		return ret;
 	}
+
+	async login(req) {
+		const data = {
+			login: req.login,
+			password: req.password,
+		};
+
+		const usr = await model.find({ 'login': data.lgoin }) ;
+
+		if (usr) {
+			if (data.password == usr.password) {
+				return usr;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
 }
 
 module.exports = new UsersController();

@@ -26,7 +26,7 @@ const key = process.env.AUTH_KEY;
 const whitelist = [];
 const publicRoutes = [
 	{ url: '/', methods: ['GET'] },
-	{ url: /^\/login*/, methods: ['POST'] },
+	{ url: /^\/token\/login*/, methods: ['POST'] },
 	{ url: /^\/token\/geraToken*/, methods: ['POST'] },
 	{ url: /\/token\/isTokenvalid*/, methods: ['GET'] },
 	{ url: /\/stylesheets*/i, methods: ['GET'] },

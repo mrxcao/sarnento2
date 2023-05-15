@@ -12,6 +12,10 @@ const _schema = new Schema({
 	avatar: String,
 	banner: String,
 	acc:String,
+
+	login:String,
+	password:String,
+
 	criado:  { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },
 });
