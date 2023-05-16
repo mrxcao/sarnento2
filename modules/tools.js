@@ -79,6 +79,39 @@ const searchInArrayObj = async (arr, key, StrtoSearch) => {
 const isRegExp = async (str) => {
 	return typeof str === 'object' ? true : false;
 };
+const formatarMoeda = async (valor, tipo = 'BRL') => {
+
+	tipo = tipo.toUpperCase();
+
+	let lang;
+	let erase;
+	switch (tipo) {
+	case 'BRL':
+		lang = 'pt-BR';
+		erase = 'R$';
+		break;
+	case 'USD':
+		lang = 'en-US';
+		erase = '$';
+		break;
+	default:
+		break;
+	}
+
+	const formatter = new Intl.NumberFormat(lang, {
+		style: 'currency',
+		currency: tipo,
+		minimumFractionDigits: 2,
+	});
+	let result = formatter.format(valor);
+	result = result.replace(erase, '').trim();
+	return result;
+};
+const normalizarStr = async (texto) => {
+	const result = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+	console.log('normalizarStr result ', result);
+	return result;
+};
 
 module.exports = { clog,
 	replyLines,
@@ -91,4 +124,6 @@ module.exports = { clog,
 	newDate,
 	searchInArrayObj,
 	isRegExp,
+	formatarMoeda,
+	normalizarStr,
 };

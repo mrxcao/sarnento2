@@ -1,4 +1,6 @@
 const reactClt = require('../DB/mongo/controllers/react');
+const coingecko = require('../src/apis/coingecko');
+const tools = require('../modules/tools');
 const { randomInteger } = require('./tools');
 
 
@@ -20,7 +22,6 @@ const say = async (msg, text) => {
 };
 
 const verify = async (args, msg) => {
-
 	let match = false;
 	for (const rct of reacts) {
 		match = false;
@@ -47,11 +48,17 @@ const verify = async (args, msg) => {
 		case 2:
 			times = 0;
 			for (const tD of rct.trigger.data.wordArray) {
+
+				if (args.find(e => tools.normalizarStr(e) == tools.normalizarStr(tD) ||
+				String(tools.normalizarStr(e)).indexOf(tools.normalizarStr(tD)) > -1)) {
+					times = times + 1;
+				}
+				/*
 				if (args.find(e => e.toLowerCase() == tD.toLowerCase() ||
 				String(e.toLowerCase()).indexOf(tD.toLowerCase()) > -1)) {
 					times = times + 1;
-
 				}
+				*/
 			}
 			if (times == rct.trigger.data.wordArray.length) {
 				match = true;
@@ -68,6 +75,7 @@ const verify = async (args, msg) => {
 		}
 
 		if (match) {
+			let resultText;
 			switch (rct.do.id) {
 			// say
 			case 1:
@@ -94,7 +102,16 @@ const verify = async (args, msg) => {
 					await reply(msg, rct.do.data.say);
 				}
 				break;
+			// useFunction
 			case 3:
+				switch (rct.do.data.function) {
+				case 'precoBitcoin':
+					resultText = await coingecko.bitcoin();
+					await reply(msg, resultText);
+					break;
+				default:
+					break;
+				}
 				break;
 			default:
 				break;
