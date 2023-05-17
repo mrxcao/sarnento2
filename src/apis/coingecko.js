@@ -11,7 +11,7 @@ const bitcoin = async () => {
 
 const dolar = async () => {
 	const response = await axios({ method: 'get',	url: url + 'ids=usd&vs_currencies=brl' });
-	const text = `Atualmente, o dólar está **R$ ${ await tools.formatarMoeda(response.data.bitcoin.brl)}**  `;
+	const text = `Atualmente, o dólar está **R$ ${ await tools.formatarMoeda(response.data.usd.brl)}**  `;
 	return text;
 };
 
