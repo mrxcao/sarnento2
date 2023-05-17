@@ -31,42 +31,38 @@ const verify = async (args, msg) => {
 		case 1:
 			if (Array.isArray (rct.trigger.data.word)) {
 				for (const tD of rct.trigger.data.word) {
-					if (args.find(e => e.toLowerCase() == tD.toLowerCase() ||
-					String(e.toLowerCase()).indexOf(tD.toLowerCase()) > -1)) {
-						match = true;
-						break;
+					for (const arg of args) {
+						if (await tools.normalizarStr(arg) == await tools.normalizarStr(tD)) {
+							match = true;
+							break;
+						}
 					}
 				}
 			}
-			else if (args.find(e => e.toLowerCase() == rct.trigger.data.word.toLowerCase() ||
-				String(e.toLowerCase()).indexOf(rct.trigger.data.word.toLowerCase()) > -1)) {
+			else if (args.indexOf(e => tools.normalizarStr(e) == tools.normalizarStr(rct.trigger.data.word)) > -1) {
 				match = true;
-				break;
 			}
 			break;
 		// group of words
 		case 2:
 			times = 0;
 			for (const tD of rct.trigger.data.wordArray) {
-
-				if (args.find(e => tools.normalizarStr(e) == tools.normalizarStr(tD) ||
-				String(tools.normalizarStr(e)).indexOf(tools.normalizarStr(tD)) > -1)) {
-					times = times + 1;
+				for (const arg of args) {
+					if (await tools.normalizarStr(arg) == await tools.normalizarStr(tD)) {
+						times = times + 1;
+						break;
+					}
 				}
-				/*
-				if (args.find(e => e.toLowerCase() == tD.toLowerCase() ||
-				String(e.toLowerCase()).indexOf(tD.toLowerCase()) > -1)) {
-					times = times + 1;
-				}
-				*/
 			}
+
+
 			if (times == rct.trigger.data.wordArray.length) {
 				match = true;
 			}
 			break;
 		// phrase
 		case 3:
-			if (msg.content.toLowerCase().indexOf(rct.trigger.data.phrase.toLowerCase()) > -1) {
+			if (String(await tools.normalizarStr(msg.content)).indexOf(await tools.normalizarStr(rct.trigger.data.phrase)) > -1) {
 				match = true;
 			}
 			break;
