@@ -106,7 +106,9 @@ const verify = async (args, msg) => {
 					await reply(msg, resultText);
 					break;
 				case 'precoDolar':
+					console.log('precoDolar', 1);
 					resultText = await coingecko.dolar();
+					console.log('precoDolar', resultText);
 					await reply(msg, resultText);
 					break;
 				default:
