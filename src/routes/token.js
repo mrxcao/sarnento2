@@ -92,7 +92,7 @@ router.post('/login', async (request, response) => {
 		//   throw `erro Brw !!! => ${browser}`;
 		// }
 
-		console.log('LOGIN', ip, host, userAgent);
+		// console.log('LOGIN', ip, host, userAgent);
 
 		const login = request.body.login;
 		const password = request.body.password;
@@ -101,30 +101,35 @@ router.post('/login', async (request, response) => {
 
 		const usr = await usersCtrl.login(login, password);
 
-		if (!usr) {response.send('Login fall', 401);}
+		if (!usr) {
+			response.status(401).send('Login fall');
+		}
+		else {
+
+			const time = new Date().getTime();
+			const idToken = usr.id + time;
 
 
-		const time = new Date().getTime();
-		const idToken = usr.id + time;
+			const token = jwt.sign(
+				{
+					id:usr.id,
+					username:usr.username,
+					discriminator:usr.discriminator,
+					function:'manager',
+					iss: 'sarnentola',
+					timeLog: time,
+					jti: idToken,
+				},
+				key,
+				{
+					expiresIn: '12h',
+				},
+			);
 
+			response.status(200).send({ token });
 
-		const token = jwt.sign(
-			{
-				id:usr.id,
-				username:usr.username,
-				discriminator:usr.discriminator,
-				function:'manager',
-				iss: 'sarnentola',
-				timeLog: time,
-				jti: idToken,
-			},
-			key,
-			{
-				expiresIn: '12h',
-			},
-		);
+		}
 
-		response.status(200).send({ token });
 
 	}
 	catch (error) {

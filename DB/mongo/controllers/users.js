@@ -45,9 +45,8 @@ class UsersController {
 			password: req.password,
 		};
 
-		const usr = await model.find({ 'login': data.lgoin }) ;
-
-		if (usr) {
+		const usr = await model.find({ 'id': data.login }) ;
+		if (usr.length > 0) {
 			if (data.password == usr.password) {
 				return usr;
 			}
