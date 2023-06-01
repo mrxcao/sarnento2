@@ -1,3 +1,4 @@
+const { clog } = require('../../../modules/tools.js');
 const model = require('../models/users.js');
 
 class UsersController {
@@ -45,10 +46,10 @@ class UsersController {
 			password: req.password,
 		};
 
-		const usr = await model.find({ 'id': data.login }) ;
+		const usr = await model.find({ 'login': data.login }) ;
 		if (usr.length > 0) {
-			if (data.password == usr.password) {
-				return usr;
+			if (usr[0].password == data.password) {
+				return usr[0];
 			}
 			else {
 				return false;

@@ -97,24 +97,19 @@ router.post('/login', async (request, response) => {
 		const login = request.body.login;
 		const password = request.body.password;
 
-		console.log('login,password', login, password);
-
-		const usr = await usersCtrl.login(login, password);
-
-		if (!usr) {
+		const user = await usersCtrl.login({ login, password });
+		if (!user) {
 			response.status(401).send('Login fall');
 		}
 		else {
-
 			const time = new Date().getTime();
-			const idToken = usr.id + time;
-
+			const idToken = user.id + time;
 
 			const token = jwt.sign(
 				{
-					id:usr.id,
-					username:usr.username,
-					discriminator:usr.discriminator,
+					id:user.id,
+					username:user.username,
+					discriminator:user.discriminator,
 					function:'manager',
 					iss: 'sarnentola',
 					timeLog: time,
@@ -126,11 +121,14 @@ router.post('/login', async (request, response) => {
 				},
 			);
 
-			response.status(200).send({ token });
+			const ret = { token,
+				username: user.username,
+				discriminator: user.discriminator,
+				avatar: user.avatar };
+
+			response.status(200).send(ret);
 
 		}
-
-
 	}
 	catch (error) {
 		response.status(401).send(error);
