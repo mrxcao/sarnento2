@@ -29,7 +29,7 @@ const criaCarta = async (texto, img) => {
 		}
 		// linux
 		else {
-			background = await readFile('\\..\\..\\public\\img\\bgPoke.png');
+			background = await readFile(__dirname + '\\sarnento2\\public\\img\\bgPoke.png');
 		}
 
 		const backgroundImage = new Image();
@@ -50,7 +50,8 @@ const criaCarta = async (texto, img) => {
 	context.fillStyle = '#3052ad';
 	context.fill();
 
-	context.font = 'bold 42pt Calibri';
+	// context.font = 'bold 42pt Calibri';
+	context.font = 'bold 42pt';
 	context.fillStyle = '#fccb07';
 	context.fillText(texto, 50, canvas.height - 42);
 
