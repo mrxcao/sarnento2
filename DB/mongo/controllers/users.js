@@ -1,6 +1,4 @@
-const { clog } = require('../../../modules/tools.js');
 const model = require('../models/users.js');
-
 class UsersController {
 	async store(req) {
 		return await model.create(req);
@@ -38,6 +36,9 @@ class UsersController {
 		const ret = model.findOneAndUpdate(query, data, { upsert: true });
 		// return res.status(200).json(ret);
 		return ret;
+	}
+	async get(id) {
+		return await model.findOne({ id }) ;
 	}
 
 	async login(req) {

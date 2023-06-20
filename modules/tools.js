@@ -73,7 +73,6 @@ const isRegExp = async (str) => {
 	return typeof str === 'object' ? true : false;
 };
 const formatarMoeda = async (valor, tipo = 'BRL') => {
-
 	tipo = tipo.toUpperCase();
 
 	let lang;
@@ -105,8 +104,30 @@ const normalizarStr = async (texto) => {
 	// console.log('normalizarStr result ', result);
 	return result;
 };
+const tabular = async (texto, tamanho, alinhamento = 1) => {
+	let res = '';
+	switch (alinhamento) {
+	// esquerda
+	case 1:
+		res = String(texto).padEnd(tamanho, ' ');
+		break;
+	// direita
+	case 2:
+		res = String(texto).padStart(tamanho, ' ');
+		break;
+	// Centro
+	case 3:
+		res = String(texto).padCenter(tamanho, ' ');
+		break;
+	default:
+		break;
+	}
+	return res;
+};
 
-module.exports = { clog,
+module.exports = {
+	tabular,
+	clog,
 	replyLines,
 	beep,
 	randomInteger,
