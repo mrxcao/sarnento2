@@ -99,7 +99,7 @@ const quiz = async (msg) => {
 	const response = await axios(header);
 	const data = response.data;
 	const item = {
-		pergunta: `Qual o nome deste Pokemon? (${seg} seg.)`,
+		pergunta: 'Qual o nome deste Pokemon? ',
 		resposta: tools.formatName(data.name),
 		respostaBr : pokePtBr[0].nome,
 		img : data.sprites.front_default,
@@ -108,7 +108,7 @@ const quiz = async (msg) => {
 	item.cartaResposta = await criaCarta(`#${pokeNo} - ${item.respostaBr}`, item.img);
 	// console.log(':: POKE - ', pokeNo, item);
 	msg.channel.send({
-		content:'',
+		content:`Começou: ${seg} seg. para responder`,
 		files: [ item.cartaPergunta,
 		//	item.img
 		],
