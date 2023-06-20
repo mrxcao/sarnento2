@@ -50,7 +50,7 @@ const criaCarta = async (texto, img) => {
 	context.fillStyle = '#3052ad';
 	context.fill();
 
-	// context.font = 'bold 42pt Calibri';
+	context.font = 'bold 42pt Calibri';
 	// context.font = 'bold 42pt';
 	context.fillStyle = '#fccb07';
 	context.fillText(texto, 50, canvas.height - 42);
