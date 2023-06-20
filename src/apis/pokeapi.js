@@ -12,7 +12,7 @@ const url = 'https://pokeapi.co/api/v2/';
 
 const seg = 30;
 // 1015;
-const maxPokemons = 1015;
+const maxPokemons = 500;
 
 const criaCarta = async (texto, img) => {
 	const canvas = createCanvas(960, 550);
