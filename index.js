@@ -29,7 +29,7 @@ const token = process.env.TOKEN;
 const debug = process.env.DEBUG;
 
 client.on('ready', (c) => {
-	tools.clog(`Pronto! ${pack.name} ver:${pack.version}   Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
+	tools.clog(`Pronto! ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
 	tools.replyLines();
 });
 

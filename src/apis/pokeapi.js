@@ -29,7 +29,7 @@ const criaCarta = async (texto, img) => {
 		}
 		// linux
 		else {
-			background = await readFile(__dirname + '\\sarnento2\\public\\img\\bgPoke.png');
+			background = await readFile(__dirname + '/../../public/img/bgPoke.png');
 		}
 
 		const backgroundImage = new Image();
