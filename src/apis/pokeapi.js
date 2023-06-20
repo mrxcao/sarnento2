@@ -3,56 +3,38 @@ const tools = require('../../modules/tools');
 const pokemon = require('../../DB/mongo/controllers/pokemon');
 const { createCanvas, Image } = require('@napi-rs/canvas');
 const { request } = require('undici');
-// const { readFile } = require('fs/promises');
+const { readFile } = require('fs/promises');
 
 const url = 'https://pokeapi.co/api/v2/';
 
 const seg = 30;
-const maxPokemons = 1008;
+const maxPokemons = 150;
 
 const criaCarta = async (texto, img) => {
-
-	const canvas = createCanvas(750, 350);
+	const canvas = createCanvas(960, 550);
 	const context = canvas.getContext('2d');
+	context.strokeRect(0, 0, canvas.width, canvas.height);
+
+	const background = await readFile('D:\\projects\\sarnento2\\public\\img\\bgPoke.png');
+	const backgroundImage = new Image();
+	backgroundImage.src = background;
+	context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
 	const { body } = await request(img);
 	const avatar = new Image();
 	avatar.src = Buffer.from(await body.arrayBuffer());
-	context.drawImage(avatar, 0, 0, 350, 350);
+	context.drawImage(avatar, 10, 0, 570, 570);
 
-	// const background = await readFile('./wallpaper.jpg');
-	const backgroundImage = new Image();
-	// backgroundImage.src = background;
-	context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-	/*
-	context.strokeStyle = '#0099ff';
-	context.strokeRect(0, 0, canvas.width, canvas.height);
-*/
-	context.font = '35px sans-serif';
-	context.fillStyle = '#ffffff';
-	context.fillText(texto, 35, 35);
-	context.font = tools.applyCanvasText(canvas, 'valendo');
-	context.fillStyle = '#ffffff';
+	// context.globalAlpha = 0.95;
+	context.rect(40, canvas.height - 80, canvas.width, 50);
+	context.fillStyle = '#3052ad';
+	context.fill();
 
-	/*
-	context.beginPath();
-	context.arc(125, 125, 100, 0, Math.PI * 2, true);
-	context.closePath();
-	context.clip();
-*/
-
-	// console.log('criacarta', img);
-	// const { body } = await request(interaction.user.displayAvatarURL({ format: 'jpg' }));
-
-	// const body = await readFile(img);
-	// console.log('criacarta', body);
-
-
-	// const attachment = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'poke.png', description: 'poke.png' });
+	context.font = 'bold 42pt Calibri';
+	context.fillStyle = '#fccb07';
+	context.fillText(texto, 50, canvas.height - 40);
 
 	return canvas.toBuffer('image/png');
-
-
 };
 
 const quiz = async (msg) => {

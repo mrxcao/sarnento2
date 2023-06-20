@@ -25,14 +25,24 @@ const rest = new REST({ version: '10' }).setToken(token);
 		const guilds = await guildsCtl.index();
 		console.log(`Atualizando  ${commands.length} slash comandos em ${guilds.length} servidores ...`);
 
+
+		/*
+
 		// guilds
 		for (const g of guilds) {
 			console.log('  ', g.name);
-			await rest.put(
-				Routes.applicationGuildCommands(clientId, g.id),
-				{ body: commands },
-			);
+			try {
+				await rest.put(
+					Routes.applicationGuildCommands(clientId, g.id),
+					{ body: commands },
+				);
+			}
+			catch (error) {
+				console.log('catch error', error);
+			}
 		}
+
+		*/
 
 		// global
 		console.log('Atualizando  Global  ...');

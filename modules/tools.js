@@ -35,14 +35,7 @@ const randomRgbColor = () => {
 const rgbToInt = (r, g, b) => {
 	return 65536 * r + 256 * g + b;
 };
-const applyCanvasText = (canvas, text) => {
-	const context = canvas.getContext('2d');
-	let fontSize = 70;
-	do {
-		context.font = `${fontSize -= 10}px sans-serif`;
-	} while (context.measureText(text).width > canvas.width - 30);
-	return context.font;
-};
+
 const newDate = (d) => {
 	const novaData = new Date(new Date(d).getTime() - 180 * 60 * 1000);
 	return (novaData);
@@ -120,7 +113,6 @@ module.exports = { clog,
 	randomRgbColor,
 	rgbToInt,
 	formatName,
-	applyCanvasText,
 	newDate,
 	searchInArrayObj,
 	isRegExp,
