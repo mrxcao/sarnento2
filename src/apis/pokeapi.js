@@ -12,7 +12,7 @@ const url = 'https://pokeapi.co/api/v2/';
 
 const seg = 30;
 // 1015;
-const maxPokemons = 1; // 1015;
+const maxPokemons = 1015;
 
 const criaCarta = async (texto, img) => {
 	const canvas = createCanvas(960, 550);
@@ -21,10 +21,24 @@ const criaCarta = async (texto, img) => {
 
 	// const background = await readFile('D:\\projects\\sarnento2\\public\\img\\bgPoke.png');
 
-	const background = await readFile(__dirname + '\\..\\..\\public\\img\\bgPoke.png');
-	const backgroundImage = new Image();
-	backgroundImage.src = background;
-	context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+	try {
+		let background;
+		// windows
+		if (process.env.NODE_ENV == 'development') {
+			background = await readFile(__dirname + '\\..\\..\\public\\img\\bgPoke.png');
+		}
+		// linux
+		else {
+			background = await readFile('\\..\\..\\public\\img\\bgPoke.png');
+		}
+
+		const backgroundImage = new Image();
+		backgroundImage.src = background;
+		context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+	}
+	catch (error) {
+		console.log('criaCarta error', error);
+	}
 
 	const { body } = await request(img);
 	const avatar = new Image();
