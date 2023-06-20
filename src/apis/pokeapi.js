@@ -5,17 +5,20 @@ const { createCanvas, Image } = require('@napi-rs/canvas');
 const { request } = require('undici');
 const { readFile } = require('fs/promises');
 
+
 const url = 'https://pokeapi.co/api/v2/';
 
 const seg = 30;
-const maxPokemons = 150;
+const maxPokemons = 1015;
 
 const criaCarta = async (texto, img) => {
 	const canvas = createCanvas(960, 550);
 	const context = canvas.getContext('2d');
 	context.strokeRect(0, 0, canvas.width, canvas.height);
 
-	const background = await readFile('D:\\projects\\sarnento2\\public\\img\\bgPoke.png');
+	// const background = await readFile('D:\\projects\\sarnento2\\public\\img\\bgPoke.png');
+
+	const background = await readFile(__dirname + '\\..\\..\\public\\img\\bgPoke.png');
 	const backgroundImage = new Image();
 	backgroundImage.src = background;
 	context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
@@ -26,13 +29,13 @@ const criaCarta = async (texto, img) => {
 	context.drawImage(avatar, 10, 0, 570, 570);
 
 	// context.globalAlpha = 0.95;
-	context.rect(40, canvas.height - 80, canvas.width, 50);
+	context.rect(40, canvas.height - 82, canvas.width, 50);
 	context.fillStyle = '#3052ad';
 	context.fill();
 
 	context.font = 'bold 42pt Calibri';
 	context.fillStyle = '#fccb07';
-	context.fillText(texto, 50, canvas.height - 40);
+	context.fillText(texto, 50, canvas.height - 42);
 
 	return canvas.toBuffer('image/png');
 };
