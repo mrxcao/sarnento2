@@ -10,8 +10,12 @@ const replyLines = (times = 50, charR = '-') => {
 const beep = () => {
 	// n dei conta
 };
-const randomInteger = (max) => {
-	return Math.floor(Math.random() * (max + 1));
+const randomInteger = (max, podeZero = false) => {
+	const res = Math.floor(Math.random() * (max + 1));
+	if (res == 0 && !podeZero) {
+		return randomInteger(max);
+	}
+	return res;
 };
 const formatName = (str, type = 1) => {
 	let nstr = str.replace(/[_]/g, ' ');

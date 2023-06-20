@@ -12,7 +12,7 @@ const url = 'https://pokeapi.co/api/v2/';
 
 const seg = 30;
 // 1015;
-const maxPokemons = 1015;
+const maxPokemons = 1; // 1015;
 
 const criaCarta = async (texto, img) => {
 	const canvas = createCanvas(960, 550);
@@ -43,16 +43,14 @@ const criaCarta = async (texto, img) => {
 	return canvas.toBuffer('image/png');
 };
 
-const pontuar = async (userId, guildId, msg) => {
-	await pokeScore.addPoint(userId, guildId);
-	const score = await pokeScore.getScore(guildId);
-
+const getPokeScore = async (guildId, msg) => {
 	let description = '';
 	let pos = 1;
+	const score = await pokeScore.getScore(guildId);
 	for (const p of score) {
 		const user = await users.get(p.userId);
 		//		if (user) {
-		description = description + await tools.tabular(pos + 'º', 4) + await tools.tabular(user?.username, 15) + await tools.tabular(p.score, 4, 2) + '\r' ;
+		description = description + await tools.tabular(pos + 'º', 5) + await tools.tabular(user?.username, 25) + await tools.tabular(p.score, 4, 2) + '\r' ;
 		pos++;
 		//		}
 	}
@@ -64,6 +62,11 @@ const pontuar = async (userId, guildId, msg) => {
 
 
 	msg.channel.send({ embeds: [embed]	});
+};
+
+const pontuar = async (userId, guildId, msg) => {
+	await pokeScore.addPoint(userId, guildId);
+	getPokeScore(guildId, msg);
 };
 
 const quiz = async (msg) => {
@@ -113,4 +116,4 @@ const quiz = async (msg) => {
 	});
 };
 
-module.exports = { quiz };
+module.exports = { quiz, getPokeScore };
