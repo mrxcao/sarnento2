@@ -104,8 +104,7 @@ const formatarMoeda = async (valor, tipo = 'BRL') => {
 	return result;
 };
 const normalizarStr = async (texto) => {
-	const result = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-	// console.log('normalizarStr result ', result);
+	const result = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[!?.,]/g, '').toLowerCase();
 	return result;
 };
 const tabular = async (texto, tamanho, alinhamento = 1) => {
