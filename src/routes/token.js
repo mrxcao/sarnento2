@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { newDate, clog } = require('../../modules/tools');
+const { newDate } = require('../../modules/tools');
 const moment = require('moment');
 const atob = require('atob');
 const jwt = require('jsonwebtoken');
@@ -122,10 +122,13 @@ router.post('/login', async (request, response) => {
 			);
 
 			const ret = { token,
-				username: user.username,
-				discriminator: user.discriminator,
-				avatar: user.avatar };
+				user: {
+					username: user.username,
+					discriminator: user.discriminator,
+					avatar: user.avatar },
+			};
 
+			console.log('-- login: ', login, ip, host, userAgent);
 			response.status(200).send(ret);
 
 		}
