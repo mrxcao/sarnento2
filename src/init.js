@@ -29,6 +29,7 @@ const publicRoutes = [
 	{ url: /^\/token\/login*/, methods: ['POST'] },
 	{ url: /^\/token\/geraToken*/, methods: ['POST'] },
 	{ url: /\/token\/isTokenvalid*/, methods: ['GET'] },
+	{ url: /\/token\/validar*/, methods: ['GET'] },
 	{ url: /\/stylesheets*/i, methods: ['GET'] },
 	{ url: /\/favicon.ico*/, methods: ['GET'] },
 ];

@@ -75,6 +75,18 @@ router.get('/isTokenValid/:token', async (request, response) => {
 	}
 });
 
+router.get('/validar', async (request, response) => {
+	console.log('request.body', request.header);
+	try {
+		const decoded = jwt.verify(request.params.token, key);
+		console.log('decoded', decoded);
+		response.send(decoded);
+	}
+	catch (err) {
+		response.send(false);
+	}
+});
+
 router.post('/login', async (request, response) => {
 	try {
 		const remote = (
