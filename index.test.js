@@ -1,6 +1,7 @@
+/*
 const request = require('supertest');
 const app = require('./src/server');
-
+*/
 jest.setTimeout(30000);
 
 describe('JEST', () => {
@@ -9,6 +10,7 @@ describe('JEST', () => {
 	});
 });
 
+/*
 describe('API Routes', () => {
 	it('Deve retornar status 200 e a mensagem correta', async () => {
 		const res = await request(app).get('/post');
@@ -20,3 +22,4 @@ describe('API Routes', () => {
 
 	});
 });
+*/

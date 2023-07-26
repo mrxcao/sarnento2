@@ -12,7 +12,7 @@ const url = 'https://pokeapi.co/api/v2/';
 
 const seg = 30;
 // 1015;
-const maxPokemons = 500;
+
 
 const criaCarta = async (texto, img) => {
 	const canvas = createCanvas(960, 550);
@@ -84,12 +84,33 @@ const getPokeScore = async (guildId, msg) => {
 	msg.channel.send({ embeds: [embed]	});
 };
 
-const pontuar = async (userId, guildId, msg) => {
-	await pokeScore.addPoint(userId, guildId);
+const pontuar = async (userId, guildId, msg, pontos = 1) => {
+	await pokeScore.addPoint(userId, guildId, pontos);
 	getPokeScore(guildId, msg);
 };
 
-const quiz = async (msg) => {
+const quiz = async (msg, qtde = null) => {
+	let maxPokemons;
+	let pontos;
+	if (!qtde) {
+		maxPokemons = 1080;
+	}
+	else if (qtde <= 150) {
+		maxPokemons = 150;
+	}
+	else {
+		maxPokemons = qtde;
+	}
+	if (maxPokemons <= 150) {
+		pontos = 1;
+	}
+	else if (maxPokemons > 150 && maxPokemons <= 550) {
+		pontos = 2;
+	}
+	else {
+		pontos = 3;
+	}
+
 	const pokeNo = await tools.randomInteger(maxPokemons);
 	const pokePtBr = await pokemon.show(pokeNo);
 	const header = {
@@ -118,7 +139,7 @@ const quiz = async (msg) => {
 		msg.channel.awaitMessages({ filter: msg_filter, max: 1, time: seg * 1000, errors:['time'] })
 			.then((collected) => {
 				// console.log('collected', collected.first().author.id, collected.first().guildId);
-				pontuar(collected.first().author.id, collected.first().guildId, msg);
+				pontuar(collected.first().author.id, collected.first().guildId, msg, pontos);
 
 				msg.channel.send(
 					{ content:`${collected.first().author} acertou!`,
