@@ -55,7 +55,9 @@ const existeHost = async (dadosToken, ip) => {
 	return retorno;
 };
 
-const whitelist = [];
+const whitelist = ['http://btramos.com',
+	'http://localhost',
+	'http://sarnento.app.br'];
 const publicRoutes = [
 	{ url: '/', methods: ['GET'] },
 	{ url: /^\/token\/login*/, methods: ['POST'] },
