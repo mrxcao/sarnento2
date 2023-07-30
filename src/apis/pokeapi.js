@@ -8,7 +8,7 @@ const { request } = require('undici');
 const { readFile } = require('fs/promises');
 const { EmbedBuilder } = require('discord.js');
 
-const url = 'https://pokeapi.co/api/v2/';
+const url = process.env.POKEAPI_URL;
 
 const seg = 30;
 // 1015;
