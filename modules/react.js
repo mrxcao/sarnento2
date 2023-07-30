@@ -1,5 +1,7 @@
 const reactClt = require('../DB/mongo/controllers/react');
 const coingecko = require('../src/apis/coingecko');
+const apiloterias = require('../src/apis/apiloterias');
+
 const tools = require('../modules/tools');
 const { randomInteger } = require('./tools');
 
@@ -107,6 +109,11 @@ const verify = async (args, msg) => {
 					break;
 				case 'precoDolar':
 					resultText = await coingecko.dolar();
+					await reply(msg, resultText);
+					break;
+				case 'resultadoMegaSena':
+					resultText = await apiloterias.resultadoMegaSena();
+					console.log('resultText', resultText);
 					await reply(msg, resultText);
 					break;
 				default:
