@@ -6,8 +6,8 @@ module.exports = {
 		.setName('pokescore')
 		.setDescription('Mostra o placar do servidor'),
 	async execute(interaction) {
+		await interaction.reply('perae ...');
 		pokeApi.getPokeScore(interaction.guildId, interaction);
-		await interaction.say('perae ...');
 
 
 	},
