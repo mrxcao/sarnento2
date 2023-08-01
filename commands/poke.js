@@ -16,11 +16,11 @@ module.exports = {
 				}),
 		),
 	async execute(interaction) {
-		const qtde = parseInt(interaction.options.getInteger('quantos'));
-
+		let qtde = parseInt(interaction.options.getInteger('quantos'));
+		if (isNaN(qtde)) {qtde = 1080;}
 		pokeApi.quiz(interaction, qtde);
 		if (qtde <= 150) {
-			await interaction.reply('Bora! Facim ... (valendo 1 ponto)');
+			await interaction.reply('Bora! Facim 150... (valendo 1 ponto)');
 		}
 		else if (qtde > 150 && qtde <= 550) {
 			await interaction.reply(`${qtde} Bora! (valendo 2 ponto)`);
