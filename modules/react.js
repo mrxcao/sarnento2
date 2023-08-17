@@ -1,6 +1,6 @@
 const reactClt = require('../DB/mongo/controllers/react');
 const coingecko = require('../src/apis/coingecko');
-const apiloterias = require('../src/apis/apiloterias');
+const megasena = require('../modules/megasena');
 
 const tools = require('../modules/tools');
 const { randomInteger } = require('./tools');
@@ -74,6 +74,7 @@ const verify = async (args, msg) => {
 
 		if (match) {
 			let resultText;
+			let embed;
 			switch (rct.do.id) {
 			// say
 			case 1:
@@ -112,9 +113,8 @@ const verify = async (args, msg) => {
 					await reply(msg, resultText);
 					break;
 				case 'resultadoMegaSena':
-					resultText = await apiloterias.resultadoMegaSena();
-					console.log('resultText', resultText);
-					await reply(msg, resultText);
+					embed = await megasena.last();
+					msg.channel.send({ embeds: [embed]	});
 					break;
 				default:
 					break;
