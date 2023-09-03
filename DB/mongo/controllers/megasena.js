@@ -3,14 +3,22 @@ const model = require('../models/megasena.js');
 class MegasenaController {
 	async store(req) {
 		return model.create(req);
-		// return res.status(200).json(ret);
 	}
-
 	async index() {
 		return model.find({ });
-		// return res.status(200).json(ret);
 	}
+	async getTodos(d1, d2, d3, d4, d5, d6) {
+		const ret = await model.aggregate([
+			{ $match: { $or:[{ 'dezenas':d1 },
+				{ 'dezenas':d2 },
+				{ 'dezenas':d3 },
+				{ 'dezenas':d4 },
+				{ 'dezenas':d5 },
+				{ 'dezenas':d6 }] } },
 
+		]);
+		return ret;
+	}
 	async show() {
 		//
 	}
