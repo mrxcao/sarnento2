@@ -38,10 +38,9 @@ const last = async () => {
 };
 const todos = async (d1, d2, d3, d4, d5, d6) => {
 	const sorteios = await megasenaClt.getTodos(d1, d2, d3, d4, d5, d6);
-	console.log('sorteios', sorteios[0].premiacoes);
 
 	let description = '';
-	const footer = '\o/';
+	const footer = 'o/';
 
 	for (const sorteio of sorteios) {
 		let acertos = 0;
@@ -53,9 +52,7 @@ const todos = async (d1, d2, d3, d4, d5, d6) => {
 		if (sorteio.dezenas.includes(d6)) {acertos++;}
 
 		if (acertos > 3) {
-			console.log('sorteio', acertos, sorteio);
 			const el = sorteio.premiacoes.find(item => item.acertos === acertos);
-			console.log('elemento', el);
 			let premio;
 			let vencedores;
 			if (el) {
@@ -73,10 +70,8 @@ const todos = async (d1, d2, d3, d4, d5, d6) => {
 			else if (premio === 0) {
 				premio = ' <não sei> ';
 			}
-
 			description = description + `Em **${ moment(sorteio.data).format('DD/MM/YYYY') }**  você acertaría **${acertos}** números e ganharia **R$${premio}** com mais ${vencedores} pessoas\n\n`;
 		}
-
 	}
 
 	if (description === '') {
