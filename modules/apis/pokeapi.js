@@ -1,5 +1,5 @@
 const axios = require('axios');
-const tools = require('../../modules/tools');
+const tools = require('../tools');
 const pokemon = require('../../DB/mongo/controllers/pokemon');
 const pokeScore = require('../../DB/mongo/controllers/pokeScore');
 const users = require('../../DB/mongo/controllers/users');

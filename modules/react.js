@@ -1,5 +1,5 @@
 const reactClt = require('../DB/mongo/controllers/react');
-const coingecko = require('../src/apis/coingecko');
+const coingecko = require('../modules/apis/coingecko');
 const megasena = require('../modules/megasena');
 
 const tools = require('../modules/tools');

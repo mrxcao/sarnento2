@@ -27,6 +27,7 @@ const pack = require('./package.json');
 
 const token = process.env.TOKEN;
 const debug = process.env.DEBUG;
+const clientID = process.env.CLIENTID;
 
 client.on('ready', (c) => {
 	tools.clog(`Pronto! ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
@@ -74,6 +75,13 @@ client.on('messageCreate', async (msg) => {
 		}
 		else {
 			react.verify(args, msg);
+			const mencionado = msg.mentions.users.has(clientID);
+			if (mencionado) {
+				const pergunta = msg.content.replace(`<@${clientID}>`, '');
+				console.log('pergunta', pergunta);
+
+			}
+
 		}
 	}
 });
