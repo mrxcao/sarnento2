@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const tools = require('./modules/tools');
 const react = require('./modules/react');
+const actions = require('./modules/actions');
 const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
 	intents: [
@@ -26,7 +27,7 @@ const guildsCtl = require('./DB/mongo/controllers/guilds');
 const pack = require('./package.json');
 
 const token = process.env.TOKEN;
-const debug = process.env.DEBUG;
+const debugMode = process.env.DEBUG === 'true' ? true : false;
 const clientID = process.env.CLIENTID;
 
 client.on('ready', (c) => {
@@ -45,7 +46,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 	try {
-		debug ?? console.log(`${interaction.member.guild.name} : ChannelId:${interaction.channelId}  @${interaction.user.username} /${interaction.commandName}`);
+		debugMode ?? console.log(`${interaction.member.guild.name} : ChannelId:${interaction.channelId}  @${interaction.user.username} /${interaction.commandName}`);
 		await command.execute(interaction);
 	}
 	catch (error) {
@@ -57,29 +58,30 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on('messageCreate', async (msg) => {
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
-		debug ? tools.clog('::', msg.guild.name, ' - ', msg.author.username) : true;
+		debugMode ? tools.clog('::', msg.guild.name, ' - ', msg.author.username) : true;
 		// update infos
 		usersCtl.upSert(msg.author);
 		guildsCtl.upSert(msg.guild);
 
 		if (args[0].substring(0, 1) == config.prefix) {
-			debug ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
+			debugMode ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
 			const cmd = String(args[0]).toLowerCase();
 			if (commands[cmd]) {
 				commands[cmd](client, msg);
 				// log(cmd, msg);
 			}
 			else {
-				debug ? tools.clog(`comando ${cmd }  não encontrado `) : true;
+				debugMode ? tools.clog(`comando ${cmd }  não encontrado `) : true;
 			}
 		}
 		else {
-			react.verify(args, msg);
-			const mencionado = msg.mentions.users.has(clientID);
-			if (mencionado) {
-				const pergunta = msg.content.replace(`<@${clientID}>`, '');
-				console.log('pergunta', pergunta);
-
+			const reagiu = await react.verify(args, msg);
+			if (!reagiu) {
+				const mencionado = msg.mentions.users.has(clientID);
+				if (mencionado) {
+					const pergunta = msg.content.replace(`<@${clientID}>`, '');
+					actions.responder(msg, pergunta);
+				}
 			}
 
 		}

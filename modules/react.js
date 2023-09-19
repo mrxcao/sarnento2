@@ -125,7 +125,7 @@ const verify = async (args, msg) => {
 			}
 		}
 	}
-
+	return match;
 
 };
 
