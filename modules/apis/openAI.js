@@ -15,7 +15,6 @@ const perguntar = async (msg, pergunta) => {
 			'instruction': 'Instruções para o modelo',
 			'context': 'Contexto relevante ou informações adicionais',
 		}	];
-	console.log('msg', usr);
 
 	const params = OpenAI.Chat.ChatCompletionCreateParams = {
 		messages: [

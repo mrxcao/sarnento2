@@ -89,11 +89,11 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('messageReactionAdd', (rct) => {
-	console.log('react', rct);
+	debugMode ? console.log('react', rct) : true;
 });
 
 client.on('messageUpdate', (msgOld, msgNew) => {
-	console.log('Editou de:', msgOld.content, ' para:', msgNew.content);
+	debugMode ? console.log('Editou de:', msgOld.content, ' para:', msgNew.content) : true;
 	//	console.log('msgOld', msgOld.embeds);
 
 });
