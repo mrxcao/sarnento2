@@ -23,6 +23,7 @@ const loaders = require('./classes/Loaders.js');
 
 const usersCtl = require('./DB/mongo/controllers/users');
 const guildsCtl = require('./DB/mongo/controllers/guilds');
+const usersGuildsCtrl = require('./DB/mongo/controllers/usersGuilds');
 
 const pack = require('./package.json');
 
@@ -56,34 +57,48 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 client.on('messageCreate', async (msg) => {
+	let passOk = true;
+	// Gamepad
+	if (msg.guild.id === '285570673747820545') {
+		// #arquibancada
+		if (!msg.channelId === '285570673747820545') {
+			passOk = false;
+		}
+	}
+
+
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
 		debugMode ? tools.clog('::', msg.guild.name, ' - ', msg.author.username) : true;
 		// update infos
 		usersCtl.upSert(msg.author);
 		guildsCtl.upSert(msg.guild);
+		usersGuildsCtrl.upSert(msg.author.id, msg.guild.id);
 
-		if (args[0].substring(0, 1) == config.prefix) {
-			debugMode ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
-			const cmd = String(args[0]).toLowerCase();
-			if (commands[cmd]) {
-				commands[cmd](client, msg);
+
+		if (passOk) {
+			if (args[0].substring(0, 1) == config.prefix) {
+				debugMode ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
+				const cmd = String(args[0]).toLowerCase();
+				if (commands[cmd]) {
+					commands[cmd](client, msg);
 				// log(cmd, msg);
-			}
-			else {
-				debugMode ? tools.clog(`comando ${cmd }  não encontrado `) : true;
-			}
-		}
-		else {
-			const reagiu = await react.verify(args, msg);
-			if (!reagiu) {
-				const mencionado = msg.mentions.users.has(clientID);
-				if (mencionado) {
-					const pergunta = msg.content.replace(`<@${clientID}>`, '');
-					actions.responder(msg, pergunta);
+				}
+				else {
+					debugMode ? tools.clog(`comando ${cmd }  não encontrado `) : true;
 				}
 			}
+			else {
+				const reagiu = await react.verify(args, msg);
+				if (!reagiu) {
+					const mencionado = msg.mentions.users.has(clientID);
+					if (mencionado) {
+						const pergunta = msg.content.replace(`<@${clientID}>`, '');
+						actions.responder(msg, pergunta);
+					}
+				}
 
+			}
 		}
 	}
 });
