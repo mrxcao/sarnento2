@@ -120,7 +120,7 @@ client.on('messageUpdate', (msgOld, msgNew) => {
 
 client.on('voiceStateUpdate', (oldState, newState) => {
 	const member = newState.member;
-
+	const regexEmojis = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji}/gu;
 	const guild = newState.guild;
 
 	const announcementChannel = guild.channels.cache.find(channel => channel.name === 'geral' ||
@@ -128,14 +128,15 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 													channel.id === '1109537601217626215');
 
 	if (oldState.channel === null && newState.channel !== null) {
-		const channelName = newState.channel.name;
+		const channelName = newState.channel.name.replace(regexEmojis, '');
 		const channelLink = `discord://discordapp.com/channels/${guild.id}/${newState.channel.id}`;
+
 		if (announcementChannel) {
 			announcementChannel.send(`${member.displayName} entrou no canal de voz  [${channelName}](${channelLink}) `);
 		}
 	}
 	else if (newState.channel === null && oldState.channel !== null) {
-		const channelName = oldState.channel.name;
+		const channelName = oldState.channel.name.replace(regexEmojis, '');
 		const channelLink = `discord://discordapp.com/channels/${guild.id}/${oldState.channel.id}`;
 		if (announcementChannel) {
 			announcementChannel.send(`${member.displayName} saiu do canal de voz  [${channelName}](${channelLink}) `);
