@@ -4,18 +4,22 @@ if (process.env.NODE_ENV !== 'production') {
 const tools = require('./modules/tools');
 const react = require('./modules/react');
 const actions = require('./modules/actions');
+
 const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildMessageReactions			],
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.GuildVoiceStates,
+	],
 	partials:[
 		Partials.Message,
 		Partials.Reaction,
 	],
 });
+
 const config = require('./config.json');
 const commands = require('./scripts/commandsReader')(config.prefix, true);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
@@ -113,6 +117,35 @@ client.on('messageUpdate', (msgOld, msgNew) => {
 
 });
 
+
+client.on('voiceStateUpdate', (oldState, newState) => {
+	const member = newState.member;
+
+	const guild = newState.guild;
+	const announcementChannel = guild.channels.cache.find(channel => channel.name === 'geral');
+
+	if (oldState.channel === null && newState.channel !== null) {
+		const channelName = newState.channel.name;
+		const channelLink = `discord://discordapp.com/channels/${guild.id}/${newState.channel.id}`;
+		if (announcementChannel) {
+			announcementChannel.send(`${member.displayName} entrou no canal de voz  [${channelName}](${channelLink}) `);
+		}
+	}
+	else if (newState.channel === null && oldState.channel !== null) {
+		const channelName = oldState.channel.name;
+		const channelLink = `discord://discordapp.com/channels/${guild.id}/${oldState.channel.id}`;
+		if (announcementChannel) {
+			announcementChannel.send(`${member.displayName} saiu do canal de voz  [${channelName}](${channelLink}) `);
+		}
+	}
+
+	if (!oldState.streaming && newState.streaming) {
+		if (announcementChannel) {
+			announcementChannel.send(`${member.displayName} começou a transmitir 🎥📺 `);
+		}
+	}
+
+});
 
 tools.replyLines();
 loaders.init().then(() => {client.login(token); }) ;
