@@ -124,7 +124,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 	const guild = newState.guild;
 
 	const announcementChannel = guild.channels.cache.find(channel => channel.name === 'geral' ||
-													channel.id === '1095363413179379873' ||
+													channel.id === '1133132230600953896' ||
 													channel.id === '1109537601217626215');
 
 	if (oldState.channel === null && newState.channel !== null) {
