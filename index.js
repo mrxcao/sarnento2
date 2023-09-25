@@ -21,6 +21,7 @@ const client = new Client({
 });
 
 const config = require('./config.json');
+const log = require('./modules/log');
 const commands = require('./scripts/commandsReader')(config.prefix, true);
 const readSlashCmds = require('./scripts/commandsReaderSlash');
 const loaders = require('./classes/Loaders.js');
@@ -70,7 +71,7 @@ client.on('messageCreate', async (msg) => {
 		}
 	}
 
-
+	log.messages(msg);
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
 		debugMode ? tools.clog('::', msg.guild.name, ' - ', msg.author.username) : true;
