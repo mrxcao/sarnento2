@@ -40,6 +40,11 @@ class UsersController {
 	async get(id) {
 		return await model.findOne({ id }) ;
 	}
+	async getUserName(id) {
+		const data = await model.findOne({ id }) ;
+		if (data == null || !data) throw Error('User not found!');
+		return data.username;
+	}
 
 	async login(req) {
 		const data = {

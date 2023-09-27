@@ -71,15 +71,17 @@ client.on('messageCreate', async (msg) => {
 		}
 	}
 
-	log.messages(msg);
+	if (msg.content) {
+		log.messages(msg);
+		usersCtl.upSert(msg.author);
+		guildsCtl.upSert(msg.guild);
+		usersGuildsCtrl.upSert(msg.author.id, msg.guild.id);
+	}
+
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
 		debugMode ? tools.clog('::', msg.guild.name, ' - ', msg.author.username) : true;
 		// update infos
-		usersCtl.upSert(msg.author);
-		guildsCtl.upSert(msg.guild);
-		usersGuildsCtrl.upSert(msg.author.id, msg.guild.id);
-
 
 		if (passOk) {
 			if (args[0].substring(0, 1) == config.prefix) {
