@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 const tools = require('./modules/tools');
 const react = require('./modules/react');
 const actions = require('./modules/actions');
+const moment = require('moment');
 
 const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
@@ -130,25 +131,26 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 													channel.id === '1133132230600953896' ||
 													channel.id === '1109537601217626215');
 
+	const hora = moment().format('HH:mm');
 	if (oldState.channel === null && newState.channel !== null) {
 		const channelName = newState.channel.name.replace(regexEmojis, '');
 		const channelLink = `discord://discordapp.com/channels/${guild.id}/${newState.channel.id}`;
 
 		if (announcementChannel) {
-			announcementChannel.send(`${member.displayName} entrou no canal de voz  [${channelName}](${channelLink}) `);
+			announcementChannel.send(`${hora} :: ${member.displayName} entrou no canal de voz  [${channelName}](${channelLink}) `);
 		}
 	}
 	else if (newState.channel === null && oldState.channel !== null) {
 		const channelName = oldState.channel.name.replace(regexEmojis, '');
 		const channelLink = `discord://discordapp.com/channels/${guild.id}/${oldState.channel.id}`;
 		if (announcementChannel) {
-			announcementChannel.send(`${member.displayName} saiu do canal de voz  [${channelName}](${channelLink}) `);
+			announcementChannel.send(`${hora} :: ${member.displayName} saiu do canal de voz  [${channelName}](${channelLink}) `);
 		}
 	}
 
 	if (!oldState.streaming && newState.streaming) {
 		if (announcementChannel) {
-			announcementChannel.send(`${member.displayName} começou a transmitir 🎥📺 `);
+			announcementChannel.send(`${hora} :: ${member.displayName} começou a transmitir 🎥📺 `);
 		}
 	}
 

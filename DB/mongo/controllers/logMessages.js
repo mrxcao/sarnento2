@@ -46,7 +46,7 @@ class UsersController {
 		]);
 		let res;
 		for (const d of data) {
-			res = res + `${d.msgForAI}\n`;
+			res = res + `${d.msgForAI}\n\r`;
 		}
 		return res;
 
