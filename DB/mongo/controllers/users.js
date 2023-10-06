@@ -42,7 +42,7 @@ class UsersController {
 	}
 	async getUserName(id) {
 		const data = await model.findOne({ id }) ;
-		if (data == null || !data) throw Error('User not found!');
+		if (data == null || !data) throw '<?>';
 		return data.username;
 	}
 
