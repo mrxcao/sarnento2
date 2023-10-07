@@ -3,6 +3,7 @@ const log = require('../log');
 const apiKey = process.env.OPENAI_API_KEY;
 const organization = process.env.OPENAI_API_ORG;
 const debugMode = process.env.DEBUG === 'true' ? true : false;
+const cttrlLogTokenSize = require('../../DB/mongo/controllers/logTokenSize');
 const openai = new OpenAI({
 	organization, apiKey,
 	logLevel: 'none',
@@ -12,7 +13,7 @@ const openai = new OpenAI({
 const perguntar = async (msg, pergunta) => {
 
 
-	let tokenLimit = 80000;
+	let tokenLimit = 70000;
 	let resultado = false;
 	const msgs = await log.getMessagesGuild(msg.guildId);
 	const usr = msg.author.username;
@@ -51,6 +52,8 @@ const perguntar = async (msg, pergunta) => {
 
 
 			resultado = true;
+
+			cttrlLogTokenSize.store({ ai:'openAI', size: tokenLimit });
 
 			return resposta;
 		}

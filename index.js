@@ -137,8 +137,14 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 		const channelLink = `discord://discordapp.com/channels/${guild.id}/${newState.channel.id}`;
 
 		if (announcementChannel) {
-			console.log('announcementChannel', announcementChannel);
-			announcementChannel.send(`${hora} :: ${member.displayName} entrou no canal de voz  [${channelName}](${channelLink}) `);
+
+			try {
+				announcementChannel.send(`${hora} :: ${member.displayName} entrou no canal de voz  [${channelName}](${channelLink}) `);
+			}
+			catch (error) {
+				console.log('error index announcementChannel', announcementChannel);
+			}
+
 		}
 	}
 	else if (newState.channel === null && oldState.channel !== null) {
