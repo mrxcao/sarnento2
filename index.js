@@ -129,6 +129,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 
 	const announcementChannel = guild.channels.cache.find(channel => channel.name === 'geral' ||
 													channel.id === '1133132230600953896' ||
+													channel.id === '1128505639849693275' ||
 													channel.id === '1109537601217626215');
 
 	const hora = moment().format('HH:mm');
