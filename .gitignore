@@ -2,7 +2,7 @@ node_modules/
 node_modules
 coverage/
 .vscode
-ecosystem.config.js
+
 
 .env
 config.json
