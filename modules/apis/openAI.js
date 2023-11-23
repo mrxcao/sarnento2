@@ -34,7 +34,7 @@ const perguntar = async (msg, pergunta) => {
 			let cut = msgs.substring(msgs.length - tokenLimit, msgs.length);
 			cut = cut.substring(cut.indexOf('@') - 17, 99999999);
 			cut = systemContent + cut;
-
+			// console.log('cut', cut);
 			const params = OpenAI.Chat.ChatCompletionCreateParams = {
 				model: 'gpt-4',
 				messages: [
