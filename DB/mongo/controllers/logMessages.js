@@ -41,7 +41,7 @@ class UsersController {
 	async getGuildsMsgs(idGuild) {
 		const data = await model.aggregate([
 			{ $match: { idGuild } },
-			{ $sort: { criado:1 } },
+			{ $sort: { criado:-1 } },
 			{ $limit:  60 },
 			{ $project: { _id:0, msgForAI:1 } },
 		]);
