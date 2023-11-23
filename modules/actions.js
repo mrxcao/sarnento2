@@ -16,7 +16,7 @@ const responder = async (msg, pergunta) => {
 		break;
 	}
 	msg.reply(res);
-	log.action(msg, 'bard', pergunta, res);
+	log.action(msg, ai, pergunta, res);
 	return res;
 };
 
