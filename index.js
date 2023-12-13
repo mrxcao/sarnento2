@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 const tools = require('./modules/tools');
+const telegram = require('./modules/apis/telegram.js');
 const react = require('./modules/react');
 const actions = require('./modules/actions');
 const moment = require('moment');
@@ -38,7 +39,9 @@ const debugMode = process.env.DEBUG === 'true' ? true : false;
 const clientID = process.env.CLIENTID;
 
 client.on('ready', (c) => {
-	tools.clog(`Pronto! ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`);
+	const text = `Pronto! ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`;
+	tools.clog(text);
+	telegram.send(text);
 	tools.replyLines();
 });
 
