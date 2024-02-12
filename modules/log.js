@@ -19,25 +19,34 @@ const action = (msg, ai, prompt, resposta) => {
 	};
 	logActionClt.store(data);
 };
-const messages = async (msg) => {
-	const dataPtBr = moment().format('DD/MM/YYYY HH:mm');
 
-	let msgForAI = `${dataPtBr} @${msg.author.username}: ${msg.content}` ;
-	const continuar = true;
-	while (msgForAI.indexOf('<@') > -1 && continuar) {
-		const idUsr = msgForAI.substring(msgForAI.indexOf('<@') + 2, msgForAI.indexOf('>'));
-		const userName = await logUsersClt.getUserName(idUsr);
-		msgForAI = msgForAI.replace(new RegExp(`<@${idUsr}>`, 'g'), `@${userName}`);
+const messages = async (msg) => {
+	let userErro = null;
+	try {
+		const dataPtBr = moment().format('DD/MM/YYYY HH:mm');
+
+		let msgForAI = `${dataPtBr} @${msg.author.username}: ${msg.content}` ;
+		const continuar = true;
+		while (msgForAI.indexOf('<@') > -1 && continuar) {
+			const idUsr = msgForAI.substring(msgForAI.indexOf('<@') + 2, msgForAI.indexOf('>'));
+			const userName = await logUsersClt.getUserName(idUsr);
+			userErro = idUsr;
+			msgForAI = msgForAI.replace(new RegExp(`<@${idUsr}>`, 'g'), `@${userName}`);
+		}
+
+		const data = {
+			idUSr: msg.author.id,
+			idGuild: msg.guildId,
+			idChannel: msg.channelId,
+			msg: msg.content,
+			msgForAI,
+		};
+		logMessagesClt.store(data);
+	}
+	catch (err) {
+		throw new Error(err + ' usrError:: ' + userErro);
 	}
 
-	const data = {
-		idUSr: msg.author.id,
-		idGuild: msg.guildId,
-		idChannel: msg.channelId,
-		msg: msg.content,
-		msgForAI,
-	};
-	logMessagesClt.store(data);
 };
 
 const getMessagesGuild = async (guildId) => {
