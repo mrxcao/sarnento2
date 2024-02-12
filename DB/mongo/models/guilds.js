@@ -8,6 +8,7 @@ const _schema = new Schema({
 	icon:String,
 	available:Boolean,
 	memberCount: Number,
+	preferredLocale: String,
 	criado:  { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },
 });

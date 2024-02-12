@@ -136,7 +136,18 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 													channel.id === '1165466900558524416' ||
 													channel.id === '1109537601217626215');
 
-	const hora = moment().format('HH:mm');
+
+	let gmt = 0;
+	switch (guild.preferredLocale) {
+	case 'pt-BR':
+		gmt = -3 * 60;
+		break;
+	default:
+		gmt = 0;
+		break;
+	}
+
+	const hora = moment().utcOffset(gmt).format('HH:mm');
 	if (oldState.channel === null && newState.channel !== null) {
 		const channelName = newState.channel.name.replace(regexEmojis, '');
 		const channelLink = `discord://discordapp.com/channels/${guild.id}/${newState.channel.id}`;

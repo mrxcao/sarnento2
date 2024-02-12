@@ -34,6 +34,7 @@ const verify = async (args, msg) => {
 			if (Array.isArray (rct.trigger.data.word)) {
 				for (const tD of rct.trigger.data.word) {
 					for (const arg of args) {
+						// console.log('--', await tools.normalizarStr(arg), await tools.normalizarStr(tD));
 						if (await tools.normalizarStr(arg) == await tools.normalizarStr(tD)) {
 							match = true;
 							break;

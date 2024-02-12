@@ -28,6 +28,7 @@ class UsersController {
 			available:req.available,
 			memberCount: req.memberCount,
 			atualizado: new Date(),
+			preferredLocale : req.preferredLocale,
 		};
 
 
