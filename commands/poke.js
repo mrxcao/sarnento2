@@ -17,7 +17,6 @@ module.exports = {
 		),
 	async execute(interaction) {
 		let qtde = parseInt(interaction.options.getInteger('quantos'));
-		console.log('qtde', qtde);
 		if (isNaN(qtde)) {qtde = 1080;}
 		pokeApi.quiz(interaction, qtde);
 		if (qtde <= 150) {

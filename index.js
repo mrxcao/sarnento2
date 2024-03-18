@@ -115,7 +115,7 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('messageReactionAdd', (rct) => {
-	debugMode ? console.log('react', rct) : true;
+	// debugMode ? console.log('react', rct) : true;
 });
 
 client.on('messageUpdate', (msgOld, msgNew) => {
