@@ -104,8 +104,22 @@ client.on('messageCreate', async (msg) => {
 				if (!reagiu) {
 					const mencionado = msg.mentions.users.has(clientID);
 					if (mencionado) {
+						// AI blacklist
+						const usrBlackList = [
+							'1137562742463668324',
+							'840264938214653961',
+							'1204883523773800550',
+						];
+						const usrId = msg.author.id;
 						const pergunta = msg.content.replace(`<@${clientID}>`, '');
-						actions.responder(msg, pergunta);
+						if (usrBlackList.indexOf(usrId) > -1) {
+							console.log(' -- BLACKLIST', usrId, pergunta);
+							msg.reply('Eu não quero mais falar com você');
+						}
+						else {
+							actions.responder(msg, pergunta);
+						}
+
 					}
 				}
 
