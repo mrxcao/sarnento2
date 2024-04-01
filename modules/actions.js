@@ -15,8 +15,10 @@ const responder = async (msg, pergunta) => {
 	default:
 		break;
 	}
-	msg.reply(res);
-	log.action(msg, ai, pergunta, res);
+	if (res) {
+		msg.reply(res);
+		log.action(msg, ai, pergunta, res);
+	}
 	return res;
 };
 

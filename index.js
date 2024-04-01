@@ -109,14 +109,20 @@ client.on('messageCreate', async (msg) => {
 							'1137562742463668324',
 							'840264938214653961',
 							'1204883523773800550',
+							'1122937600093732955',
+						];
+						const guildBlackList = [
+							'1132756472007229500',
 						];
 						const usrId = msg.author.id;
-						const pergunta = msg.content.replace(`<@${clientID}>`, '');
-						if (usrBlackList.indexOf(usrId) > -1) {
-							console.log(' -- BLACKLIST', usrId, pergunta);
+						const guildId = msg.guild.id;
+						if (usrBlackList.indexOf(usrId) > -1 ||
+							guildBlackList.indexOf(guildId) > -1) {
+							console.log(' -- BLACKLIST', usrId);
 							msg.reply('Eu não quero mais falar com você');
 						}
 						else {
+							const pergunta = msg.content.replace(`<@${clientID}>`, '');
 							actions.responder(msg, pergunta);
 						}
 
