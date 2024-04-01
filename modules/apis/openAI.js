@@ -53,10 +53,10 @@ const perguntar = async (msg, pergunta) => {
 */
 
 		try {
-			console.log('1', 1);
+			console.log('1', 1, c, tokenLimit);
 			const completion = await openai.chat.completions.create(params);
 			console.log('1', 2);
-			console.log('completion.choices', completion.choices);
+			console.log('completion.choices', completion);
 			if (completion.choices) {
 				const resposta = completion.choices[0].message.content;
 				console.log('1', 3);
