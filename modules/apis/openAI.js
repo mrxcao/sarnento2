@@ -11,7 +11,7 @@ const openai = new OpenAI({
 
 
 const perguntar = async (msg, pergunta) => {
-	const tokenLimit = 70000;
+	let tokenLimit = 70000;
 	let resultado = false;
 	const msgs = await log.getMessagesGuild(msg.guildId);
 	const usr = msg.author.username;
@@ -65,6 +65,9 @@ const perguntar = async (msg, pergunta) => {
 				cttrlLogTokenSize.store({ ai:'openAI', size: tokenLimit });
 				console.log('1', 5);
 				return resposta;
+			}
+			else {
+				tokenLimit = tokenLimit - 2000;
 			}
 		}
 		catch (error) {
