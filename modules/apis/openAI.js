@@ -36,7 +36,6 @@ const perguntar = async (msg, pergunta) => {
 		// console.log('cut', cut);
 		const params = OpenAI.Chat.ChatCompletionCreateParams = {
 			model: 'gpt-4',
-			stream: true,
 			messages: [
 				{ role: 'system', content: cut },
 				{ role: 'user',	content: userContent },
