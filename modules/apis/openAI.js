@@ -11,7 +11,7 @@ const openai = new OpenAI({
 
 
 const perguntar = async (msg, pergunta) => {
-	let tokenLimit = 80000;
+	let tokenLimit = 70000;
 	let resultado = false;
 	const msgs = await log.getMessagesGuild(msg.guildId);
 	const usr = msg.author.username;
@@ -52,17 +52,12 @@ const perguntar = async (msg, pergunta) => {
 */
 
 		try {
-			console.log('1', 1, c, tokenLimit);
 			const completion = await openai.chat.completions.create(params);
-			console.log('1', 2);
-			console.log('completion.choices', completion);
+			//			console.log('completion.choices', completion);
 			if (completion.choices) {
 				const resposta = completion.choices[0].message.content;
-				console.log('1', 3);
 				resultado = true;
-				console.log('1', 4);
 				cttrlLogTokenSize.store({ ai:'openAI', size: tokenLimit });
-				console.log('1', 5);
 				return resposta;
 			}
 			else {
