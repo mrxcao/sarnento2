@@ -53,20 +53,25 @@ const perguntar = async (msg, pergunta) => {
 */
 
 		try {
+			console.log('1', 1);
 			const completion = await openai.chat.completions.create(params);
+			console.log('1', 2);
 			const resposta = completion.choices[0].message.content;
+			console.log('1', 3);
 			resultado = true;
+			console.log('1', 4);
 			cttrlLogTokenSize.store({ ai:'openAI', size: tokenLimit });
+			console.log('1', 5);
 			return resposta;
 		}
 		catch (error) {
 			let err;
-			resultado = true;
 			if (error.code === 'insufficient_quota') {
-				err = 'Erro: Você excedeu sua cota de uso da API da OpenAI. Por favor, verifique seu plano e detalhes de faturamento.';
+				resultado = true;
+				err = 'Você excedeu sua cota de uso da API da OpenAI. Por favor, verifique seu plano e detalhes de faturamento.';
 			}
 			else {
-				err = 'Ocorreu um erro durante a chamada da API da OpenAI:' + error;
+				err = error;
 			}
 			console.log('perguntar OpenAI -> err', err);
 		}
