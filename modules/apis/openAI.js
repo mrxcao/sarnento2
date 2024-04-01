@@ -56,13 +56,16 @@ const perguntar = async (msg, pergunta) => {
 			console.log('1', 1);
 			const completion = await openai.chat.completions.create(params);
 			console.log('1', 2);
-			const resposta = completion.choices[0].message.content;
-			console.log('1', 3);
-			resultado = true;
-			console.log('1', 4);
-			cttrlLogTokenSize.store({ ai:'openAI', size: tokenLimit });
-			console.log('1', 5);
-			return resposta;
+			console.log('completion.choices', completion.choices);
+			if (completion.choices) {
+				const resposta = completion.choices[0].message.content;
+				console.log('1', 3);
+				resultado = true;
+				console.log('1', 4);
+				cttrlLogTokenSize.store({ ai:'openAI', size: tokenLimit });
+				console.log('1', 5);
+				return resposta;
+			}
 		}
 		catch (error) {
 			let err;
