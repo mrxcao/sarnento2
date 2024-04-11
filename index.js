@@ -167,6 +167,9 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 		break;
 	}
 
+	console.log('----', guild.preferredLocale);
+
+
 	const hora = moment().utcOffset(gmt).format('HH:mm');
 	if (oldState.channel === null && newState.channel !== null) {
 		const channelName = newState.channel.name.replace(regexEmojis, '');
