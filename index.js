@@ -157,18 +157,22 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 													channel.id === '1109537601217626215');
 
 
+	const guildsPTBRcomEN = ['1165449166323982388', '1095355564780949526'];
+	const guildID_ = guild.id;
 	let gmt = 0;
-	switch (guild.preferredLocale) {
-	case 'pt-BR':
+	if (guildsPTBRcomEN.indexOf(guildID_) > -1) {
 		gmt = -3 * 60;
-		break;
-	default:
-		gmt = 	0;
-		break;
 	}
-
-	console.log('----', guild.id, guild.preferredLocale);
-
+	else {
+		switch (guild.preferredLocale) {
+		case 'pt-BR':
+			gmt = -3 * 60;
+			break;
+		default:
+			gmt = 	0;
+			break;
+		}
+	}
 
 	const hora = moment().utcOffset(gmt).format('HH:mm');
 	if (oldState.channel === null && newState.channel !== null) {
