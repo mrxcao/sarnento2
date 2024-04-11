@@ -40,7 +40,7 @@ const clientID = process.env.CLIENTID;
 
 client.on('ready', (c) => {
 	const text = `Pronto! ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`;
-	tools.clog(text);
+	console.log(text);
 	telegram.send(text);
 	tools.replyLines();
 });
@@ -84,19 +84,19 @@ client.on('messageCreate', async (msg) => {
 
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
-		debugMode ? tools.clog('::', msg.guild.name, ' - ', msg.author.username) : true;
+		debugMode ? console.log('::', msg.guild.name, ' - ', msg.author.username) : true;
 		// update infos
 
 		if (passOk) {
 			if (args[0].substring(0, 1) == config.prefix) {
-				debugMode ? tools.clog(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
+				debugMode ? console.log(`${msg.guild.name }  #${msg.channel.name} - @${msg.author.username}: ${msg.content} `) : true;
 				const cmd = String(args[0]).toLowerCase();
 				if (commands[cmd]) {
 					commands[cmd](client, msg);
 				// log(cmd, msg);
 				}
 				else {
-					debugMode ? tools.clog(`comando ${cmd }  não encontrado `) : true;
+					debugMode ? console.log(`comando ${cmd }  não encontrado `) : true;
 				}
 			}
 			else {

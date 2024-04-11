@@ -3,26 +3,29 @@ const { message } = require('telegraf/filters');
 const token = process.env.TELEGRAM_TOKEN;
 const chatID = process.env.TELEGRAM_CHAT_ID;
 const status = require('../../modules/status');
-
+const tools = require('../tools');
 let bot;
 const init = async () => {
 	bot = new Telegraf(token);
 	bot.launch();
 
 	bot.on(message('text'), async (ctx) => {
-		let text;
-		switch (ctx.message.text) {
-		case 'status':
-			text = await status.get(0);
-			// 'ok  **TESTE**   *teste*  __123__   <b>texto</b>';
-			break;
+		if (ctx.message && ctx.message.text) {
+			let text;
+			const msg = await tools.normalizarStr(ctx.message.text);
+			switch (msg) {
+			case 'status':
+				text = await status.get(0);
+				// 'ok  **TESTE**   *teste*  __123__   <b>texto</b>';
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
+
+			// console.log('ctx', ctx.message);
+			if (text) send(text);
 		}
-
-		// console.log('ctx', ctx.message);
-		send(text);
 	});
 
 	// console.log(`https://api.telegram.org/bot${token}/getUpdates`);
