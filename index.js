@@ -163,11 +163,11 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 		gmt = -3 * 60;
 		break;
 	default:
-		gmt = 0;
+		gmt = 	0;
 		break;
 	}
 
-	console.log('----', guild.preferredLocale);
+	console.log('----', guild.id, guild.preferredLocale);
 
 
 	const hora = moment().utcOffset(gmt).format('HH:mm');
