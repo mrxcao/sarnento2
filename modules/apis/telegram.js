@@ -16,9 +16,7 @@ const init = async () => {
 			switch (msg) {
 			case 'status':
 				text = await status.get(0);
-				// 'ok  **TESTE**   *teste*  __123__   <b>texto</b>';
 				break;
-
 			default:
 				break;
 			}

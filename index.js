@@ -67,6 +67,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 client.on('messageCreate', async (msg) => {
 	let passOk = true;
+
 	// Gamepad
 	if (msg.guild.id === '285570673747820545') {
 		// #arquibancada
@@ -74,6 +75,14 @@ client.on('messageCreate', async (msg) => {
 			passOk = false;
 		}
 	}
+	// Blçod
+	else if (msg.guild.id === '1165449166323982388') {
+		// #geral
+		if (!msg.channelId === '1165454740528836780') {
+			passOk = false;
+		}
+	}
+
 
 	if (msg.content) {
 		log.messages(msg);
