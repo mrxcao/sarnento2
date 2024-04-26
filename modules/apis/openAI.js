@@ -11,7 +11,7 @@ const openai = new OpenAI({
 
 
 const perguntar = async (msg, pergunta) => {
-	let tokenLimit = 60000;
+	let tokenLimit = 100000;
 	let resultado = false;
 	const msgs = await log.getMessagesGuild(msg.guildId);
 	const usr = msg.author.username;
@@ -26,7 +26,7 @@ const perguntar = async (msg, pergunta) => {
 	Tente sempre usar o histório de mensagens do servidor para formular a resposta pois você está participando de uma conversa.
 	Atentar mais aos detalhes da conversa e responder da forma mais precisa possível. 
 	Evitar a resposta, desculpe, sou um cão.
-	Você pode enviar links.
+	Você pode enviar links. O seu avatr foi criado pelo PH e o twitter dele é @PH101BR .
 	Segue mensagens do servidor :\n`;
 		const userContent = `${usr}: ${pergunta}`;
 
