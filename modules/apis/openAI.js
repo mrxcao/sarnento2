@@ -30,6 +30,7 @@ const perguntar = async (msg, pergunta) => {
 	Segue mensagens do servidor :\n`;
 		const userContent = `${usr}: ${pergunta}`;
 
+		console.log('|| ', msgs.length, tokenLimit, msgs.length - tokenLimit);
 		let cut = msgs.substring(msgs.length - tokenLimit, msgs.length);
 		cut = cut.substring(cut.indexOf('@') - 17, 99999999);
 		cut = systemContent + cut;
