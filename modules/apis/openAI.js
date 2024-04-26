@@ -11,7 +11,7 @@ const openai = new OpenAI({
 
 
 const perguntar = async (msg, pergunta) => {
-	let tokenLimit = 800000;
+	let tokenLimit = 30000;
 	let resultado = false;
 	const msgs = await log.getMessagesGuild(msg.guildId);
 	const usr = msg.author.username;
@@ -30,11 +30,18 @@ const perguntar = async (msg, pergunta) => {
 	Segue mensagens do servidor :\n`;
 		const userContent = `${usr}: ${pergunta}`;
 
-		console.log('|| ', msgs.length, tokenLimit, msgs.length - tokenLimit);
-		let cut = msgs.substring(msgs.length - tokenLimit, msgs.length);
-		cut = cut.substring(cut.indexOf('@') - 17, 99999999);
-		cut = systemContent + cut;
-		// console.log('cut', cut);
+		let cut;
+		// console.log('msgs.length > tokenLimit', msgs.length, tokenLimit);
+		if (msgs.length > tokenLimit) {
+			// console.log('-- ', msgs.length, tokenLimit, msgs.length - tokenLimit);
+			cut = msgs.substring(msgs.length - tokenLimit, msgs.length);
+			cut = cut.substring(cut.indexOf('@') - 17, 99999999);
+			cut = systemContent + cut;
+		}
+		else {
+			cut = systemContent + msgs;
+		}
+
 		const params = OpenAI.Chat.ChatCompletionCreateParams = {
 			model: 'gpt-4',
 			messages: [
@@ -64,6 +71,7 @@ const perguntar = async (msg, pergunta) => {
 			else {
 				tokenLimit = tokenLimit - 2000;
 			}
+
 		}
 		catch (error) {
 			let err;
@@ -74,7 +82,8 @@ const perguntar = async (msg, pergunta) => {
 			else {
 				err = error;
 			}
-			console.log('perguntar OpenAI -> err', err);
+			// console.log('perguntar OpenAI -> err', err);
+			tokenLimit = tokenLimit - 2000;
 		}
 		/* }
 
