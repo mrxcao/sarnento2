@@ -75,10 +75,10 @@ client.on('messageCreate', async (msg) => {
 			passOk = false;
 		}
 	}
-	// Blçod
+	// Blçod  1165449166323982388
 	else if (msg.guild.id === '1165449166323982388') {
-		// #geral
-		if (!msg.channelId === '1165454740528836780') {
+		// #geral  1165454740528836780
+		if (msg.channelId === '1165454740528836780') {
 			passOk = false;
 		}
 	}
