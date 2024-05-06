@@ -6,7 +6,7 @@ module.exports = {
 	},
 	{
 		name: 'sarnento_API',
-		script: './sreAPI/indexAPI.js',
+		script: './srcAPI/indexAPI.js',
 		exec_mode: 'cluster',
 	},
 
