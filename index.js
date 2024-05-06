@@ -1,10 +1,10 @@
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
-const tools = require('./modules/tools');
+const tools = require('./modules/tools.js');
 const telegram = require('./modules/apis/telegram.js');
-const react = require('./modules/react');
-const actions = require('./modules/actions');
+const react = require('./modules/react.js');
+const actions = require('./modules/actions.js');
 const moment = require('moment');
 
 const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
@@ -23,14 +23,14 @@ const client = new Client({
 });
 
 const config = require('./config.json');
-const log = require('./modules/log');
-const commands = require('./scripts/commandsReader')(config.prefix, true);
-const readSlashCmds = require('./scripts/commandsReaderSlash');
+const log = require('./modules/log.js');
+const commands = require('./scripts/commandsReader.js')(config.prefix, true);
+const readSlashCmds = require('./scripts/commandsReaderSlash.js');
 const loaders = require('./classes/Loaders.js');
 
-const usersCtl = require('./DB/mongo/controllers/users');
-const guildsCtl = require('./DB/mongo/controllers/guilds');
-const usersGuildsCtrl = require('./DB/mongo/controllers/usersGuilds');
+const usersCtl = require('./DB/mongo/controllers/users.js');
+const guildsCtl = require('./DB/mongo/controllers/guilds.js');
+const usersGuildsCtrl = require('./DB/mongo/controllers/usersGuilds.js');
 
 const pack = require('./package.json');
 
@@ -39,7 +39,7 @@ const debugMode = process.env.DEBUG === 'true' ? true : false;
 const clientID = process.env.CLIENTID;
 
 client.on('ready', (c) => {
-	const text = `Pronto! ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`;
+	const text = `Pronto! BOT ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`;
 	console.log(text);
 	telegram.send(text);
 	tools.replyLines();
@@ -119,6 +119,7 @@ client.on('messageCreate', async (msg) => {
 							'840264938214653961',
 							'1204883523773800550',
 							'1122937600093732955',
+							'955992896006402078',
 						];
 						const guildBlackList = [
 							'1132756472007229500',
@@ -144,7 +145,7 @@ client.on('messageCreate', async (msg) => {
 });
 
 client.on('messageReactionAdd', (rct) => {
-	// debugMode ? console.log('react', rct) : true;
+	debugMode ? console.log('react', rct) : true;
 });
 
 client.on('messageUpdate', (msgOld, msgNew) => {
@@ -216,7 +217,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 });
 
 tools.replyLines();
-loaders.init().then(() => {client.login(token); }) ;
+loaders.init(1).then(() => {client.login(token); }) ;
 
 
 // const teste = require('./apis/currencylayer/axios');

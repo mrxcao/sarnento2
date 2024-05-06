@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const _schema = new Schema({
 	name: String,
 	prefix: String,
-	sinopse: String,
 	sinopseForAI:String,
+	blackList_AI: { String },
 	criado:  { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },
 });

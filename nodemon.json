@@ -1,6 +1,0 @@
-{
-    "ext":"js",
-    "execMap":{
-        "js":"node index.js  --trace-warnings"
-    }
-}
