@@ -1,8 +1,22 @@
 const guildsCtrl = require('../DB/mongo/controllers/guilds');
 const usersCtrl = require('../DB/mongo/controllers/users');
 const momemt = require('moment');
+const settingsCtrl = require('../DB/mongo/controllers/settings');
+
 
 const data1 = new momemt(new Date());
+let mandouLastTimeStand = false;
+function setUpTime() {
+	// console.log(new Date(), ' setUptime');
+	if (mandouLastTimeStand) {
+		settingsCtrl.setUptime();
+	}
+	else {
+		console.log('Não mandou');
+	}
+}
+setInterval(setUpTime, 100000);
+// 300000);
 
 const get = async (outType = 1) => {
 	const data2 = new momemt(new Date());
@@ -15,25 +29,33 @@ const get = async (outType = 1) => {
 	const gildCount = await guildsCtrl.getMax();
 	const usersCount = await usersCtrl.getMax();
 	const uptime = `${diferencaEmDias} dias, ${ diferencaEmHoras} hora, ${diferencaEmMinutos} minutos `;
+
+	const config = await settingsCtrl.show();
+	const lastUptime = config[0]?.lastUpTime;
+	mandouLastTimeStand = true;
 	switch (outType) {
-	case 0: // markDown
+	case 0:
+	// markDown
 		return '**STATUS** \n\n' +
         `STATUS: ok
 		uptime: ${uptime}
         Users: ${usersCount}
-        Servers: ${gildCount}`;
-		break;
-	case 1: // JSON
+        Servers: ${gildCount}
+		LastUpTime: ${lastUptime}`;
+		// break;
+	case 1:
+	// JSON
 		return {
 			STATUS: 'ok',
 			uptime,
 			Users: usersCount,
 			Servers: gildCount,
+			lastUptime,
 		};
-		break;
+		// break;
 	default:
 		return false;
-		break;
+		// break;
 	}
 
 };

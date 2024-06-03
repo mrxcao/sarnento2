@@ -6,6 +6,7 @@ const telegram = require('./modules/apis/telegram.js');
 const react = require('./modules/react.js');
 const actions = require('./modules/actions.js');
 const moment = require('moment');
+const status = require('./modules/status');
 
 const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
@@ -43,7 +44,11 @@ client.on('ready', (c) => {
 	console.log(text);
 	telegram.send(text);
 	tools.replyLines();
+	sendStatus();
 });
+const sendStatus = async () => {
+	telegram.send(await status.get(0));
+};
 
 // collections de comandos slash //
 client.commands = readSlashCmds();
@@ -120,6 +125,7 @@ client.on('messageCreate', async (msg) => {
 							'1204883523773800550',
 							'1122937600093732955',
 							'955992896006402078',
+							'1084572695703863376',
 						];
 						const guildBlackList = [
 							'1132756472007229500',
