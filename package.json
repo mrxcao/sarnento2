@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node index.js",
-    "dev": "beep && nodemon --ignore node-modules/ --ignore tests/ --ignore docs/ --ignore 'lib/*.zip' index.js  && beep",    
+    "dev": "beep && nodemon --ignore node-modules/ --ignore tests/ --ignore docs/ --ignore 'lib/*.zip' index.js  && beep",
     "devAPI": "beep && nodemon --ignore node-modules/ --ignore tests/ --ignore docs/ --ignore 'lib/*.zip' .\\srcAPI\\indexAPI.js  && beep",
     "publ": "node deploy-commands.js",
     "beep": "beep.bat"
@@ -15,8 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "@napi-rs/canvas": "^0.1.40",
+    "aes-js": "^3.1.2",
     "atob": "^2.1.2",
     "axios": "^1.5.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "btoa": "^1.2.1",
     "compression": "^1.7.4",

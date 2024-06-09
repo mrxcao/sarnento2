@@ -10,7 +10,7 @@ const dnsPromises = dns.promises;
 const helmet = require('helmet');
 
 const tokenCtrl = require('../DB/mongo/controllers/token');
-const debugMode = process.env.NODE_ENV === 'Development' ? true : false;
+const debugMode = process.env.NODE_ENV === 'development' ? true : false;
 
 const cors = require('cors');
 const compression = require('compression');
@@ -23,12 +23,6 @@ const { expressjwt: jwt } = require('express-jwt');
 
 const tools = require('../modules/tools');
 
-app.use((req, res, next) => {
-	if (debugMode && req.method !== 'OPTIONS') {
-		console.log('::', req.method, req.url, req.ip, req.get('Origin'), req.rawHeaders[5]);
-	}
-	next();
-});
 
 const consultaRotas = async (ip, token) => {
 	// console.log('ip, token', ip, token);
@@ -69,6 +63,7 @@ const existeHost = async (dadosToken, ip) => {
 
 const whitelist = ['http://btramos.com',
 	'http://localhost',
+	'http://localhost:3001',
 	'http://sarnento.app.br',
 	'https://sarnento.app.br'];
 const publicRoutes = [
@@ -160,6 +155,12 @@ app.use(compression());
 app.use(cors({ preflightContinue: true }));
 app.use(cors(corsOptionsDelegate));
 
+app.use((req, res, next) => {
+	if (debugMode && req.method !== 'OPTIONS') {
+		console.log('::', req.method, req.url, req.ip, req.get('Origin'), req.rawHeaders[5]);
+	}
+	next();
+});
 app.use(jwt({
 	secret: key,
 	algorithms: ['HS256'],
@@ -185,11 +186,13 @@ app.use(function(req, res, next) {
 const routerIndex = require('./routes/index');
 const routerToken = require('./routes/token');
 const routerReact = require('./routes/react');
+const routerLogMessages = require('./routes/logMessages');
 
 // rotas
 app.use('/', routerIndex);
 app.use('/token', routerToken);
 app.use('/react', routerReact);
+app.use('/logMessages', routerLogMessages);
 
 // views
 // app.set('views', path.join(__dirname, 'views'));

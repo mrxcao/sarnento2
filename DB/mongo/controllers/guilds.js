@@ -11,8 +11,8 @@ class UsersController {
 		// return res.status(200).json(ret);
 		return ret;
 	}
-	async show() {
-		//
+	async get(id) {
+		return await model.findOne({ id }) ;
 	}
 	async update() {
 		//

@@ -12,7 +12,7 @@ function setUpTime() {
 		settingsCtrl.setUptime();
 	}
 	else {
-		console.log('Não mandou');
+		// console.log('Não mandou');
 	}
 }
 setInterval(setUpTime, 100000);

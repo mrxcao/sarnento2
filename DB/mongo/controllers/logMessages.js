@@ -1,4 +1,6 @@
 const model = require('../models/logMessages.js');
+const usersCtrl = require('./users.js');
+const guildsCtrl = require('./guilds.js');
 class UsersController {
 	async store(req) {
 		return await model.create(req);
@@ -50,9 +52,22 @@ class UsersController {
 			res = res + `${d.msgForAI}\n\r`;
 		}
 		return res;
-
 	}
 
+	async getLasts(qtde) {
+		const data = await model.aggregate([
+			{ $sort: { _id:-1 } },
+			{ $limit:  qtde },
+			// { $project: { _id:0, msgForAI:1 } },
+		]);
+		for (const d of data) {
+			d.user = await usersCtrl.get(d.idUSr);
+			d.guild = await guildsCtrl.get(d.idGuild);
+			//
+			// d.idChannel
+		}
+		return data;
+	}
 
 }
 

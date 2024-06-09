@@ -1,5 +1,7 @@
 const model = require('../models/users.js');
+const blackList = [];
 class UsersController {
+
 	async store(req) {
 		return await model.create(req);
 		// return res.status(200).json(ret);
@@ -40,6 +42,10 @@ class UsersController {
 	async get(id) {
 		return await model.findOne({ id }) ;
 	}
+	async getByLogin(login) {
+		console.log('login', login);
+		return await model.findOne({ login }) ;
+	}
 	async getUserName(id) {
 		const data = await model.findOne({ id }) ;
 		if (data == null || !data) return '<?>';
@@ -65,6 +71,46 @@ class UsersController {
 			return false;
 		}
 	}
+
+	/*
+	async doLogin(req, res) {
+		try {
+			const { login, password } = req.body;
+			const usr = await usersCtrl.get({ login });
+			if (usr) {
+				const pswBanco = usr.password;
+
+				//  const a = crypto.decrypt(pswBanco);
+				const b = crypto.encrypt(password);
+				if (b === pswBanco) {
+					const payload = {
+						id: usr.id,
+						username: usr.username,
+						avatar: usr.avatar,
+					};
+					const token = jwt.sign(payload, secret, tokenOptions);
+					res.send({ ok: true, token });
+				}
+				else {
+			  res.sendStatus(401);
+				}
+		  }
+		  else {
+				res.sendStatus(401);
+		  }
+		}
+		catch (error) {
+		  res.status(500).send(error.toString());
+		}
+	  }
+
+	async doLogout(req, res, next) {
+		blackList.push(req.headers.authorization);
+		res.sendStatus(200);
+	}
+*/
+	async inBlackList(token) { blackList.some((t) => t === token);}
+
 
 	async getMax() {
 		const data = await model.aggregate([

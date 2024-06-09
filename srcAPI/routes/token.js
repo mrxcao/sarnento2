@@ -12,6 +12,9 @@ const tokenCtrl = require('../../DB/mongo/controllers/token');
 const key = process.env.AUTH_KEY;
 const debugMode = process.env.DEBUG === 'true' ? true : false;
 
+const usersController = require('../controllers/userController');
+const authMiddleware = require('../middlewares/authMiddleware');
+
 router.get('/dadosToken', async (request, response) => {
 	try {
 		if (!request.headers.authorization) {
@@ -94,8 +97,50 @@ router.get('/validar', async (request, response) => {
 		response.send(false);
 	}
 });
-
+/*
 router.post('/login', async (request, response) => {
+
+	try {
+		const { login, password } = request.body;
+		const usr = await usersCtrl.get({ login });
+		if (usr) {
+			const pswBanco = usr.password;
+
+			//  const a = crypto.decrypt(pswBanco);
+			const b = crypto.encrypt(password);
+			if (b === pswBanco) {
+				const payload = {
+					id: usr.id,
+					username: usr.username,
+					avatar: usr.avatar,
+				};
+				const token = jwt.sign(payload, secret, tokenOptions);
+				response.send({ ok: true, token });
+			}
+			else {
+				response.sendStatus(401);
+			}
+	  }
+	  else {
+			res.sendStatus(401);
+	  }
+	}
+	catch (error) {
+	  res.status(500).send(error.toString());
+	}
+});
+*/
+router.post('/login', usersController.doLogin);
+router.post('/logout', usersController.doLogout);
+
+/*
+// Privates
+app.get('/settings', authMiddleware, settingsController.get);
+app.post('/settings', authMiddleware, settingsController.set);
+*/
+
+
+/*
 	try {
 		const remote = (
 			request.headers['x-forwarded-for'] ||
@@ -117,10 +162,12 @@ router.post('/login', async (request, response) => {
 		const login = request.body.login;
 		const password = request.body.password;
 
-		// console.log('login, password', login, password);
+		console.log('login, password', login, password);
 
-		const user = await usersCtrl.login({ login, password });
-		// console.log('user', user);
+		//		const user = await usersCtrl.login({ login, password });
+		const user = await usersCtrl.doLogin(request, response) ;
+
+
 		if (!user) {
 			response.status(401).send('Login fall');
 		}
@@ -162,6 +209,7 @@ router.post('/login', async (request, response) => {
 
 
 });
+*/
 
 module.exports = router;
 
