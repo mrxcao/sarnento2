@@ -1,16 +1,16 @@
 const openAI = require('../services/openAI');
-const google = require('../services/google');
+const gemini = require('../services/gemini');
 const log = require('./log');
 
 const responder = async (msg, pergunta) => {
-	const ai = 1;
+	const ai = 2;
 	let res;
 	switch (ai) {
 	case 1:
 		res = await openAI.perguntar(msg, pergunta);
 		break;
 	case 2:
-		res = await google.getAnswer(msg, pergunta);
+		res = await gemini.perguntar(msg, pergunta);
 		break;
 	default:
 		break;

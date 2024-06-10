@@ -1,17 +1,12 @@
-const OpenAI = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const log = require('../modules/log');
-const apiKey = process.env.OPENAI_API_KEY;
-const organization = process.env.OPENAI_API_ORG;
-const debugMode = process.env.DEBUG === 'true' ? true : false;
 const cttrlLogTokenSize = require('../DB/mongo/controllers/logTokenSize');
-const openai = new OpenAI({
-	organization, apiKey,
-	logLevel: 'none',
-});
-
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
 
 const perguntar = async (msg, pergunta) => {
-	let tokenLimit = 30000;
+
+	let tokenLimit = 60000;
 	let resultado = false;
 	const msgs = await log.getMessagesGuild(msg.guildId);
 	const usr = msg.author.username;
@@ -19,8 +14,8 @@ const perguntar = async (msg, pergunta) => {
 	while (tokenLimit > 0 && resultado == false) {
 		// try {
 
-		const systemContent = `Seu nome é Sarnento e você é uma persona de um cachorro caramelo bem inteligente, que sempre lembra de tudo e camarada, seu dono é o MrXcao, 
-	um homem adulto que faz aniversário dia 9 de março. 
+		const systemContent = `Seu nome é Sarnento e você é uma persona de um cachorro caramelo bem inteligente, que sempre lembra de tudo, 
+        seu dono é o MrXcao, um homem adulto. 
 	A entrada é a mensagem de um usuário do Discord que está interagindo com você. 
 	Responda de maneira curta e informal, o prompt será sempre estruturado desta forma: <USUÁRIO QUE FAZ A PERGUNTA>:<PERGUNTA>, não responda neste formato. 
 	Tente sempre usar o histório de mensagens do servidor para formular a resposta pois você está participando de uma conversa.
@@ -42,31 +37,12 @@ const perguntar = async (msg, pergunta) => {
 			cut = systemContent + msgs;
 		}
 
-		const params = OpenAI.Chat.ChatCompletionCreateParams = {
-			model: 'gpt-4',
-			messages: [
-				{ role: 'system', content: cut },
-				{ role: 'user',	content: userContent },
-			],
-		};
-
-
-		// return 'ok';
-		// const completion = OpenAI.Chat.ChatCompletion = await openai.chat.completions.create(params);
-
-		/*
-			const completion = await openai.chat.completions.create(params);
-			console.log('||||| completion', completion);
-*/
-
 		try {
-			const completion = await openai.chat.completions.create(params);
-			//			console.log('completion.choices', completion);
-			if (completion.choices) {
-				const resposta = completion.choices[0].message.content;
-				resultado = true;
+			const textoEntrada = cut + '\n Pergunta: ' + userContent ;
+			const resposta = await model.generateContent(textoEntrada);
+			if (resposta) {
 				cttrlLogTokenSize.store({ ai:'openAI', size: tokenLimit });
-				return resposta;
+				return resposta.response.text();
 			}
 			else {
 				tokenLimit = tokenLimit - 2000;
@@ -82,20 +58,14 @@ const perguntar = async (msg, pergunta) => {
 			else {
 				err = error;
 			}
-			// console.log('perguntar OpenAI -> err', err);
+			console.log('perguntar OpenAI -> err', err);
 			tokenLimit = tokenLimit - 2000;
 		}
-		/* }
 
-		catch (error) {
-			debugMode ? console.log('error', tokenLimit, error) : true;
-			tokenLimit = tokenLimit - 2000;
-
-		}
-		*/
 	}
+
+	return false;
+
 };
 
-
 module.exports = { perguntar };
-
