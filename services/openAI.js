@@ -1,9 +1,9 @@
 const OpenAI = require('openai');
-const log = require('../log');
+const log = require('../modules/log');
 const apiKey = process.env.OPENAI_API_KEY;
 const organization = process.env.OPENAI_API_ORG;
 const debugMode = process.env.DEBUG === 'true' ? true : false;
-const cttrlLogTokenSize = require('../../DB/mongo/controllers/logTokenSize');
+const cttrlLogTokenSize = require('../DB/mongo/controllers/logTokenSize');
 const openai = new OpenAI({
 	organization, apiKey,
 	logLevel: 'none',

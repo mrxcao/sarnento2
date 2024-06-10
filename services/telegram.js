@@ -2,8 +2,8 @@ const { Telegraf } = require('telegraf');
 const { message } = require('telegraf/filters');
 const token = process.env.TELEGRAM_TOKEN;
 const chatID = process.env.TELEGRAM_CHAT_ID;
-const status = require('../../modules/status');
-const tools = require('../tools');
+const status = require('../modules/status');
+const tools = require('../modules/tools');
 let bot;
 const init = async () => {
 	bot = new Telegraf(token);

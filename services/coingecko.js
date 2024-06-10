@@ -1,5 +1,5 @@
 const axios = require('axios');
-const tools = require('../../modules/tools');
+const tools = require('../modules/tools');
 const url = 'https://api.coingecko.com/api/v3/simple/price?';
 
 

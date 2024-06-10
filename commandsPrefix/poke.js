@@ -1,4 +1,4 @@
-const pokeApi = require('../modules/apis/pokeapi');
+const pokeApi = require('../services/pokeapi');
 module.exports = (client, msg) => {
 	pokeApi.quiz(msg);
 };

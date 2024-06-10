@@ -1,5 +1,5 @@
 const mongo = require('../DB/mongo/connect');
-const telegram = require('../modules/apis/telegram');
+const telegram = require('../services/telegram');
 const server = require('../srcAPI/init');
 class Loaders {
 	async init(type) {

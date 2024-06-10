@@ -1,5 +1,5 @@
-const openAI = require('./apis/openAI');
-const google = require('./apis/google');
+const openAI = require('../services/openAI');
+const google = require('../services/google');
 const log = require('./log');
 
 const responder = async (msg, pergunta) => {

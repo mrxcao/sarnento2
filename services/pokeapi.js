@@ -1,8 +1,8 @@
 const axios = require('axios');
-const tools = require('../tools');
-const pokemon = require('../../DB/mongo/controllers/pokemon');
-const pokeScore = require('../../DB/mongo/controllers/pokeScore');
-const users = require('../../DB/mongo/controllers/users');
+const tools = require('../modules/tools');
+const pokemon = require('../DB/mongo/controllers/pokemon');
+const pokeScore = require('../DB/mongo/controllers/pokeScore');
+const users = require('../DB/mongo/controllers/users');
 const { createCanvas, Image } = require('@napi-rs/canvas');
 const { request } = require('undici');
 const { readFile } = require('fs/promises');

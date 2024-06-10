@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const pokeApi = require('../modules/apis/pokeapi');
+const pokeApi = require('../services/pokeapi');
 
 module.exports = {
 	data : new SlashCommandBuilder()

@@ -1,5 +1,5 @@
-const ChatBot = require('../../classes/Bard');
-const log = require('../log');
+const ChatBot = require('../classes/Bard');
+const log = require('../modules/log');
 
 const __Secure_1PSIDTS = process.env.BARD_SECURE_1PSIDTS;
 const __Secure_1PSID = process.env.BARD_SECURE_1PSID;

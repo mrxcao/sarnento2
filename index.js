@@ -2,7 +2,7 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 const tools = require('./modules/tools.js');
-const telegram = require('./modules/apis/telegram.js');
+const telegram = require('./services/telegram.js');
 const react = require('./modules/react.js');
 const actions = require('./modules/actions.js');
 const moment = require('moment');
