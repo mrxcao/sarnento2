@@ -92,9 +92,6 @@ client.on('messageCreate', async (msg) => {
 		if (msg.channelId != '1258101388819435642') {			
 			passOk = false;
 		}
-		console.log(`msg.guild.id "${msg.guild.id}"`);		
-		console.log('msg.channelId', msg.channelId) 	
-		console.log('passOk',passOk);
 	}
 
 
