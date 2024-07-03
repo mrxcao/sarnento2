@@ -86,6 +86,12 @@ client.on('messageCreate', async (msg) => {
 		if (msg.channelId === '1165454740528836780') {
 			passOk = false;
 		}
+	} 	
+	// rodrryh
+	else if (msg.guild.id === '1229534763233316957') {
+		if (msg.channelId != '1258101388819435642') {
+			passOk = false;
+		}
 	}
 
 
