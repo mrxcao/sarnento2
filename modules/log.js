@@ -23,7 +23,7 @@ const action = (msg, ai, prompt, resposta) => {
 const messages = async (msg) => {
 	let userErro = null;
 	try {
-		const dataPtBr = moment().format('DD/MM/YYYY HH:mm');
+		const dataPtBr = moment().format('DD/MM/YYYY HH:mm [GMT-3]');
 
 		let msgForAI = `${dataPtBr} @${msg.author.username}: ${msg.content}` ;
 		const continuar = true;
