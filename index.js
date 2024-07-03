@@ -96,7 +96,9 @@ client.on('messageCreate', async (msg) => {
 		console.log('msg.channelId', msg.channelI) 	
 		console.log('passOk',passOk);
 	}
-
+	console.log('msg.guild.id',msg.guild.id);		
+	console.log('msg.channelId', msg.channelI) 	
+	console.log('passOk',passOk);
 
 	if (msg.content) {
 		log.messages(msg);
