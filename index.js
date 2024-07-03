@@ -82,16 +82,19 @@ client.on('messageCreate', async (msg) => {
 	}
 	// Blood  1165449166323982388
 	else if (msg.guild.id === '1165449166323982388') {
-		// #geral  1165454740528836780
+		// #geral  1165454740528836780		
 		if (msg.channelId === '1165454740528836780') {
 			passOk = false;
 		}
-	} 	
+	}
 	// rodrryh
 	else if (msg.guild.id === '1229534763233316957') {
 		if (msg.channelId != '1258101388819435642') {
 			passOk = false;
 		}
+		console.log('msg.guild.id',msg.guild.id);		
+		console.log('msg.channelId', msg.channelI) 	
+		console.log('passOk',passOk);
 	}
 
 
