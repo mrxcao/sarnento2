@@ -78,14 +78,11 @@ const todos = async (d1, d2, d3, d4, d5, d6) => {
 		description = 'Nunca ganharia prêmio nenhum se jogasse estes números em todas as MEGA-SENAs que existíram até hoje';
 	}
 
-	console.log('description', description);
-
 	const embed = new EmbedBuilder()
 		.setColor(tools.rgbToInt(10, 255, 10))
 		.setThumbnail('https://logodownload.org/wp-content/uploads/2018/10/mega-sena-logo.png')
 		.setTitle(`Numeros jogados: ${d1} ${d2} ${d3} ${d4} ${d5}`)
 		.setDescription(description)
-
 		.setFooter({ text: footer, iconURL: 'http://lofrev.net/wp-content/photos/2017/04/dollar_green_sign.jpg' });
 	return embed;
 };
