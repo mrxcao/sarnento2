@@ -88,11 +88,11 @@ client.on('messageCreate', async (msg) => {
 		}
 	}
 	// rodrryh
-	else if (msg.guild.id == '1229534763233316957') {
+	else if (msg.guild.id === '1229534763233316957') {
 		if (msg.channelId != '1258101388819435642') {
 			passOk = false;
 		}
-		console.log('msg.guild.id',msg.guild.id);		
+		console.log(`msg.guild.id "${msg.guild.id}"`);		
 		console.log('msg.channelId', msg.channelI) 	
 		console.log('passOk',passOk);
 	}
