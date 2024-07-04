@@ -2,28 +2,75 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '/../.env') });
 
 const express = require('express');
-const app = express();
-const lessMiddleware = require('less-middleware');
-const bodyParser = require('body-parser');
-const dns = require('dns');
-const dnsPromises = dns.promises;
+const cors = require('cors');
 const helmet = require('helmet');
 
-const tokenCtrl = require('../DB/mongo/controllers/token');
-const debugMode = process.env.NODE_ENV === 'development' ? true : false;
-
-const cors = require('cors');
-const compression = require('compression');
-
+const errorMidware = require('./middlewares/errorMiddleware');
+// const lessMiddleware = require('less-middleware');
+//const bodyParser = require('body-parser');
+//const dns = require('dns');
+//const compression = require('compression');
+//const isRevokedCallback = require('../modules/isRevokedCallback');
+//const dnsPromises = dns.promises;
+// const tokenCtrl = require('../DB/mongo/controllers/token');
 // const atob = require('atob');
-const key = process.env.AUTH_KEY;
-const isRevokedCallback = require('../modules/isRevokedCallback');
+//const { expressjwt: jwt } = require('express-jwt');
+//const tools = require('../modules/tools');
+const authMiddleware = require('./middlewares/authMiddleware');
 
-const { expressjwt: jwt } = require('express-jwt');
+const routerIndex = require('./routes/index');
+const routerToken = require('./routes/token');
+const routerReact = require('./routes/react');
+const routerLogMessages = require('./routes/logMessages');
+const routerSettings = require('./routes/settings')
 
-const tools = require('../modules/tools');
+const debugMode = process.env.NODE_ENV === 'development' ? true : false;
+// const key = process.env.AUTH_KEY;
 
+const app = express();
 
+app.use((req, res, next) => {
+	if (debugMode && req.method !== 'OPTIONS') {
+		console.log('::', req.method, req.url, req.ip, req.get('Origin'), req.rawHeaders[5]);
+		console.log('req.headers.authorization',req.headers.authorization);
+	}
+	next();
+});
+
+// config
+app.use(cors({ 
+	//  origin: 'localhost',
+	preflightContinue: true 
+}));
+app.use(helmet());
+app.use(express.json());
+
+// process
+
+// public
+app.use('/', routerIndex);
+app.use('/token', routerToken);
+// Private
+app.use('/react',authMiddleware, routerReact);
+app.use('/logMessages',authMiddleware, routerLogMessages);
+app.use('/settings',authMiddleware, routerSettings)
+
+// const auth = require('./auth');
+
+// rotas
+app.use('/erro', (req, res, next) => {
+	throw new Error('erro simulado');
+  });
+app.get('/', (req, res, next) => {
+	res.send('ok');
+  });
+app.post('/', (req, res, next) => {
+	res.send({ ok: true, body: req.body });
+});
+  
+app.use(errorMidware);
+
+/*
 const consultaRotas = async (ip, token) => {
 	// console.log('ip, token', ip, token);
 	const ipHostsAutorizados = [];
@@ -60,7 +107,7 @@ const existeHost = async (dadosToken, ip) => {
 	}
 	return retorno;
 };
-
+*/
 const whitelist = ['http://btramos.com',
 	'http://localhost',
 	'http://localhost:3001',
@@ -75,7 +122,7 @@ const publicRoutes = [
 	{ url: /\/stylesheets*/i, methods: ['GET'] },
 	{ url: /\/favicon.ico*/, methods: ['GET'] },
 ];
-
+/*
 
 const corsOptionsDelegate = async function(req, callback) {
 	// console.log('req.header(Origin)', req.header('Origin'));
@@ -90,7 +137,6 @@ const corsOptionsDelegate = async function(req, callback) {
 	// console.log('publicRoutes', publicRoutes);
 	const isPublic = await tools.searchInArrayObj(publicRoutes, 'url', req.url);
 	// console.log('isPublic', isPublic);
-
 	if (isPublic && (isPublic || []).length > 0) {
 		corsOptions = { origin: true };
 	}
@@ -129,10 +175,10 @@ const rotaAutorizada = async (req) => {
 
 	const ip = remote.substring(7, 25);
 	let retorno = false;
+	console.log('req.headers',req.headers['authorization']);
 	let token = req.headers['authorization'];
+	console.log('-------token',token);
 	token = token ? token.split(' ')[1] : null;
-
-
 	const rota = await consultaRotas(ip, token);
 	if (rota && rota.length > 0) {
 		retorno = true;
@@ -140,34 +186,26 @@ const rotaAutorizada = async (req) => {
 	else {
 		retorno = false;
 	}
+	console.log('retorno',retorno);
 	return retorno;
 
 };
-
-
-app.use(express.json());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 
 app.use(compression());
-app.use(cors({ preflightContinue: true }));
+
 app.use(cors(corsOptionsDelegate));
 
-app.use((req, res, next) => {
-	if (debugMode && req.method !== 'OPTIONS') {
-		console.log('::', req.method, req.url, req.ip, req.get('Origin'), req.rawHeaders[5]);
-	}
-	next();
-});
+
 app.use(jwt({
 	secret: key,
 	algorithms: ['HS256'],
 	isRevoked: isRevokedCallback,
 }).unless({ path:publicRoutes }),
 );
-app.use(helmet());
 
 app.use(function(req, res, next) {
 	// console.log('app.use(function(req ', req.rawHeaders);
@@ -182,24 +220,12 @@ app.use(function(req, res, next) {
 // auth(app, tokenCtrl);
 
 
-// const auth = require('./auth');
-const routerIndex = require('./routes/index');
-const routerToken = require('./routes/token');
-const routerReact = require('./routes/react');
-const routerLogMessages = require('./routes/logMessages');
-
-// rotas
-app.use('/', routerIndex);
-app.use('/token', routerToken);
-app.use('/react', routerReact);
-app.use('/logMessages', routerLogMessages);
-
 // views
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'ejs');
 
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-
+*/
 
 module.exports = app;

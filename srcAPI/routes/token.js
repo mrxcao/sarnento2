@@ -83,6 +83,7 @@ router.get('/isTokenValid/:token', async (request, response) => {
 router.get('/validar', async (request, response) => {
 	let token = request.headers.authorization;
 	token = token.replace('Bearer ', '');
+	console.log('----- request.headers.authorization',request.headers.authorization);
 	try {
 		const decoded = jwt.verify(token, key);
 		if (decoded) {
@@ -97,6 +98,7 @@ router.get('/validar', async (request, response) => {
 		response.send(false);
 	}
 });
+
 /*
 router.post('/login', async (request, response) => {
 

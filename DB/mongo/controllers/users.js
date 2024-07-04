@@ -43,7 +43,7 @@ class UsersController {
 		return await model.findOne({ id }) ;
 	}
 	async getByLogin(login) {
-		console.log('login', login);
+		// console.log('login', login);
 		return await model.findOne({ login }) ;
 	}
 	async getUserName(id) {

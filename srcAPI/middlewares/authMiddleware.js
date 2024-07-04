@@ -6,8 +6,9 @@ const debugMode = process.env.NODE_ENV === 'Development' ? true : false;
 
 module.exports = (req, res, next) => {
 	// eslint-disable-next-line dot-notation
-	const token = req.headers.authorization;
+	let token = req.headers.authorization;
 	if (token) {
+		token = token.replace('Bearer ', '');
 		try {
 			const decoded = jwt.verify(token, secret);
 			if (decoded) {

@@ -2,7 +2,7 @@
   "name": "sarnento2",
   "version": "2.1.2",
   "description": "new sarneto discord bot with discordjs 14",
-  "main": "index222.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
     "start": "node index.js",

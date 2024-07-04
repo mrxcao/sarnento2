@@ -40,7 +40,7 @@ const doLogin = async (req, res, next) => {
 
 			const b = crypto.encrypt(password);
 			if (b === pswBanco) {
-				console.log('secret', secret);
+				// console.log('secret', secret);
 				const payload = {
 					id: usr.id,
 					username: usr.username,
