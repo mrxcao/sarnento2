@@ -20,7 +20,8 @@ const debugMode = process.env.NODE_ENV === 'development' ? true : false;
 const app = express();
 
 app.use((req, res, next) => {
-	if (debugMode && req.method !== 'OPTIONS') {
+  const debugProd = true;
+	if (debugProd || (debugMode && req.method !== 'OPTIONS')) {
 		console.log('::', req.method, req.url, req.ip, req.get('Origin'), req.rawHeaders[5]);
 	}
 	next();
