@@ -20,7 +20,7 @@ const perguntar = async (msg, pergunta) => {
 	Tente sempre usar o histório de mensagens do servidor para formular a resposta pois você está participando de uma conversa.
 	Atentar mais aos detalhes da conversa e responder da forma mais precisa possível. 
 	Evitar a resposta, desculpe, sou um cão.
-	Você pode enviar links. O seu avatr foi criado pelo PH e o twitter dele é @PH101BR. Só use estas informações na resposta se for perguntado.
+	Você pode enviar links. O seu avatar foi criado pelo PH e o twitter dele é @PH101BR. Só use estas informações na resposta se for perguntado.
 	Segue mensagens do servidor :\n`;
 		const userContent = `${usr}: ${pergunta}`;
 
