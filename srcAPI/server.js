@@ -13,7 +13,8 @@ const routerToken = require('./routes/token');
 const routerReact = require('./routes/react');
 const routerLogMessages = require('./routes/logMessages');
 const routerSettings = require('./routes/settings')
-
+const routerSentenceTypes = require('./routes/sentenceTypes')
+const routerSentences = require('./routes/sentences')
 const debugMode = process.env.NODE_ENV === 'development' ? true : false;
 // const key = process.env.AUTH_KEY;
 
@@ -47,14 +48,16 @@ app.use(helmet());
 app.use(express.json());
 
 // process
-
+ 
 // public
 app.use('/', routerIndex);
 app.use('/token', routerToken);
 // Private
 app.use('/react',authMiddleware, routerReact);
 app.use('/logMessages',authMiddleware, routerLogMessages);
-app.use('/settings',authMiddleware, routerSettings)
+app.use('/settings',authMiddleware, routerSettings);
+app.use('/sentenceTypes',authMiddleware, routerSentenceTypes);
+app.use('/sentences',authMiddleware, routerSentences);
 
 // const auth = require('./auth');
 

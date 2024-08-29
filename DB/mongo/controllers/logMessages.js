@@ -44,7 +44,7 @@ class UsersController {
 		const data = await model.aggregate([
 			{ $match: { idGuild } },
 			{ $sort: { criado:-1 } },
-			{ $limit:  100 },
+			{ $limit:  200 },
 			{ $project: { _id:0, msgForAI:1 } },
 		]);
 		let res;
