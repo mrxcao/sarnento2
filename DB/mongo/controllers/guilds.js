@@ -30,13 +30,23 @@ class UsersController {
 			atualizado: new Date(),
 			preferredLocale : req.preferredLocale,
 		};
-
-
 		const query = { 'id':req.id };
 		const ret = model.findOneAndUpdate(query, data, { upsert: true });
 		// return res.status(200).json(ret);
 		return ret;
 	}
+	async setSettings(req) {
+		console.log("req", req);
+		if (req.id) {
+			let data = {T:1}
+			if (req.channelIdNotification ) data.settings.channelIdNotification = req.channelIdNotification
+			if (req.channelIdComplaint ) data.settings.channelIdComplaint = req.channelIdComplaint
+			const ret = model.findOneAndUpdate({ 'id':req.id }, data, { upsert: true });
+			return ret;
+		} else {
+			return false
+		}
+	}	
 	async getMax() {
 		const data = await model.aggregate([
 			{ $group: { _id:null, count:{ $sum:1 } } },

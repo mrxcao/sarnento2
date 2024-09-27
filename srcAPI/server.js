@@ -15,6 +15,7 @@ const routerLogMessages = require('./routes/logMessages');
 const routerSettings = require('./routes/settings')
 const routerSentenceTypes = require('./routes/sentenceTypes')
 const routerSentences = require('./routes/sentences')
+const routerGuilds = require('./routes/guilds')
 const debugMode = process.env.NODE_ENV === 'development' ? true : false;
 // const key = process.env.AUTH_KEY;
 
@@ -58,6 +59,7 @@ app.use('/logMessages',authMiddleware, routerLogMessages);
 app.use('/settings',authMiddleware, routerSettings);
 app.use('/sentenceTypes',authMiddleware, routerSentenceTypes);
 app.use('/sentences',authMiddleware, routerSentences);
+app.use('/guilds',authMiddleware, routerGuilds);
 
 // const auth = require('./auth');
 

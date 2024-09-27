@@ -9,6 +9,11 @@ const _schema = new Schema({
 	available:Boolean,
 	memberCount: Number,
 	preferredLocale: String,
+	settings: {
+		type: Object, 
+		default: {channelIdNotification: Number,
+				  channelIdComplaint:Number} 
+	},
 	criado:  { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },
 });
