@@ -4,16 +4,40 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Schema = mongoose.Schema;
 const collectionName = 'denuncias';
 
-const users = require('./users')._schema;
-
 const _schema = new Schema({
 	ticket: Number,
 	idGuild: String,		
 	anonimo:Boolean,
-	usrDenunciador:users,
-	usrDenunciado:users,
+	usrDenunciador: {
+		id: String,
+		bot: Boolean,
+		system: Boolean,
+		flags: Object, 
+		username: String,
+		globalName: String,
+		discriminator: String,
+		avatar: String,
+		banner: String,
+		accentColor: String,
+		avatarDecoration: mongoose.Schema.Types.Mixed
+	  },
+	usrDenunciado: {
+		id: String,
+		bot: Boolean,
+		system: Boolean,
+		flags: Object, 
+		username: String,
+		globalName: String,
+		discriminator: String,
+		avatar: String,
+		banner: String,
+		accentColor: String,
+		avatarDecoration: mongoose.Schema.Types.Mixed
+	  },
 	motivo: String,
-	criado:  { type: Date, default: Date.now },
+	status: { type: Object, default: {id:1,nome:"Criado"} },
+	atendente: { type: Object, default: {} },
+	criado: { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },
 }, { collection: collectionName })
 

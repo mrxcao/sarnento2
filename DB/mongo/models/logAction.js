@@ -7,14 +7,8 @@ const _schema = new Schema({
 	prompt: String,
 	resposta: String,
 	ai: String,
-	guild: {
-		id: String,
-		name: String,
-	},
-	user: {
-		id: String,
-		username: String,
-	},
+	guild: {id: String,	name: String,},
+	user: {	id: String,	username: String,},
 	atualizado:  { type: Date, default: Date.now },
 });
 

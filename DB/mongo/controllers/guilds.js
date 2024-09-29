@@ -36,9 +36,8 @@ class UsersController {
 		return ret;
 	}
 	async setSettings(req) {
-		console.log("req", req);
 		if (req.id) {
-			let data = {T:1}
+			let data = {settings:{}}
 			if (req.channelIdNotification ) data.settings.channelIdNotification = req.channelIdNotification
 			if (req.channelIdComplaint ) data.settings.channelIdComplaint = req.channelIdComplaint
 			const ret = model.findOneAndUpdate({ 'id':req.id }, data, { upsert: true });

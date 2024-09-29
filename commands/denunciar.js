@@ -17,8 +17,7 @@ module.exports = {
         .addBooleanOption(option =>
             option
                 .setName('anonimo')
-                .setDescription('Denunciar anonimamente? ()')
-                .setRequired(true))
+                .setDescription('Denunciar anonimamente? ()'))
 		.setDMPermission(false),
 	async execute(interaction) {
         const usrDenunciador = interaction.user
