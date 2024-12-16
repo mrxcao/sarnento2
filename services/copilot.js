@@ -1,8 +1,10 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const axios = require('axios')
 const log = require('../modules/log');
 const cttrlLogTokenSize = require('../DB/mongo/controllers/logTokenSize');
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+
+const headers = {
+	'X-API-KEY': process.env.COPILOT_API_KEY
+}
 
 const perguntar = async (msg, pergunta) => {
 
@@ -36,7 +38,8 @@ const perguntar = async (msg, pergunta) => {
 
 		try {
 			const textoEntrada = cut + '\n Pergunta: ' + userContent ;
-			const resposta = await model.generateContent(textoEntrada);
+			const resposta = await  axios.get('https://seu-url-aqui.com/v1/installs', headers)
+			//model.generateContent(textoEntrada);
 			if (resposta) {
 				cttrlLogTokenSize.store({ ai:'openAI', size: tokenLimit });
 				return resposta.response.text();
@@ -48,14 +51,7 @@ const perguntar = async (msg, pergunta) => {
 		}
 		catch (error) {
 			let err;
-			if (error.code === 'insufficient_quota') {
-				resultado = true;
-				err = 'Você excedeu sua cota de uso da API da OpenAI. Por favor, verifique seu plano e detalhes de faturamento.';
-			}
-			else {
-				err = error;
-			}
-			console.log('perguntar Gemini -> err', err);
+			console.log('perguntar Copilot -> err', err);
 			tokenLimit = tokenLimit - 2000;
 		}
 
