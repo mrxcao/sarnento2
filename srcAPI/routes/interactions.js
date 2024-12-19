@@ -7,8 +7,6 @@ router.post('/', async (req, res) => {
     const timestamp = req.headers['x-signature-timestamp'];
     const rawBody = JSON.stringify(req.body);
     try {
-        console.log("process.env.DISCORD_PUBLIC_KEY", process.env.DISCORD_PUBLIC_KEY);
-
         verifyKey(rawBody, signature, timestamp, process.env.DISCORD_PUBLIC_KEY);
         if (req.body.type === 1) {
             return res.json({ type: 1 });
