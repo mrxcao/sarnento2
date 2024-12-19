@@ -17,6 +17,9 @@ const routerSentenceTypes = require('./routes/sentenceTypes')
 const routerSentences = require('./routes/sentences')
 const routerGuilds = require('./routes/guilds')
 const routerDenuncias = require('./routes/denuncias')
+const routerStatus = require('./routes/status')
+const routerInteractions = require('./routes/interactions')
+
 const debugMode = process.env.NODE_ENV === 'development' ? true : false;
 // const key = process.env.AUTH_KEY;
 
@@ -31,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 // config
-const allowedOrigins = ['http://localhost:3001', 'http://seu-dominio-producao.com'];
+const allowedOrigins = ['http://localhost:3001', 'https://sarnento.app.br'];
 const corsOptions = {
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
@@ -54,6 +57,8 @@ app.use(express.json());
 // public
 app.use('/', routerIndex);
 app.use('/token', routerToken);
+app.use('/status', routerStatus);
+app.use('/interactions', routerInteractions);
 // Private
 app.use('/denuncias',authMiddleware, routerDenuncias);
 app.use('/guilds',authMiddleware, routerGuilds);
