@@ -44,6 +44,8 @@ const messages = async (msg) => {
 		logMessagesClt.store(data);
 	}
 	catch (err) {
+		console.log(":: err", err);
+		console.log("::msg", msg);
 		throw new Error(err + ' usrError:: ' + userErro);
 	}
 
