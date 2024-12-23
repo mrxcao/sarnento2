@@ -20,7 +20,7 @@ const routerDenuncias = require('./routes/denuncias')
 const routerStatus = require('./routes/status')
 const routerInteractions = require('./routes/interactions')
 
-const debugMode = process.env.NODE_ENV === 'development' ? true : false;
+const debugMode = true //process.env.NODE_ENV === 'development' ? true : false;
 // const key = process.env.AUTH_KEY;
 
 const app = express();
@@ -34,9 +34,13 @@ app.use((req, res, next) => {
 });
 
 // config
-const allowedOrigins = ['http://localhost:3001', 'https://sarnento.app.br'];
+const allowedOrigins = ['http://localhost:3001', 'https://sarnento.app.br']; 
+
 const corsOptions = {
+  
     origin: (origin, callback) => {
+      
+
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
