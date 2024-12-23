@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 // config
-const allowedOrigins = ['http://localhost:3001', 'https://sarnento.app.br']; 
+const allowedOrigins = ['http://localhost:3001', 'https://ssarnento.app.br']; 
 
 const corsOptions = {
   
