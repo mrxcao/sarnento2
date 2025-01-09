@@ -25,11 +25,11 @@ const criaCarta = async (texto, img) => {
 		let background;
 		// windows
 		if (process.env.NODE_ENV == 'development') {
-			background = await readFile(__dirname + '\\..\\..\\public\\img\\bgPoke.png');
+			background = await readFile(__dirname + '\\..\\public\\img\\bgPoke.png');
 		}
 		// linux
 		else {
-			background = await readFile(__dirname + '/../../public/img/bgPoke.png');
+			background = await readFile(__dirname + '/../public/img/bgPoke.png');
 		}
 
 		const backgroundImage = new Image();
@@ -117,7 +117,10 @@ const quiz = async (msg, qtde = null) => {
 		method: 'get',
 		url: url + 'pokemon/' + pokeNo,
 	};
+	console.log("url", url);
+	console.log("1", 1);
 	const response = await axios(header);
+	console.log("1", 2);
 	const data = response.data;
 	const item = {
 		pergunta: 'Qual o nome deste Pokemon? ',
