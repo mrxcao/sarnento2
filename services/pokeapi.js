@@ -7,7 +7,7 @@ const { createCanvas, Image } = require('@napi-rs/canvas');
 const { request } = require('undici');
 const { readFile } = require('fs/promises');
 const { EmbedBuilder } = require('discord.js');
-
+const fs = require('fs');
 const url = process.env.POKEAPI_URL;
 
 const seg = 30;
