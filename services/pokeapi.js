@@ -3,11 +3,11 @@ const tools = require('../modules/tools');
 const pokemon = require('../DB/mongo/controllers/pokemon');
 const pokeScore = require('../DB/mongo/controllers/pokeScore');
 const users = require('../DB/mongo/controllers/users');
-const { createCanvas, Image } = require('@napi-rs/canvas');
-const { request } = require('undici');
+const { createCanvas, Image, loadImage   } = require('@napi-rs/canvas');
+// const { request } = require('undici');
+const axios = require('axios');
 const { readFile } = require('fs/promises');
 const { EmbedBuilder } = require('discord.js');
-const fs = require('fs');
 const url = process.env.POKEAPI_URL;
 
 const seg = 30;
@@ -15,7 +15,6 @@ const seg = 30;
 
 
 const criaCarta = async (texto, img) => {
-	console.log("img", img);
 	const canvas = createCanvas(960, 550);
 	const context = canvas.getContext('2d');
 	context.strokeRect(0, 0, canvas.width, canvas.height);
@@ -26,27 +25,33 @@ const criaCarta = async (texto, img) => {
 	try {		
 		// windows		
 		if (process.env.NODE_ENV == 'development') {
-			console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 			background = await readFile(__dirname + '\\..\\public\\img\\bgPoke.png');
 		}
 		// linux
 		else {
 			background = await readFile(__dirname + '/../public/img/bgPoke.png');			
-			console.log('Background path:', __dirname + '/../public/img/bgPoke.png');
-			console.log('File exists:', fs.existsSync(__dirname + '/../public/img/bgPoke.png'));
 		}
-
+		/*
 		const backgroundImage = new Image();
-		backgroundImage.src = background;
+		backgroundImage.src = background; */
+		const backgroundImage = await loadImage(background);
+
 		context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 	}
 	catch (error) {
 		console.log('criaCarta error', error);
 	}
 
+	/*
 	const { body } = await request(img);
 	const avatar = new Image();
 	avatar.src = Buffer.from(await body.arrayBuffer());
+*/
+	
+const response = await axios.get(img, { responseType: 'arraybuffer' });
+const avatar = await loadImage(Buffer.from(response.data));
+
+
 	context.drawImage(avatar, 0, 0, 570, 570);
 
 	

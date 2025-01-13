@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.13.0",
-    "@napi-rs/canvas": "^0.1.53",
+    "@napi-rs/canvas": "^0.1.65",
     "aes-js": "^3.1.2",
     "atob": "^2.1.2",
     "axios": "^1.7.3",
