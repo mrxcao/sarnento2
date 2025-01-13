@@ -26,11 +26,12 @@ const criaCarta = async (texto, img) => {
 		let background;
 		// windows		
 		if (process.env.NODE_ENV == 'development') {
+			console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 			background = await readFile(__dirname + '\\..\\public\\img\\bgPoke.png');
 		}
 		// linux
 		else {
-			background = await readFile(__dirname + '../../public/img/bgPoke.png');
+			background = await readFile(__dirname + '/../public/img/bgPoke.png');
 			console.log("background", background);
 			console.log("__dirname", __dirname);
 		}
