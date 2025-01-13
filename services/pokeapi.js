@@ -31,7 +31,9 @@ const criaCarta = async (texto, img) => {
 		}
 		// linux
 		else {
-			background = await readFile(__dirname + '../public/img/bgPoke.png');			
+			background = await readFile(__dirname + '/../public/img/bgPoke.png');			
+			console.log('Background path:', __dirname + '/../public/img/bgPoke.png');
+			console.log('File exists:', fs.existsSync(__dirname + '/../public/img/bgPoke.png'));
 		}
 
 		const backgroundImage = new Image();
