@@ -126,14 +126,13 @@ const quiz = async (msg, qtde = null) => {
 		method: 'get',
 		url: url + 'pokemon/' + pokeNo,
 	};
-	console.log("url", url);	
 	let response;
 	try {
 		response = await axios(header);	
 	} catch (error) {
 		console.log("pokeAPI axios error", error);
 	}	
-	console.log("url ", 2);
+
 	const data = response.data;
 	const item = {
 		pergunta: 'Qual o nome deste Pokemon? ',
