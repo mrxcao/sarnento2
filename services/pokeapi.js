@@ -5,7 +5,6 @@ const pokeScore = require('../DB/mongo/controllers/pokeScore');
 const users = require('../DB/mongo/controllers/users');
 const { createCanvas, Image, loadImage   } = require('@napi-rs/canvas');
 // const { request } = require('undici');
-const axios = require('axios');
 const { readFile } = require('fs/promises');
 const { EmbedBuilder } = require('discord.js');
 const url = process.env.POKEAPI_URL;
