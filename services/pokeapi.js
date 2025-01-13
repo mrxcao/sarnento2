@@ -31,9 +31,7 @@ const criaCarta = async (texto, img) => {
 		}
 		// linux
 		else {
-			background = await readFile(__dirname + '/../public/img/bgPoke.png');
-			console.log("background", background);
-			console.log("__dirname", __dirname);
+			background = await readFile(__dirname + '../public/img/bgPoke.png');			
 		}
 
 		const backgroundImage = new Image();
@@ -47,8 +45,9 @@ const criaCarta = async (texto, img) => {
 	const { body } = await request(img);
 	const avatar = new Image();
 	avatar.src = Buffer.from(await body.arrayBuffer());
-	context.drawImage(avatar, 20, 0, 570, 570);
+	context.drawImage(avatar, 0, 0, 570, 570);
 
+	
 	// context.globalAlpha = 0.95;
 	context.rect(40, canvas.height - 82, canvas.width, 50);
 	context.fillStyle = '#3052ad';
