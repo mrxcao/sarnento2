@@ -15,6 +15,7 @@ const seg = 30;
 
 
 const criaCarta = async (texto, img) => {
+	console.log("img", img);
 	const canvas = createCanvas(960, 550);
 	const context = canvas.getContext('2d');
 	context.strokeRect(0, 0, canvas.width, canvas.height);
@@ -117,10 +118,14 @@ const quiz = async (msg, qtde = null) => {
 		method: 'get',
 		url: url + 'pokemon/' + pokeNo,
 	};
-	console.log("url", url);
-	console.log("1", 1);
-	const response = await axios(header);
-	console.log("1", 2);
+	console.log("url", url);	
+	let response;
+	try {
+		response = await axios(header);	
+	} catch (error) {
+		console.log("pokeAPI axios error", error);
+	}	
+	console.log("url ", 2);
 	const data = response.data;
 	const item = {
 		pergunta: 'Qual o nome deste Pokemon? ',
