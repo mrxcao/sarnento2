@@ -22,8 +22,8 @@ const criaCarta = async (texto, img) => {
 
 	// const background = await readFile('D:\\projects\\sarnento2\\public\\img\\bgPoke.png');
 
-	try {
-		let background;
+	let background;
+	try {		
 		// windows		
 		if (process.env.NODE_ENV == 'development') {
 			console.log("process.env.NODE_ENV", process.env.NODE_ENV);
