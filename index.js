@@ -16,6 +16,7 @@ const client = new Client({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMessageReactions,
 		GatewayIntentBits.GuildVoiceStates,
+		GatewayIntentBits.GuildPresences,
 	],
 	partials:[
 		Partials.Message,
@@ -171,13 +172,26 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 	const member = newState.member;
 	const regexEmojis = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji}/gu;
 	const guild = newState.guild;
+	//console.log("guild.channels", guild.channels.cache);
 
-	const announcementChannel = guild.channels.cache.find(channel => channel.name === 'geral' ||
-													channel.id === '1133132230600953896' ||
-													channel.id === '1128505639849693275' ||
-													channel.id === '1165466900558524416' ||
-													channel.id === '1109537601217626215');
+    let textChannel = null;
+	let voiceChannelName = "";
+    if (newState.channel) {
+        textChannel = newState.channel;
+		voiceChannelName = newState.channel.name.replace(regexEmojis, '').toLowerCase();
+    } else if (oldState.channel) {
+        textChannel = oldState.channel;
+		voiceChannelName = oldState.channel.name.replace(regexEmojis, '').toLowerCase();
+    }
 
+    if (!textChannel) {
+        textChannel = guild.channels.cache.find(channel => 
+			(channel.type === 0 && channel.name.toLowerCase() === voiceChannelName) ||
+            ['geral', '1133132230600953896', '1128505639849693275', '1165466900558524416', '1109537601217626215']
+                .includes(channel.name) || ['1133132230600953896', '1128505639849693275', '1165466900558524416', '1109537601217626215']
+                .includes(channel.id)
+        );
+    }
 
 	const guildsPTBRcomEN = ['1165449166323982388', '1095355564780949526'];
 	const guildID_ = guild.id;
@@ -191,7 +205,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 			gmt = -3 * 60;
 			break;
 		default:
-			gmt = 	0;
+			gmt = 0;
 			break;
 		}
 	}
@@ -200,14 +214,12 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 	if (oldState.channel === null && newState.channel !== null) {
 		const channelName = newState.channel.name.replace(regexEmojis, '');
 		const channelLink = `discord://discordapp.com/channels/${guild.id}/${newState.channel.id}`;
-
-		if (announcementChannel) {
-
+		if (textChannel) {
 			try {
-				announcementChannel.send(`${hora} :: ${member.displayName} entrou no canal de voz  [${channelName}](${channelLink}) `);
+				textChannel.send(`${hora} :: ${member.displayName} entrou no canal de voz  [${channelName}](${channelLink}) `);
 			}
 			catch (error) {
-				console.log('error index announcementChannel', announcementChannel);
+				console.log('error index announcementChannel', textChannel);
 			}
 
 		}
@@ -215,14 +227,39 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 	else if (newState.channel === null && oldState.channel !== null) {
 		const channelName = oldState.channel.name.replace(regexEmojis, '');
 		const channelLink = `discord://discordapp.com/channels/${guild.id}/${oldState.channel.id}`;
-		if (announcementChannel) {
-			announcementChannel.send(`${hora} :: ${member.displayName} saiu do canal de voz  [${channelName}](${channelLink}) `);
+		if (textChannel) {
+			textChannel.send(`${hora} :: ${member.displayName} saiu do canal de voz  [${channelName}](${channelLink}) `);
 		}
 	}
 
 	if (!oldState.streaming && newState.streaming) {
-		if (announcementChannel) {
-			announcementChannel.send(`${hora} :: ${member.displayName} começou a transmitir 🎥📺 `);
+		if (textChannel) {
+			let streamName = "algo maneiro";
+
+			// Verifica se iniciou transmissão (Go Live)
+			const streamingActivity = newState.member.presence?.activities.find(activity => activity.type === 1);
+			if (streamingActivity?.name) streamName = streamingActivity.name;
+
+/*
+			const presence = newState.guild.presences.resolve(newState.member.id);
+			console.log(1,presence);
+			console.log(2,presence?.activities);
+			*/
+			/*
+const voiceState = newState.guild.voiceStates.resolve(newState.member.id);
+console.log(voiceState);
+*/
+
+			/*
+			// Verifica se está ouvindo Spotify
+			const spotifyActivity = newState.member.presence?.activities.find(activity => activity.type === 2 && activity.name === "Spotify");
+			
+			if (spotifyActivity) {
+				textChannel.send(`${hora} :: ${member.displayName} está ouvindo **${spotifyActivity.details}** no Spotify 🎵`);
+			}
+				*/
+
+			textChannel.send(`${hora} :: ${member.displayName} começou a transmitir **${streamName}** 📺 `);
 		}
 	}
 
