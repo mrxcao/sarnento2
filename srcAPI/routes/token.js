@@ -31,7 +31,7 @@ router.get('/dadosToken', async (request, response) => {
 });
 router.post('/geraToken', async (request, response) => {
 	try {
-		const bloqueado = true;
+		const bloqueado = false;
 		if (!bloqueado) {
 			const { name } = request.body;
 			let { dataFim } = request.body;
