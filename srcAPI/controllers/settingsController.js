@@ -1,6 +1,7 @@
 const settingsCtrl = require('../../DB/mongo/controllers/settings');
 
 const set = async (req, res, next) => {
+	console.log('1',1);
 	try {
 		const save = await settingsCtrl.upSert(req.body);
 		res.send(save);

@@ -47,6 +47,10 @@ client.on('ready', (c) => {
 	tools.replyLines();
 	sendStatus();
 });
+if (debugMode) {
+	console.log('Debug mode ON'); console.log('\x07'); // beep
+}
+
 const sendStatus = async () => {
 	telegram.send(await status.get(0));
 };

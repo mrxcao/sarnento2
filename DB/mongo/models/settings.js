@@ -7,6 +7,7 @@ const _schema = new Schema({
 	prefix: String,
 	sinopseForAI:String,
 	lastUpTime:Date,
+	tempoGuardaDias: Number,
 	blackList_AI: { String },
 	criado:  { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },

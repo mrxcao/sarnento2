@@ -5,6 +5,7 @@ require('dotenv').config({
 const schedule = require('node-schedule');
 const tasklist = require('./tasks');
 const mongodb = require('./modules/DB/mongo/connect');
+const debugMode = process.env.DEBUG === 'true' ? true : false;
 
 const run = async () => {
   /*
@@ -22,6 +23,9 @@ const run = async () => {
   }
 
   console.log('Waiting for new taks  - ', process.env.NODE_ENV);
+  if (debugMode) {
+		console.log(':: Debug mode ON'); console.log('\x07'); // beep
+	}
 };
 
 run();

@@ -8,12 +8,9 @@ module.exports = (req, res, next) => {
 	// eslint-disable-next-line dot-notation
 	let token = req.headers.authorization;
 	if (token) {
-		console.log('token',token, secret);
-
 		token = token.replace('Bearer ', '');
 		try {
 			const decoded = jwt.verify(token, secret);
-			console.log('decoded',decoded);
 			if (decoded) {
 				if (!inBlackList(token)) {
 					res.locals.tokon = decoded;

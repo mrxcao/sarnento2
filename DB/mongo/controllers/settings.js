@@ -20,6 +20,19 @@ class UsersController {
 	async destroy() {
 		//
 	}
+
+	async upSert(req) {
+		console.log('req',req);
+		const data = {
+			tempoGuardaDias: req.tempoGuardaDias,
+		  	atualizado: new Date(),
+		};
+	
+		const query = {}; //  { id: req.id };
+		const ret = model.findOneAndUpdate(query, data, { upsert: true, new: true });
+		// return res.status(200).json(ret);
+		return ret;
+	  }	
 }
 
 module.exports = new UsersController();
