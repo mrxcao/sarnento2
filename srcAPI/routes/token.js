@@ -31,7 +31,7 @@ router.get('/dadosToken', async (request, response) => {
 });
 router.post('/geraToken', async (request, response) => {
 	try {
-		const bloqueado = false;
+		const bloqueado = true;
 		if (!bloqueado) {
 			const { name } = request.body;
 			let { dataFim } = request.body;
@@ -99,39 +99,6 @@ router.get('/validar', async (request, response) => {
 	}
 });
 
-/*
-router.post('/login', async (request, response) => {
-
-	try {
-		const { login, password } = request.body;
-		const usr = await usersCtrl.get({ login });
-		if (usr) {
-			const pswBanco = usr.password;
-
-			//  const a = crypto.decrypt(pswBanco);
-			const b = crypto.encrypt(password);
-			if (b === pswBanco) {
-				const payload = {
-					id: usr.id,
-					username: usr.username,
-					avatar: usr.avatar,
-				};
-				const token = jwt.sign(payload, secret, tokenOptions);
-				response.send({ ok: true, token });
-			}
-			else {
-				response.sendStatus(401);
-			}
-	  }
-	  else {
-			res.sendStatus(401);
-	  }
-	}
-	catch (error) {
-	  res.status(500).send(error.toString());
-	}
-});
-*/
 router.post('/login', usersController.doLogin);
 router.post('/logout', usersController.doLogout);
 
