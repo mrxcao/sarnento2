@@ -34,17 +34,18 @@ app.use((req, res, next) => {
 });
 
 // config
-const allowedOrigins = ['http://localhost:3001', 'https://sarnento.app.br']; 
+const allowedOrigins = ['http://localhost:3002', 'https://sarnento.app.br']; 
 
 const corsOptions = {
   
     origin: (origin, callback) => {
-      
-
         if (!origin) return callback(null, true);
+        
         if (allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
+            console.log('origin',origin);
+            console.log('allowedOrigins',allowedOrigins);
             callback(new Error('Not allowed by CORS'));
         }
     },
