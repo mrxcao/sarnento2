@@ -55,6 +55,9 @@ const getMessagesGuild = async (guildId) => {
 	const data = await logMessagesClt.getGuildsMsgs(guildId);
 	return data;
 };
+const getMessagesGuild2 = async (guildId) => {
+	const data = await logMessagesClt.getGuildsMsgs2(guildId);
+	return data;
+};
 
-
-module.exports = { action, messages, getMessagesGuild };
+module.exports = { action, messages, getMessagesGuild, getMessagesGuild2 };

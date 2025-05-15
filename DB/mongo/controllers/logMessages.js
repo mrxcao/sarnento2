@@ -45,6 +45,7 @@ class UsersController {
 			{ $match: { idGuild } },
 			{ $sort: { criado:-1 } },
 			{ $limit:  200 },
+			{ $sort: { criado:1 } },
 			{ $project: { _id:0, msgForAI:1 } },
 		]);
 		let res;
@@ -52,6 +53,16 @@ class UsersController {
 			res = res + `${d.msgForAI}\n\r`;
 		}
 		return res;
+	}
+	async getGuildsMsgs2(idGuild) {
+		const data = await model.aggregate([
+			{ $match: { idGuild } },
+			{ $sort: { criado:-1 } },
+			{ $limit:  100 },
+			{ $sort: { criado:1 } },
+			{ $project: { _id:0, msgForAI:1, idUSr:1, msg:1 } },
+		]);
+		return data;
 	}
 
 	async getLasts(qtde) {
