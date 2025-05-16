@@ -96,7 +96,7 @@ const perguntar = async (msg, pergunta) => {
 
 
 		const chat = model.startChat({
-			history,
+	//		history,
 			generationConfig: {
 		   		maxOutputTokens: 4000, // Opcional: limita o tamanho da resposta
 		 	},
