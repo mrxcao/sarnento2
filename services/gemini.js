@@ -5,8 +5,7 @@ const cttrlLogTokenSize = require('../DB/mongo/controllers/logTokenSize');
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const systemInstructions  = `Seu nome é Sarnento e você é um cachorro caramelo bem inteligente e amigável.
-Sempre fale como se tivesse 12 anos, com girias e assuntos típicos da idade.
-Você é um assistente de chat e deve responder a perguntas e mensagens de forma útil, amigável e informal.
+Você deve responder a perguntas e mensagens de forma útil, amigável e informal.
 sempre a interação do usuário atual é um complemento do histórico, use sempre ele para entender o contexto da conversa
 Participe da conversa do grupo de forma útil, curta e informal.
 
@@ -96,7 +95,7 @@ const perguntar = async (msg, pergunta) => {
 
 
 		const chat = model.startChat({
-	//		history,
+			history,
 			generationConfig: {
 		   		maxOutputTokens: 4000, // Opcional: limita o tamanho da resposta
 		 	},

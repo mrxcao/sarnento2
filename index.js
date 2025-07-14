@@ -173,6 +173,8 @@ client.on('messageUpdate', (msgOld, msgNew) => {
 
 
 client.on('voiceStateUpdate', (oldState, newState) => {
+	const isBlocked = true
+	if (!isBlocked) {
 	const member = newState.member;
 	const regexEmojis = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji}/gu;
 	const guild = newState.guild;
@@ -266,7 +268,7 @@ console.log(voiceState);
 			textChannel.send(`${hora} :: ${member.displayName} começou a transmitir **${streamName}** 📺 `);
 		}
 	}
-
+	}
 });
 
 tools.replyLines();
