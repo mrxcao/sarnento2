@@ -1,0 +1,25 @@
+{
+    "env": {
+		"node": true,
+		"es6": true,
+		"jest": true
+    },
+    "extends": "airbnb-base",
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+        "eqeqeq":"off",
+        "linebreak-style": 0,
+        "no-console":"off",
+        "no-underscore-dangle":"off",
+        "no-unused-expressions":"off",
+        "no-plusplus":"off",
+        "no-await-in-loop":"off",
+        "class-methods-use-this":"off",
+        "no-restricted-syntax":"off",
+        "radix":"off"
+    }
+}
