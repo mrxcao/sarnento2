@@ -17,6 +17,6 @@ module.exports = {
     console.log(`[${nowBR()}] (${name}) Início`);
     await loterias.capturarMegaSena(false, debugMode);
     const t1 = performance.now();
-    console.log(`[${nowBR()}] (${name}) Fim - ${(t1 - t0) * 1000}s`);
+    console.log(`[${nowBR()}] (${name}) Fim - ${(t1 - t0) / 1000}s`);
   },
 };
