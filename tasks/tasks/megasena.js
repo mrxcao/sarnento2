@@ -1,4 +1,6 @@
+const { performance } = require('perf_hooks');
 const loterias = require('../modules/loterias');
+const { nowBR } = require('../modules/tools');
 
 const name = 'megaSena';
 module.exports = {
@@ -10,8 +12,11 @@ module.exports = {
   },
   callback: async () => {
     const debugMode = process.env.DEBUG === 'true';
-    console.log(new Date(), name, 'inicio');
+
+    const t0 = performance.now();
+    console.log(`[${nowBR()}] (${name}) Início`);
     await loterias.capturarMegaSena(false, debugMode);
-    console.log(new Date(), name, 'fim');
+    const t1 = performance.now();
+    console.log(`[${nowBR()}] (${name}) Fim - ${(t1 - t0) * 1000}s`);
   },
 };

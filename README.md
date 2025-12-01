@@ -1,9 +1,10 @@
 
-# Sarnento2 — Discord Bot + API + Tasks + Front
-
 <p align="center">
   <img src="https://sarnento.app.br/img/favicon/favicon.png" width="50">
 </p>
+
+# Sarnento — Discord Bot + API + Tasks + Front
+
 
 <p align="center">
   <a href="https://nodejs.org"><img src="https://img.shields.io/badge/Node.js-18+-green?logo=node.js"></a>
