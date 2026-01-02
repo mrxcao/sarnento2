@@ -55,12 +55,13 @@ const sendStatus = async () => {
 	telegram.send(await status.get(0));
 };
 
-// collections de comandos slash //
+// cPPPollections de comandos slash //
 client.commands = readSlashCmds();
 
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 	const command = interaction.client.commands.get(interaction.commandName);
+	if (debugMode) console.log(`:: /${interaction.commandName} #${interaction.channelId} @${interaction.user.username} `);
 	if (!command) {
 		console.error(`comando \\ não encontrado: ${interaction.commandName}.`);
 		return;
@@ -76,8 +77,14 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 client.on('messageCreate', async (msg) => {
-	let passOk = true;
+	if (msg.content) {
+		log.messages(msg);
+		usersCtl.upSert(msg.author);
+		guildsCtl.upSert(msg.guild);
+		usersGuildsCtrl.upSert(msg.author.id, msg.guild.id);
+	}
 
+	let passOk = true;
 	// Gamepad
 	if (msg.guild.id === '285570673747820545') {
 		// #arquibancada
@@ -99,17 +106,9 @@ client.on('messageCreate', async (msg) => {
 		}
 	}
 
-
-	if (msg.content) {
-		log.messages(msg);
-		usersCtl.upSert(msg.author);
-		guildsCtl.upSert(msg.guild);
-		usersGuildsCtrl.upSert(msg.author.id, msg.guild.id);
-	}
-
 	if (!msg.author.bot && msg.content) {
 		const args = msg.content.split(' ');
-		debugMode ? console.log('::', msg.guild.name, ' - ', msg.author.username) : true;
+		if (debugMode) console.log('::', msg.guild.name, ' - ', msg.author.username);
 		// update infos
 
 		if (passOk) {
