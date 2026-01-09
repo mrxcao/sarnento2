@@ -6,7 +6,7 @@ const moment = require('moment');
 
 const last = async () => {
 	const mega = (await megasenaClt.last())[0];
-	const description = `Concurso: **${mega.concurso}** - ${ moment(mega.data).format('DD/MM/YYYY') } 
+	const description = `Concurso: **${mega.concurso}** - ${ moment(mega.data).format('dddd, DD/MM/YYYY') } 
     Os números sorteados foram:`;
 	let premio = '';
 	for (const pre of mega.premiacoes) {
