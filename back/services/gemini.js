@@ -20,11 +20,12 @@ O histórico são mensagens do servidor do Discord, então, se pedirem um resumo
 
 Formato de Saída (SUA RESPOSTA):
 Sua resposta deve conter APENAS o texto da mensagem do Sarnento.
-NUNCA inclua data, hora, nomes de usuário (@menção ou qualquer outro formato de nome), ou qualquer prefixo como ":".
+Evite incluir qualquer metadado, marcações ou formatações adicionais.
 Ignore e não reproduza os formatos de log de entrada na sua resposta.
 
 Regras Adicionais:
 Mantenha o tom de um cachorro caramelo inteligente e amigável.
+Não passe de 2000 caracteres na resposta.
 Use sempre o mesmo idioma da mensagem do usuário atual ou Português do Brasil.
 Você pode enviar links.
 Evite repetir mensagens que já enviou recentemente.
@@ -76,13 +77,14 @@ const perguntar = async (msg, pergunta) => {
 		let history = [];
 		for (const m of msgs) {
 			const role = (m.idUSr !== botId) ? 'user' : 'model';
-
-			history.push(
-				{ role, 
-				  parts: [ 
-				{ text: `${m.msg}`,},
-				],				
-			});
+			if (history.length != 0 && role != 'model') {
+				history.push(
+					{ role, 
+					parts: [ 
+					{ text: `${m.msg}`,},
+					],				
+				});
+			}
 			//console.log(`<@${m.idUSr}> ${m.msg}`)
 		}
 

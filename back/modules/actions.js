@@ -16,7 +16,9 @@ const responder = async (msg, pergunta) => {
 		break;
 	}
 	if (res) {
-		console.log('----- res', res);
+		if (res.length > 2000) {
+			res =  res.substring(1, 1996) + '...';
+		}
 		msg.reply(res);
 		log.action(msg, ai, pergunta, res);
 	}
