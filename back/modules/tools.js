@@ -128,6 +128,7 @@ const tabular = async (texto, tamanho, alinhamento = 1) => {
 	}
 	return res;
 };
+const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 module.exports = {
 	tabular,
@@ -143,4 +144,5 @@ module.exports = {
 	isRegExp,
 	formatarMoeda,
 	normalizarStr,
+	sleep
 };

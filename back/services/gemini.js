@@ -1,8 +1,12 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const log = require('../modules/log');
-
+const uills = require('../modules/tools.js');
 const cttrlLogTokenSize = require('../DB/mongo/controllers/logTokenSize');
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+
+const COOLDOWN = 60_000; 
+
 
 const systemInstructions  = `Seu nome é Sarnento e você é um cachorro caramelo bem inteligente e amigável.
 Você deve responder a perguntas e mensagens de forma útil, amigável e informal.
@@ -28,51 +32,43 @@ Responda diretamente à conversa atual.
 Se alguém te pedir para morder alguém, diga que vai morder a pessoa que mandou a mensagem.`;
 
 const modelosGeminiDisponiveis = [
-    // Modelos 1.5 Flash (otimizados para velocidade/custo, contexto longo)
-    'gemini-1.5-flash-latest', // Alias para a versão mais recente do 1.5 Flash
-    'gemini-1.5-flash-002',    // Versão estável específica do 1.5 Flash
+    // Uma das versões mais novas e avançadas disponíveis para texto
+    'gemini-2.5-pro',                   // Stable (produção) – modelo mais capaz disponível
+    'gemini-2.5-pro-preview-tts',       // Preview TTS (texto para áudio)
 
-    // Modelos 1.5 Pro (mais capazes, contexto longo)
-    'gemini-1.5-pro-latest',   // Alias para a versão mais recente do 1.5 Pro
-    'gemini-1.5-pro-002',      // Versão estável específica do 1.5 Pro
+    // Variante “Flash”: boa relação custo/desempenho
+    'gemini-2.5-flash',                 // Versão estável do 2.5 Flash
+    'gemini-2.5-flash-preview-09-2025', // Preview do 2.5 Flash (para teste/prototipação)
+    
+    // Versões “Lite”: foco em custo/latência
+    'gemini-2.5-flash-lite',            // Stable (se disponível)
+    'gemini-2.5-flash-lite-preview-09-2025', // Preview do Lite
 
-    // Modelos 2.0 Flash (recursos de última geração, velocidade)
-    'gemini-2.0-flash',        // Alias para a versão mais recente do 2.0 Flash
-    'gemini-2.0-flash-001',    // Versão estável específica do 2.0 Flash
+    // Últimas versões “Pro” de nova geração
+    'gemini-3-pro-preview',             // Gemini 3 Pro (modelo mais avançado em preview)
+    
+    // Modelos multimodais com saída/imput multimodal (usa tipo de tarefa específica)
+    'gemini-3-pro-image-preview',       // Preview multimodal com suporte a imagem (texto+imagem)
 
-     // Modelos 2.0 Flash-Lite (eficiência de custo/baixa latência)
-    'gemini-2.0-flash-lite',   // Alias para a versão mais recente do 2.0 Flash-Lite
-    'gemini-2.0-flash-lite-001', // Versão estável específica do 2.0 Flash-Lite
-
-    // Modelo 1.5 Flash 8B (alto volume, menor complexidade)
-    'gemini-1.5-flash-8b-latest', // Alias para a versão mais recente do 1.5 Flash 8B
-
-    // Modelos Pro (versões anteriores, ainda amplamente utilizadas)
-    'gemini-pro',              // Alias comum para a versão mais recente do Gemini 1.0 Pro
-    'gemini-1.0-pro-002',      // Versão estável específica do Gemini 1.0 Pro
-
-    // Modelos Multimodais (texto + imagem/vídeo, geram texto)
-    // Úteis se seu bot processar outros tipos de mídia além de texto
-    'gemini-pro-vision',       // Alias comum para a versão mais recente do Gemini 1.0 Pro Vision
-    'gemini-1.0-pro-vision-001'// Versão estável específica do Gemini 1.0 Pro Vision
+    // Modelos de TTS (se você precisar geração de áudio)
+    'gemini-2.5-flash-preview-tts',     // TTS em preview
 ];
 
-
 const perguntar = async (msg, pergunta) => {
-	const botId = msg.client.user.id; // ID do seu bot (Sarnento)
+	const botId = msg.client.user.id; 
 
 	let tokenLimit = 60000;
 	let resultado = false;
 	const msgs =  await log.getMessagesGuild2(msg.guildId);
 	const usr = msg.author.username;
-	// const userContent = `${usr}: ${pergunta}`;
-	const userContent = `<@${msg.author.idUSr}>: ${pergunta}`;
+	//const userContent = `${usr}: ${pergunta}`;
+	const userContent = `${pergunta}`;
 
 	// const c = 0;
 	while (tokenLimit > 0 && resultado == false) {
- 		
+			//console.log(':: perguntar Gemini -> tokenLimit', tokenLimit, resultado);
 			const model = genAI.getGenerativeModel({ 
-			model: modelosGeminiDisponiveis[6], 
+			model: modelosGeminiDisponiveis[3], 
 			system: systemInstructions,
 		});
 
@@ -83,16 +79,18 @@ const perguntar = async (msg, pergunta) => {
 
 			history.push(
 				{ role, 
-					parts: [ 
-				{ text: `<@${m.idUSr}> ${m.msg}`,},
+				  parts: [ 
+				{ text: `${m.msg}`,},
 				],				
 			});
 			//console.log(`<@${m.idUSr}> ${m.msg}`)
 		}
+
+		/*
 	    while (history.length > 0 && history[0].role === 'model') {
 	        history.shift();
 	    }
-
+*/
 
 		const chat = model.startChat({
 			history,
@@ -102,25 +100,29 @@ const perguntar = async (msg, pergunta) => {
 		});
 
 		try {
+			//console.log('userContent',userContent);
 			const resposta = await chat.sendMessage( userContent);
+
 			if (resposta) {
 				cttrlLogTokenSize.store({ ai:'Gemini', size: tokenLimit });
 				return resposta.response.text();
 			}
 			else {
+				await uills.sleep(COOLDOWN);
 				tokenLimit = tokenLimit - 2000;
 			}
 		}
 		catch (error) {
 			let err;
-			if (error.code === 'insufficient_quota') {
-				resultado = true;
-				err = 'Você excedeu sua cota de uso da API da OpenAI. Por favor, verifique seu plano e detalhes de faturamento.';
+			if (error.status == 429) {
+				// resultado = true;
+				err = `:: ${error.statusText || error.message}  ${error} `;
 			}
 			else {
-				err = error;
+				err = error.statusText || error.message;
 			}
-			console.log('perguntar Gemini -> err', err);
+			console.log(':: perguntar Gemini -> err', error.status, 'tokenLimit',tokenLimit);
+			await uills.sleep(COOLDOWN);
 			tokenLimit = tokenLimit - 2000;
 		}
 	}

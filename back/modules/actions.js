@@ -16,6 +16,7 @@ const responder = async (msg, pergunta) => {
 		break;
 	}
 	if (res) {
+		console.log('----- res', res);
 		msg.reply(res);
 		log.action(msg, ai, pergunta, res);
 	}

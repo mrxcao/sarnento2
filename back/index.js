@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
+
 const tools = require('./modules/tools.js');
 const telegram = require('./services/telegram.js');
 const react = require('./modules/react.js');
@@ -33,12 +34,15 @@ const loaders = require('./classes/Loaders.js');
 const usersCtl = require('./DB/mongo/controllers/users.js');
 const guildsCtl = require('./DB/mongo/controllers/guilds.js');
 const usersGuildsCtrl = require('./DB/mongo/controllers/usersGuilds.js');
+const settingsCtl = require('./DB/mongo/controllers/settings.js');
 
 const pack = require('./package.json');
 
 const token = process.env.TOKEN;
 const debugMode = process.env.DEBUG === 'true' ? true : false;
 const clientID = process.env.CLIENTID;
+
+
 
 client.on('ready', (c) => {
 	const text = `Pronto! BOT ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`;
@@ -273,6 +277,12 @@ console.log(voiceState);
 tools.replyLines();
 loaders.init(1).then(() => {client.login(token); }) ;
 
+
+//const settings = await settingsCtl.show();
+/*
+const avisarCalls = settings[0]?.avisarCalls || [];
+console.log('avisarCalls',avisarCalls);
+*/
 
 // const teste = require('./apis/currencylayer/axios');
 

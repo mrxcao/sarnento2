@@ -18,6 +18,7 @@ function Settings() {
         getSettings(token).then(resp=> {
             // setSettings(resp)
             //console.log('resp',esp[0].lastUpTime);
+            console.log('resp',resp);
             inputTempoGuardaDias.current.value = resp[0].tempoGuardaDias;
             inputLastUpTime.current.value = resp[0].lastUpTime;
             //lastUpTime = resp[0].lastUpTime;

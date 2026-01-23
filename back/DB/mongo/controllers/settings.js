@@ -1,5 +1,5 @@
-const model = require('../models/settings.js');
-class UsersController {
+const model = require('../models/settings');
+class SettingsController {
 	async store(req) {
 		return await model.create(req);
 		// return res.status(200).json(ret);
@@ -35,4 +35,4 @@ class UsersController {
 	  }	
 }
 
-module.exports = new UsersController();
+module.exports = new SettingsController();

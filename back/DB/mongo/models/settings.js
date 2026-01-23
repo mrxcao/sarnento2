@@ -8,6 +8,11 @@ const _schema = new Schema({
 	sinopseForAI:String,
 	lastUpTime:Date,
 	tempoGuardaDias: Number,
+	avisarCalls: [{ 
+		guildId: String,
+		name: String,
+		channelId: String
+	 }],
 	blackList_AI: { String },
 	criado:  { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },
