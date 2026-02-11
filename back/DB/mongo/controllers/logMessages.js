@@ -80,6 +80,43 @@ class UsersController {
 		return data;
 	}
 
+	async getFiltered(filters) {
+		const matchStage = {};
+
+		if (filters.guildId) {
+			matchStage.idGuild = filters.guildId;
+		}
+
+		if (filters.userId) {
+			matchStage.idUSr = filters.userId;
+		}
+
+		if (filters.startDate || filters.endDate) {
+			matchStage.criado = {};
+			if (filters.startDate) {
+				matchStage.criado.$gte = new Date(filters.startDate);
+			}
+			if (filters.endDate) {
+				matchStage.criado.$lte = new Date(filters.endDate);
+			}
+		}
+
+		const pipeline = [
+			{ $match: matchStage },
+			{ $sort: { criado: -1 } },
+			{ $limit: 100 } 
+		];
+
+		const data = await model.aggregate(pipeline);
+
+		for (const d of data) {
+			d.user = await usersCtrl.get(d.idUSr);
+			d.guild = await guildsCtrl.get(d.idGuild);
+		}
+
+		return data;
+	}
+
 }
 
 module.exports = new UsersController();
