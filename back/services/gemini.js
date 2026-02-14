@@ -63,23 +63,37 @@ const perguntar = async (msg, pergunta) => {
 			//console.log(':: perguntar Gemini -> tokenLimit', tokenLimit, resultado);
 			const model = genAI.getGenerativeModel({ 
 			model: modelosGeminiDisponiveis[3], 
-			system: systemInstructions,
+			systemInstruction: systemInstructions,
 		});
 
+	let history = [];
+	let lastRole = null;
 
-		let history = [];
-		for (const m of msgs) {
-			const role = (m.idUSr !== botId) ? 'user' : 'model';
-			if (history.length != 0 && role != 'model') {
-				history.push(
-					{ role, 
-					parts: [ 
-					{ text: `${m.msg}`,},
-					],				
-				});
-			}
-			//console.log(`<@${m.idUSr}> ${m.msg}`)
+	for (const m of msgs) {
+		const role = (m.idUSr !== botId) ? 'user' : 'model';
+
+		// 1. Garante que o histórico comece com 'user'
+		if (history.length === 0 && role === 'model') continue;
+
+		// 2. Se o autor for o mesmo da mensagem anterior, concatena o texto em vez de criar nova entrada
+		if (role === lastRole) {
+			history[history.length - 1].parts[0].text += `\n${m.msg}`;
+		} else {
+			history.push({
+				role: role,
+				parts: [{ text: `${m.msg}` }]
+			});
+			lastRole = role;
 		}
+	}
+
+	// 3. REGRA CRÍTICA: Se o histórico terminar em 'user', removemos o último 
+	// para não chocar com o sendMessage que enviará um novo 'user'
+	if (history.length > 0 && history[history.length - 1].role === 'user') {
+		history.pop();
+	}
+
+	// const chat = model.startChat({ history, generationConfig: { maxOutputTokens: 2000 } });
 
 		/*
 	    while (history.length > 0 && history[0].role === 'model') {
@@ -90,7 +104,7 @@ const perguntar = async (msg, pergunta) => {
 		const chat = model.startChat({
 			history,
 			generationConfig: {
-		   		maxOutputTokens: 4000, // Opcional: limita o tamanho da resposta
+		   		maxOutputTokens: 2000, 
 		 	},
 		});
 
