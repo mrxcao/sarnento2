@@ -13,7 +13,10 @@ const _schema = new Schema({
 		name: String,
 		channelId: String
 	 }],
-	blackList_AI: { String },
+	ai: {
+		usrBlackList: [String],
+		guildBlackList: [String]
+	},
 	criado:  { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },
 });

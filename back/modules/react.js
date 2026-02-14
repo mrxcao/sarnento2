@@ -23,6 +23,18 @@ const say = async (msg, text) => {
 	}
 };
 
+const attachment = async (msg, text) => {
+	if (text) {
+		msg.channel.send({
+			files: [{
+				attachment: text,
+				name: text
+			}]
+		});
+
+	}
+};
+
 const verify = async (args, msg) => {
 	let match = false;
 	for (const rct of reacts) {
@@ -129,6 +141,19 @@ const verify = async (args, msg) => {
 					break;
 				}
 				break;
+			// attachment
+			case 4:	
+				if (Array.isArray (rct.do.data.file)) {
+					const l = rct.do.data.file.length;
+					const n = randomInteger (l);
+					const text = rct.do.data.file[n == l ? n - 1 : n ];
+					// const text = rct.do.data.say[randomInteger (rct.do.data.say.length) - 1 ];
+					await attachment(msg, text);
+				}
+				else {			
+					await attachment(msg, rct.do.data.file);
+				}	
+				break;	
 			default:
 				break;
 			}

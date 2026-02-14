@@ -42,15 +42,24 @@ const token = process.env.TOKEN;
 const debugMode = process.env.DEBUG === 'true' ? true : false;
 const clientID = process.env.CLIENTID;
 
+let settings =[]
+let usrBlackList = [];
+let guildBlackList = [];
 
-
-client.on('ready', (c) => {
+client.on('ready', async (c) => {
 	const text = `Pronto! BOT ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`;
 	console.log(text);
 	telegram.send(text);
 	tools.replyLines();
 	sendStatus();
+
+	settings = await settingsCtl.index();
+	settings = settings ? settings[0] : {};
+	usrBlackList = settings.ai.usrBlackList;
+	guildBlackList = settings.ai.guildBlackList;
 });
+
+
 if (debugMode) {
 	console.log('Debug mode ON'); console.log('\x07'); // beep
 }
@@ -124,26 +133,16 @@ client.on('messageCreate', async (msg) => {
 				// log(cmd, msg);
 				}
 				else {
-					debugMode ? console.log(`comando ${cmd }  não encontrado `) : true;
+					debugMode ? console.log(`comando ${cmd}  não encontrado `) : true;
 				}
 			}
+			// Não é comando
 			else {
 				const reagiu = await react.verify(args, msg);
 				if (!reagiu) {
 					const mencionado = msg.mentions.users.has(clientID);
 					if (mencionado) {
-						// AI blacklist
-						const usrBlackList = [
-							'1137562742463668324',
-							'840264938214653961',
-							'1204883523773800550',
-							'1122937600093732955',
-							'955992896006402078',
-							'1084572695703863376',
-						];
-						const guildBlackList = [
-							'1132756472007229500',
-						];
+
 						const usrId = msg.author.id;
 						const guildId = msg.guild.id;
 						if (usrBlackList.indexOf(usrId) > -1 ||
