@@ -65,7 +65,15 @@ const verify = async (args, msg) => {
 			break;
 		// phrase
 		case 3:
-			if (String(await tools.normalizarStr(msg.content)).indexOf(await tools.normalizarStr(rct.trigger.data.phrase)) > -1) {
+			if (Array.isArray (rct.trigger.data.phrase))  {
+				for (const tD of rct.trigger.data.phrase) {
+					if (String(await tools.normalizarStr(msg.content)).indexOf(await tools.normalizarStr(tD)) > -1) {
+						match = true;
+						break;
+					}
+				}
+			}
+			else if (String(await tools.normalizarStr(msg.content)).indexOf(await tools.normalizarStr(rct.trigger.data.phrase)) > -1) {
 				match = true;
 			}
 			break;

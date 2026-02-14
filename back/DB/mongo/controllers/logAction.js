@@ -49,6 +49,9 @@ class LogActionController {
 			{ $sort: { data: -1 } },
 			{ $limit: 100 } 
 		];
+
+		console.log('pipeline', JSON.stringify(pipeline));
+
 		return model.aggregate(pipeline);
 	}
 }

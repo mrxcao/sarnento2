@@ -19,7 +19,6 @@ class UsersController {
 		//
 	}
 	async upSert(req) {
-
 		const data = {
 			idUSr: req.idUSr,
 			idGuild: req.idGuild,

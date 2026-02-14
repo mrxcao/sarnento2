@@ -109,7 +109,7 @@ function LogActions() {
                                 <th className="border-gray-200">User</th>
                                 <th className="border-gray-200">Prompt</th>
                                 <th className="border-gray-200">Resposta</th>
-                                <th className="border-gray-200">AI</th>
+                                {/* <th className="border-gray-200">AI</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -120,7 +120,7 @@ function LogActions() {
                                     <td>{log.user ? log.user.username : ''} <br/><small className="text-muted">{log.user ? log.user.id : ''}</small></td>
                                     <td style={{whiteSpace: 'pre-wrap', maxHeight: '100px', overflowY: 'auto', display: 'block'}}>{log.prompt}</td>
                                     <td style={{whiteSpace: 'pre-wrap', maxHeight: '100px', overflowY: 'auto', display: 'block'}}>{log.resposta}</td>
-                                    <td>{log.ai}</td>
+                                    {/* <td>{log.ai}</td> */}
                                 </tr>
                             ))}
                         </tbody>
