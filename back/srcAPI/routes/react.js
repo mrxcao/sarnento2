@@ -176,5 +176,40 @@ router.put('/doTypes/update', async (request, response) => {
 	}
 });
 
+router.put('/', async (request, response) => {
+	try {
+		console.log('PUT /react body:', request.body);
+		const bloqueado = false;
+		if (!bloqueado) {
+			const { _id, name, trigger } = request.body;
+			const do_ = request.body.do;
+
+			if (!_id || !trigger || !do_ || !name) {
+				console.log('Missing fields:', { _id, name, trigger, do_ });
+				response.status(403).send('{_id, trigger, do, name}');
+				return;
+			}
+
+			// Validate if trigger and do types exist (optional but good practice)
+			// const triggerObj = await triggerTypesCtrl.show(trigger.type);
+			// const doObj = await doTypesCtrl.show(do_.type);
+
+			// For update, we assume the structure is correct as it comes from the frontend
+			// that uses the same logic as add. 
+			// We trust the frontend to send the correct structure with 'data' matching 'expectedData'
+			
+			const result = await reactCtrl.update(request.body);
+			response.send(result);
+		}
+		else {
+			response.status(403).send('bloquear flag is true');
+		}
+	}
+	catch (error) {
+		console.error('Route Error:', error);
+		response.status(500).send(error.toString());
+	}
+});
+
 module.exports = router;
 

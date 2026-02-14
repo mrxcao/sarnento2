@@ -10,7 +10,7 @@ const _schema = new Schema({
 	guild: {id: String,	name: String,},
 	user: {	id: String,	username: String,},
 	atualizado:  { type: Date, default: Date.now },
-});
+}, { collection: 'logActions' });
 
 const model = mongoose.model('logActions', _schema);
 

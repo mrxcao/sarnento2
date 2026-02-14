@@ -20,4 +20,11 @@ export async function updateReacts(props, authorization) {
     const headers = {authorization}
     const response = await axios.put(`${API_URL}/react`,props,{headers}  );
     return response.data;
+    return response.data;
+}
+
+export async function deleteReact(id, authorization) {
+    const headers = {authorization}
+    const response = await axios.delete(`${API_URL}/react/del`, { data: { _id: id }, headers });
+    return response.data;
 }

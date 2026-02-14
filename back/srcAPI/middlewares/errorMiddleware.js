@@ -1,5 +1,5 @@
-module.exports = ((error, req) => {
-	const err = `${error.method} ${error.url} ${error.ip} ${error.message} ${error.erro} `;
-	// console.error('||  error', err);
-	throw new Error(err);
+module.exports = ((error, req, res, next) => {
+	const err = `${req.method} ${req.url} ${req.ip} ${error.message} ${error.erro || ''} `;
+	console.error('||  error', err);
+	res.status(500).send({ error: error.message });
 });

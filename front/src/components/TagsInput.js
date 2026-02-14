@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-function TagsInput({ label, value, onChange }) {
+function TagsInput({ label, value, onChange, labelClass }) {
     const [input, setInput] = useState('');
   
     const handleKeyDown = (e) => {
@@ -22,7 +22,7 @@ function TagsInput({ label, value, onChange }) {
   
     return (
       <div className="mb-2">
-        <label className="form-label">{label}</label>
+        <label className={`form-label ${labelClass || ''}`}>{label}</label>
         <div className="form-control d-flex flex-wrap gap-1" style={{ minHeight: '38px' }}>
           
           {value.map((tag, idx) => (

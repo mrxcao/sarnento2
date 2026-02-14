@@ -19,6 +19,7 @@ const routerGuilds = require('./routes/guilds')
 const routerDenuncias = require('./routes/denuncias')
 const routerStatus = require('./routes/status')
 const routerInteractions = require('./routes/interactions')
+const routerLogActions = require('./routes/logActions')
 
 const debugMode = true //process.env.NODE_ENV === 'development' ? true : false;
 // const key = process.env.AUTH_KEY;
@@ -64,6 +65,7 @@ app.use('/', routerIndex);
 app.use('/token', routerToken);
 app.use('/status', routerStatus);
 app.use('/interactions', routerInteractions);
+app.use('/logActions',authMiddleware, routerLogActions);
 // Private
 app.use('/denuncias',authMiddleware, routerDenuncias);
 app.use('/guilds',authMiddleware, routerGuilds);

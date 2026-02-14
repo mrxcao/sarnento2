@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Menu from '../../components/Menu/Menu';
-import { getReacts } from '../../services/reactsService';
+import { deleteReact, getReacts, updateReacts } from '../../services/reactsService';
 import ReactsItem from './ReactsItem';
 import ReactsRow from './ReactsRow';
 
@@ -51,10 +51,38 @@ function reacts() {
       };
       
       const handleSaveEdit = (updatedItem) => {
-        const newData = data.map(d => d._id === updatedItem._id ? updatedItem : d);
-        setData(newData);
-        setEditingItem(null);
+        const token = localStorage.getItem('token');
+        updateReacts(updatedItem, token)
+            .then(savedItem => {
+                const newData = data.map(d => d._id === savedItem._id ? savedItem : d);
+                setData(newData);
+                setEditingItem(null);
+                setSuccess('Item atualizado com sucesso!');
+                setTimeout(() => setSuccess(''), 3000);
+            })
+            .catch(err => {
+                console.error(err);
+                setError('Erro ao salvar edição.');
+                setTimeout(() => setError(''), 3000);
+            });
       };
+
+      const handleDelete = (id) => {
+        const token = localStorage.getItem('token');
+        deleteReact(id, token)
+            .then(() => {
+                const newData = data.filter(d => d._id !== id);
+                setData(newData);
+                setEditingItem(null);
+                setSuccess('Item excluído com sucesso!');
+                setTimeout(() => setSuccess(''), 3000);
+            })
+            .catch(err => {
+                console.error(err);
+                setError('Erro ao excluir item.');
+                setTimeout(() => setError(''), 3000);
+            });
+    }
 
     return (
         <React.Fragment>      
@@ -102,15 +130,15 @@ function reacts() {
                                 <table className="table table-hover align-items-center table-flush">
                                     <thead className="thead-light" >
                                         <tr>
+                                            <th scope="col" style={{ width: '1px', whiteSpace: 'nowrap' }}>  </th>
                                             <th scope="col"> Name</th>
                                             <th scope="col"> trigger</th>
                                             <th scope="col"> do</th>                                     
-                                            <th scope="col">  </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {filteredData.map(item => (
-                                            <ReactsRow key={item.id} data={item} rowClassName="py-1" 
+                                            <ReactsRow key={item._id} data={item} rowClassName="py-1" 
                                                        onEdit={() => handleEdit(item)}/>
                                         ))}
                                     </tbody>                                      
@@ -131,17 +159,18 @@ function reacts() {
 
                 {editingItem && (
                     <div className="modal d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,0.5)' }}>
-                        <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                            <h5 className="modal-title">Editar React</h5>
-                            <button type="button" className="btn-close" onClick={handleCancelEdit}></button>
+                        <div className="modal-dialog modal-lg">
+                        <div className="modal-content bg-gray-800">
+                            <div className="modal-header border-0">
+                            <h5 className="modal-title text-white">Editar React</h5>
+                            <button type="button" className="btn-close btn-close-white" onClick={handleCancelEdit}></button>
                             </div>
                             <div className="modal-body">
                             <ReactsItem
                                 item={editingItem}
                                 onCancel={handleCancelEdit}
                                 onSave={handleSaveEdit}
+                                onDelete={handleDelete}
                             />
                             </div>
                         </div>
