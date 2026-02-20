@@ -6,6 +6,12 @@ export async function getReacts(authorization) {
     const response = await axios.get(`${API_URL}/react`,{headers} );
     return response.data;
 }
+
+export async function addReact(data, authorization) {
+    const headers = {authorization: authorization}
+    const response = await axios.post(`${API_URL}/react/add`, data, {headers});
+    return response.data;
+}
 export async function getTriggerTypes(authorization) {    
     const headers = {authorization: authorization}
     const response = await axios.get(`${API_URL}/react/triggerTypes`,{headers} );

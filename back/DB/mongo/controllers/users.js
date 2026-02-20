@@ -6,8 +6,17 @@ class UsersController {
 		return await model.create(req);
 		// return res.status(200).json(ret);
 	}
-	async index() {
-		return await model.find({ }) ;
+	async index(filters) {
+        const query = {};
+        if (filters) {
+            if (filters.username) {
+                query.username = { $regex: filters.username, $options: 'i' };
+            }
+            if (filters.id) {
+                query.id = filters.id;
+            }
+        }
+		return await model.find(query).sort({ username: 1 });
 		// return res.status(200).json(ret);
 	}
 	async show() {

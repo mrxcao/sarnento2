@@ -16,7 +16,10 @@ const routerSettings = require('./routes/settings')
 const routerSentenceTypes = require('./routes/sentenceTypes')
 const routerSentences = require('./routes/sentences')
 const routerGuilds = require('./routes/guilds')
+const routerUsers = require('./routes/users')
 const routerDenuncias = require('./routes/denuncias')
+// ...
+// ...
 const routerStatus = require('./routes/status')
 const routerInteractions = require('./routes/interactions')
 const routerLogActions = require('./routes/logActions')
@@ -69,6 +72,7 @@ app.use('/logActions',authMiddleware, routerLogActions);
 // Private
 app.use('/denuncias',authMiddleware, routerDenuncias);
 app.use('/guilds',authMiddleware, routerGuilds);
+app.use('/users',authMiddleware, routerUsers);
 app.use('/logMessages',authMiddleware, routerLogMessages);
 app.use('/react',authMiddleware, routerReact);
 app.use('/sentences',authMiddleware, routerSentences);

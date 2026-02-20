@@ -3,10 +3,12 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 //import Orders from './private/Orders/Orders';
 import NotFound from './components/Pages/NotFound';
 import Dashboard from './private/Dashboard/Dashboard';
+import Guilds from './private/Guilds/Guilds';
 import LogActions from './private/LogActions/LogActions';
 import Logs from './private/Logs/Logs';
 import Reacts from './private/Reacts/Reacts';
 import Settings from './private/Settings/Settings';
+import Users from './private/Users/Users';
 
 import Comandos from './public/Comandos/Comandos';
 import Comofunciona from './public/Comofunciona/Comofunciona';
@@ -71,6 +73,12 @@ function Routes() {
                 </PrivateRoute>
                 <PrivateRoute path="/logActions">
                     <LogActions />
+                </PrivateRoute>
+                <PrivateRoute path="/users">
+                    <Users />
+                </PrivateRoute>
+                <PrivateRoute path="/guilds">
+                    <Guilds />
                 </PrivateRoute>
 
                 <Route component={NotFound} />

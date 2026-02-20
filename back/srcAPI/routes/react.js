@@ -46,8 +46,8 @@ router.post('/add', async (request, response) => {
 				response.status(403).send('{trigger, do, name}');
 			}
 
-			const triggerObj = await triggerTypesCtrl.show(trigger.type);
-			const doObj = await doTypesCtrl.show(do_.type);
+			const triggerObj = await triggerTypesCtrl.show(trigger.id);
+			const doObj = await doTypesCtrl.show(do_.id);
 
 			if (!triggerObj || !doObj || !do_.data || !trigger.data) {
 				response.status(403).send('trigger or do invalid');
@@ -178,7 +178,6 @@ router.put('/doTypes/update', async (request, response) => {
 
 router.put('/', async (request, response) => {
 	try {
-		console.log('PUT /react body:', request.body);
 		const bloqueado = false;
 		if (!bloqueado) {
 			const { _id, name, trigger } = request.body;

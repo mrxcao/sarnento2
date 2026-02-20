@@ -79,8 +79,8 @@ function DataRow(props){
         <td className="text-gray-900 py-1"> 
             {props.data.trigger.name}
         </td>
-        <td className="text-gray-900 py-1"> 
-            {props.data.do.name}
+        <td className="text-gray-900 py-1 display: flex; align-items: center; gap: 4px;"> 
+            {props.data.do.name} ⚙️
         </td>   
     </tr>  
     )

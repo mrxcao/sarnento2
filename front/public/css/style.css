@@ -281,8 +281,10 @@ html {
   border-color: #4b5563 !important;
 }
 
-.table-hover tbody tr:hover {
-  color: #e5e7eb !important;
+.table-hover tbody tr:hover,
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+  color: #ffffff !important;
   background-color: #374151 !important;
 }
 

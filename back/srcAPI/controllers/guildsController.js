@@ -11,7 +11,7 @@ const set = async (req, res, next) => {
 };
 const get = async (req, res, next) => {
 	try {
-		const result = await ctrl.index();
+		const result = await ctrl.index(req.query);
 		res.send(result);
 	}
 	catch (error) {

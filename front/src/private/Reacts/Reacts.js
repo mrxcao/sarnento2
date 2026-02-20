@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Menu from '../../components/Menu/Menu';
-import { deleteReact, getReacts, updateReacts } from '../../services/reactsService';
+import { addReact, deleteReact, getReacts, updateReacts } from '../../services/reactsService';
 import ReactsItem from './ReactsItem';
 import ReactsRow from './ReactsRow';
 
@@ -45,26 +45,45 @@ function reacts() {
     const handleEdit = (item) => {
         setEditingItem(item);
       };
+
+      const handleNew = () => {
+        setEditingItem({});
+      };
       
       const handleCancelEdit = () => {
         setEditingItem(null);
       };
       
-      const handleSaveEdit = (updatedItem) => {
+      const handleSaveEdit = (item) => {
         const token = localStorage.getItem('token');
-        updateReacts(updatedItem, token)
-            .then(savedItem => {
-                const newData = data.map(d => d._id === savedItem._id ? savedItem : d);
-                setData(newData);
-                setEditingItem(null);
-                setSuccess('Item atualizado com sucesso!');
-                setTimeout(() => setSuccess(''), 3000);
-            })
-            .catch(err => {
-                console.error(err);
-                setError('Erro ao salvar edição.');
-                setTimeout(() => setError(''), 3000);
-            });
+        if (item._id) {
+            updateReacts(item, token)
+                .then(savedItem => {
+                    const newData = data.map(d => d._id === savedItem._id ? savedItem : d);
+                    setData(newData);
+                    setEditingItem(null);
+                    setSuccess('Item atualizado com sucesso!');
+                    setTimeout(() => setSuccess(''), 3000);
+                })
+                .catch(err => {
+                    console.error(err);
+                    setError('Erro ao salvar edição.');
+                    setTimeout(() => setError(''), 3000);
+                });
+        } else {
+            addReact(item, token)
+                .then(savedItem => {
+                    setData([...data, savedItem]);
+                    setEditingItem(null);
+                    setSuccess('Item criado com sucesso!');
+                    setTimeout(() => setSuccess(''), 3000);
+                })
+                .catch(err => {
+                    console.error(err);
+                    setError('Erro ao criar item.');
+                    setTimeout(() => setError(''), 3000);
+                });
+        }
       };
 
       const handleDelete = (id) => {
@@ -108,6 +127,14 @@ function reacts() {
                                 </div>
                             </div>
 
+                            <div className="row align-item-left mb-3">
+                                <div className="col">                            
+                                    <button className="btn btn-primary" onClick={handleNew}>
+                                        Novo React
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="row mb-3">
                                 <div className="col">
                                     <input
@@ -117,12 +144,6 @@ function reacts() {
                                         value={filterText}
                                         onChange={(e) => setFilterText(e.target.value)}
                                     />
-                                </div>
-                            </div>
-                            
-                            <div className="row align-item-left ">
-                                <div className="col">                            
-
                                 </div>
                             </div>
                                   
@@ -162,7 +183,7 @@ function reacts() {
                         <div className="modal-dialog modal-lg">
                         <div className="modal-content bg-gray-800">
                             <div className="modal-header border-0">
-                            <h5 className="modal-title text-white">Editar React</h5>
+                            <h5 className="modal-title text-white">{editingItem._id ? 'Editar React' : 'Novo React'}</h5>
                             <button type="button" className="btn-close btn-close-white" onClick={handleCancelEdit}></button>
                             </div>
                             <div className="modal-body">
