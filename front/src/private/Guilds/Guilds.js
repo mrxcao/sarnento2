@@ -78,6 +78,8 @@ function Guilds() {
                                             <th scope="col">Nome</th>
                                             <th scope="col">ID</th>
                                             <th scope="col">Membros</th>
+                                            <th scope="col">Criado em</th>
+                                            <th scope="col">Atualizado em</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,12 +91,14 @@ function Guilds() {
                                                 <td>{item.name}</td>
                                                 <td>{item.id}</td>
                                                 <td>{item.memberCount}</td>
+                                                <td>{item.criado ? new Date(item.criado).toLocaleString() : '-'}</td>
+                                                <td>{item.atualizado ? new Date(item.atualizado).toLocaleString() : '-'}</td>
                                             </tr>
                                         ))}
                                     </tbody>                                      
                                     <tfoot>
                                         <tr>
-                                            <td colSpan="4" className="text-end">
+                                            <td colSpan="6" className="text-end">
                                                 <strong> {data.length} registro(s)</strong>
                                             </td>
                                         </tr>

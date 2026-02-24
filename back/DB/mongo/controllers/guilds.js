@@ -16,7 +16,7 @@ class UsersController {
                 query.id = filters.id;
             }
         }
-		const ret = await model.find(query).sort({ name: 1 });
+		const ret = await model.find(query).sort({ criado: 1 });
 		// return res.status(200).json(ret);
 		return ret;
 	}
