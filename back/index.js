@@ -45,6 +45,8 @@ const clientID = process.env.CLIENTID;
 let settings =[]
 let usrBlackList = [];
 let guildBlackList = [];
+let notLogUsers = [];
+let notLogGuilds = [];
 
 client.on('ready', async (c) => {
 	const text = `Pronto! BOT ${pack.name} ver:${pack.version}  ${process.env.NODE_ENV}  Logado como: ${c.user.tag} prefixo: ${config.prefix}`;
@@ -57,6 +59,8 @@ client.on('ready', async (c) => {
 	settings = settings ? settings[0] : {};
 	usrBlackList = settings.ai.usrBlackList;
 	guildBlackList = settings.ai.guildBlackList;
+	notLogUsers = settings.notLog.usersId;
+	notLogGuilds =settings.notLog.guildsId;
 });
 
 
@@ -91,7 +95,9 @@ client.on(Events.InteractionCreate, async interaction => {
 
 client.on('messageCreate', async (msg) => {
 	if (msg.content) {
-		log.messages(msg);
+		if (notLogUsers.indexOf(msg.author.id) === -1 && notLogGuilds.indexOf(msg.guild.id) === -1 ) {
+			log.messages(msg);
+		}
 		usersCtl.upSert(msg.author);
 		guildsCtl.upSert(msg.guild);
 		usersGuildsCtrl.upSert(msg.author.id, msg.guild.id);

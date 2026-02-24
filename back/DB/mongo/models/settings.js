@@ -3,19 +3,21 @@ const Schema = mongoose.Schema;
 // const objectId = Schema.ObjectId;
 
 const _schema = new Schema({
-	name: String,
-	prefix: String,
 	sinopseForAI:String,
 	lastUpTime:Date,
 	tempoGuardaDias: Number,
 	avisarCalls: [{ 
-		guildId: String,
+		guidlId: String,
 		name: String,
 		channelId: String
 	 }],
 	ai: {
 		usrBlackList: [String],
 		guildBlackList: [String]
+	},
+	notLog: {
+		usersId: [String],
+		guildsId: [String]
 	},
 	criado:  { type: Date, default: Date.now },
 	atualizado:  { type: Date, default: Date.now },

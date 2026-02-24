@@ -24,7 +24,11 @@ class SettingsController {
 	async upSert(req) {
 		console.log('req',req);
 		const data = {
+			sinopseForAI: req.sinopseForAI,
 			tempoGuardaDias: req.tempoGuardaDias,
+			avisarCalls: req.avisarCalls,
+			ai: req.ai,
+			notLog: req.notLog,
 		  	atualizado: new Date(),
 		};
 	
