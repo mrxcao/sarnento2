@@ -69,6 +69,16 @@ body {
   gap: 20px;
 }
 
+@media (max-width: 991px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .navbar-toggler {
+    margin-right: 15px;
+  }
+}
+
 .auth-buttons {
   display: flex;
   align-content: center;

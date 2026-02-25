@@ -54,6 +54,38 @@ class LogActionController {
 
 		return model.aggregate(pipeline);
 	}
+
+	async getTopGuilds(days = 7) {
+		const dateLimit = new Date();
+		dateLimit.setDate(dateLimit.getDate() - days);
+
+		return model.aggregate([
+			{ $match: { data: { $gte: dateLimit } } },
+			{ $group: { 
+				_id: "$guild.id", 
+				name: { $first: "$guild.name" },
+				count: { $sum: 1 } 
+			} },
+			{ $sort: { count: -1 } },
+			{ $limit: 10 }
+		]);
+	}
+
+	async getTopUsers(days = 7) {
+		const dateLimit = new Date();
+		dateLimit.setDate(dateLimit.getDate() - days);
+
+		return model.aggregate([
+			{ $match: { data: { $gte: dateLimit } } },
+			{ $group: { 
+				_id: "$user.id", 
+				name: { $first: "$user.username" },
+				count: { $sum: 1 } 
+			} },
+			{ $sort: { count: -1 } },
+			{ $limit: 10 }
+		]);
+	}
 }
 
 module.exports = new LogActionController();

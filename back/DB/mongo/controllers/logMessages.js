@@ -116,6 +116,40 @@ class UsersController {
 		return data;
 	}
 
+	async getTopGuilds(days = 7) {
+		const dateLimit = new Date();
+		dateLimit.setDate(dateLimit.getDate() - days);
+
+		const data = await model.aggregate([
+			{ $match: { criado: { $gte: dateLimit } } },
+			{ $group: { _id: "$idGuild", count: { $sum: 1 } } },
+			{ $sort: { count: -1 } },
+			{ $limit: 10 }
+		]);
+
+		for (const d of data) {
+			d.guild = await guildsCtrl.get(d._id);
+		}
+		return data;
+	}
+
+	async getTopUsers(days = 7) {
+		const dateLimit = new Date();
+		dateLimit.setDate(dateLimit.getDate() - days);
+
+		const data = await model.aggregate([
+			{ $match: { criado: { $gte: dateLimit } } },
+			{ $group: { _id: "$idUSr", count: { $sum: 1 } } },
+			{ $sort: { count: -1 } },
+			{ $limit: 10 }
+		]);
+
+		for (const d of data) {
+			d.user = await usersCtrl.get(d._id);
+		}
+		return data;
+	}
+
 }
 
 module.exports = new UsersController();

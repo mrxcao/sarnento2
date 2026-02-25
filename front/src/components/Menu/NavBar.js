@@ -29,7 +29,10 @@ return (
       
   <React.Fragment>   
   <header>
-    <nav className="navbar">      
+    <nav className="navbar navbar-dark px-4">
+      <button className="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
       <Link className="navbar-brand me-lg-5" to="/">
         <img className="navbar-brand-light" src="img/favicon/favicon.png" alt="CryptoDog" />
         <span className="appTitle">Sarnento</span>

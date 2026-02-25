@@ -21,4 +21,24 @@ router.get('/filter', async (request, response) => {
 	}
 });
 
+router.get('/topGuilds', async (request, response) => {
+	try {
+		const res = await logActionCtrl.getTopGuilds();
+		response.status(200).send(res);
+	}
+	catch (error) {
+		response.status(500).send(error.toString());
+	}
+});
+
+router.get('/topUsers', async (request, response) => {
+	try {
+		const res = await logActionCtrl.getTopUsers();
+		response.status(200).send(res);
+	}
+	catch (error) {
+		response.status(500).send(error.toString());
+	}
+});
+
 module.exports = router;
