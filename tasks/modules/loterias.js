@@ -204,6 +204,8 @@ const caixaAgent = new https.Agent({ rejectUnauthorized: false });
 const CAIXA_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   Accept: 'application/json',
+  Referer: 'https://loterias.caixa.gov.br/Paginas/Mega-Sena.aspx',
+  Cookie: 'security=true',
 };
 
 // Mesma finalidade de usarScrap, porem consumindo a API oficial da Caixa em vez do Puppeteer.
