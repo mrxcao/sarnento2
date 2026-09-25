@@ -11,9 +11,9 @@ module.exports = {
     dayOfWeek: [0, 1, 2, 3, 4, 5, 6, 7],
   },
   callback: async () => {
-    console.log('debugMode',process.env.DEBUG, debugMode);
+    console.log('debugMode',process.env.DEBUG, debuMode);
     console.log(new Date(), name, 'inicio');
-    await loterias.capturarMegaSena(false, debugMode);
+    await loterias.capturarMegaSena();
     console.log(new Date(), name, 'fim');
   },
 };

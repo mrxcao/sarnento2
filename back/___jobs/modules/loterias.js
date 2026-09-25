@@ -185,7 +185,7 @@ const primeiraCarga = async () => {
     };
     const response = await axios(header);
     const { data } = response;
-    debugMode ? console.log('data', data.data) : true;
+    // debugMode ? console.log('data', data.data) : true;
     await megasenaCtrl.upSert(data);
   }
   return true;
@@ -225,7 +225,9 @@ const usarAPI = async (debugMode = false) => {
 */
 const capturarMegaSena = async () => {
 //  usarAPI(debugMode);
-  await usarScrap();
+console.log(1)  
+await usarScrap();
+console.log(2)  
   await prcouraBuraco();
 };
 

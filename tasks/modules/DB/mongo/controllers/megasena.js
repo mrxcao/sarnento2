@@ -50,8 +50,9 @@ class MegasenaController {
           break;
       }
 
-      const premioVal = prem.premio == '-' ? 0
-        : parseFloat(prem.premio.replace('.', '').replace(',', '.'));
+      const premioParsed = prem.premio == '-' ? 0
+        : parseFloat(String(prem.premio).replace(/\./g, '').replace(',', '.'));
+      const premioVal = Number.isNaN(premioParsed) ? 0 : premioParsed;
       premiacoes.push(
         { acertos, vencedores: prem.vencedores, premio: premioVal },
       );

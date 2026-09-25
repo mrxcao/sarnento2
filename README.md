@@ -84,15 +84,6 @@ Total: 14 — exemplos: `ping`, `help`, `echo`, `dog`, `gif`, `poke`, `pokescore
 │  │  └─ react.mongodb.js
 │  ├─ ecosystem.config.js
 │  ├─ index.js
-│  ├─ jobs/
-│  │  ├─ ecosystem.config.js
-│  │  ├─ index.js
-│  │  ├─ modules/
-│  │  ├─ run.js
-│  │  ├─ runAll.js
-│  │  ├─ tasks/
-│  │  ├─ tasks.js
-│  │  └─ tests/
 │  ├─ modules/
 │  │  ├─ actions.js
 │  │  ├─ beep.mp3
